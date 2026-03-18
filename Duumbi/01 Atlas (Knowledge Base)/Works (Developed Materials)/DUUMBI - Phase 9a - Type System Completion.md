@@ -3,14 +3,14 @@ tags:
   - project/duumbi
   - milestone/phase-9a
 status: complete
-github_milestone: "Phase 9a-1: Heap Types & Runtime; Phase 9a-2: Ownership & Lifetimes"
-github_issues: "18/18 closed in Phase 9a-1; 19/19 closed in Phase 9a-2 (37 total)"
+github_milestone: "Phase 9a-1: Heap Types & Runtime; Phase 9a-2: Ownership & Lifetimes; Phase 9a-3: Error Handling"
+github_issues: "18/18 closed in Phase 9a-1; 19/19 closed in Phase 9a-2; 14/14 closed in Phase 9a-3 (51 total)"
 updated: 2026-03-17
 ---
 # Phase 9a — Type System Completion ✅
 
 > **Kill Criterion:** (1) A String variable is created, concatenated, compared, and printed in a compiled binary. (2) A dynamic Array is created, elements appended, indexed, and iterated. (3) The schema validator rejects a use-after-move, a double-borrow-mut, and a dangling reference — all at graph validation time, before compilation. (4) A function returns `Result<i64, String>` — the caller handles both Ok and Err paths, and the validator rejects unhandled error cases. (5) All existing Phase 0–8 tests remain green.
-> **Status:** ✅ Complete — Phase 9a-1 completed on 2026-03-16 (18/18 issues closed, integration kill criterion green); Phase 9a-2 completed on 2026-03-17 (19/19 issues closed, PR #268 merged — ownership/lifetimes validator live)
+> **Status:** ✅ Complete — Phase 9a-1 (2026-03-16, 18/18), Phase 9a-2 (2026-03-17, 19/19, PR #268), Phase 9a-3 (2026-03-17, 14/14, PR #270 — Result/Option/Match ops, E030–E035)
 > **Estimated duration:** 10–14 weeks (solo developer)
 
 ← Back: [[DUUMBI Roadmap Map]]

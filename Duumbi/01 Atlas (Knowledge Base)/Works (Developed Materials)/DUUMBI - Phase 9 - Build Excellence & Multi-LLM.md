@@ -3,14 +3,14 @@ tags:
   - project/duumbi
   - milestone/phase-9
 status: in-progress
-github_milestone: '"Phase 9a-3: Error Handling (#12); Phase 9A: Stdlib (#13);
-  Phase 9B: Multi-LLM (#14); Phase 9C: Benchmark (#15)"'
+github_milestone: '"Phase 9a-3: Error Handling (#12) ✅; Phase 9A: Stdlib (#13) ✅;
+  Phase 9B: Multi-LLM (#14) ✅; Phase 9C: Benchmark (#15) ⏳"'
 updated: 2026-03-17
 ---
-# Phase 9 — Build Excellence & Multi-LLM ⏳
+# Phase 9 — Build Excellence & Multi-LLM 🔄
 
 > **Kill Criterion:** 5 showcase applications compile and run correctly in ≥95% of attempts (19/20 runs minimum) across at least 2 LLM providers (Anthropic + OpenAI, plus at least one of: Grok/OpenRouter). Benchmark runner produces a reproducible result matrix with CI integration.
-> **Status:** ⏳ Planned — starts after Phase 9a
+> **Status:** 🔄 In Progress — Phase 9a-3 ✅ (14/14), Phase 9A ✅ (16/16), Phase 9B ✅ (12/12), Phase 9C ⏳ remaining
 > **Estimated duration:** 8–10 weeks (solo developer)
 
 ← Back: [[DUUMBI Roadmap Map]]
@@ -75,15 +75,19 @@ The build pipeline must become reliable, predictable, and multi-provider before 
 - [ ] Each stdlib module: full schema compliance + unit tests + mdBook documentation
 - [ ] Design reference: OpenJDK `java.lang`, `java.math`
 
-### M9-LLM: Multi-LLM Provider Integration
-- [ ] `LlmProvider` trait implementations:
-  - [ ] Grok (xAI) — `https://api.x.ai/v1/chat/completions` (OpenAI-compatible API)
-  - [ ] OpenRouter — meta-router, single API for Claude/GPT/Gemini/Llama/Mistral
-- [ ] Provider fallback chain: if primary fails → automatically try next
-- [ ] `[providers]` section in `config.toml`: priority order, API keys, model selection
-- [ ] Provider-specific prompt tuning: each provider may need different system prompts for optimal JSON-LD + ownership-correct generation
-- [ ] Integration tests: same intent × each provider → compare output quality
-- [ ] Ownership prompt engineering: teach each provider the DUUMBI ownership model (Phase 9a) through system prompt + few-shot examples specific to that provider's strengths/weaknesses
+### M9-LLM: Multi-LLM Provider Integration ✅ (Phase 9B — 12/12 issues closed)
+- [x] `LlmProvider` trait extraction + `Box<dyn LlmProvider>` dynamic dispatch
+- [x] `AnthropicClient` → `impl LlmProvider`
+- [x] `OpenAiClient` → `impl LlmProvider` + `base_url` + `extra_headers` for composability
+- [x] Grok (xAI) — `GrokClient` wrapping `OpenAiClient` with xAI endpoint
+- [x] OpenRouter — `OpenRouterClient` wrapping `OpenAiClient` with attribution headers
+- [x] Provider fallback chain: `ProviderChain` tries next on transient errors (5xx, 429, timeout)
+- [x] `[[providers]]` section in `config.toml` with role (primary/fallback), base_url, timeout_secs
+- [x] Backward compat: `effective_providers()` converts legacy `[llm]` to single primary
+- [x] Provider factory: `create_provider()` + `create_provider_chain()` from config
+- [x] Provider-specific prompt tuning: `provider_prompt_suffix()` per provider
+- [x] Ownership-aware SYSTEM_PROMPT: Alloc/Move/Borrow/Drop, Math/Cast, StringTrim/ToUpper/ToLower/Replace ops
+- [x] 25 integration tests (is_transient, config parsing, factory, prompt tuning, roundtrip)
 
 ### M9-ITER: Iterative Benchmark System (Autoresearch-Inspired)
 

@@ -26,14 +26,14 @@ updated: 2026-03-17
 | 7 | Registry & Distribution | 35/37 ✓ | 🔄 In Progress (2 infra) |
 | 8 | Registry Auth & User Management | 22/22 ✓ | ✅ Done |
 | 9a | Type System Completion | 37/37 ✓ | ✅ Done |
-| 9 | Build Excellence & Multi-LLM | – | ⏳ Planned |
+| 9 | Build Excellence & Multi-LLM | 42/42 (9a-3+9A+9B) ✓, 9C pending | 🔄 In Progress |
 | 10 | Intelligent Context & Knowledge Graph | – | ⏳ Planned |
 | 11 | CLI UX & Developer Experience | – | ⏳ Planned |
 | 12 | Dynamic Agent System & MCP | – | ⏳ Planned |
 | 13 | Self-Healing & Telemetry | – | ⏳ Planned |
 | 14 | Marketing & Go-to-Market | – | ⏳ Planned (continuous) |
 
-**Current delivery focus:** Phase 9 — Build Excellence & Multi-LLM (Phase 9a fully complete, 37/37 ✓)
+**Current delivery focus:** Phase 9C — Benchmark & Showcases (9a-3 ✅, 9A ✅, 9B ✅ — only 9C remains)
 
 ---
 
@@ -82,7 +82,7 @@ Phase 9: Build Excellence & Multi-LLM
 ### Type System & Build (Phase 9a–9) 🔄
 
 - [[DUUMBI - Phase 9a - Type System Completion]] — String, Array, Struct, ownership/lifetimes — all delivered ✅
-- [[DUUMBI - Phase 9 - Build Excellence & Multi-LLM]] — Stdlib, multi-provider, autoresearch benchmarks ⏳
+- [[DUUMBI - Phase 9 - Build Excellence & Multi-LLM]] — Stdlib ✅, multi-provider ✅, benchmarks ⏳ (9C remaining)
 
 ### Intelligence & UX (Phase 10–11) ⏳
 
