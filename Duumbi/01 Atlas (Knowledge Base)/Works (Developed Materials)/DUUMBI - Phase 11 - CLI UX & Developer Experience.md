@@ -2,11 +2,12 @@
 tags:
   - project/duumbi
   - milestone/phase-11
-status: planned
-github_milestone: ~
-updated: 2026-03-14
+status: done
+github_milestone: "Phase 11: CLI UX & Developer Experience"
+github_issues: "35/35 closed"
+updated: 2026-03-29
 ---
-# Phase 11 — CLI UX & Developer Experience ⏳
+# Phase 11 — CLI UX & Developer Experience ✅
 
 > **Kill Criterion:** 3/3 new users successfully execute an intent using the `/` menu within 10 minutes without reading CLI documentation. A user can exit, return, and `/resume` a previous session with full context restored.
 > **Status:** ⏳ Planned — starts after Phase 10
@@ -98,7 +99,7 @@ These commands consume the `SessionManager`, `TaskManager`, `StatsCollector`, an
 - [ ] If workspace is empty → "Try: `/intent create` to start building"
 - [ ] If common typo detected → "Did you mean: `/build`?"
 - [ ] History-based autocomplete: suggest based on previous commands in session
-- [ ] Status bar: current workspace, active model, last build status, session duration
+- [ ] Status bar: current workspace, provider connection status, last build status, session duration
 - [ ] Error messages with actionable suggestions: "Build failed → Try `/check` for details"
 - [ ] First-run wizard: guided setup (select provider, create first intent) for new users
 

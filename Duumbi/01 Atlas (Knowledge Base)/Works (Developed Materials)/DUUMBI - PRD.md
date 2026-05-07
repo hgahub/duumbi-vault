@@ -2,249 +2,200 @@
 tags:
   - project/duumbi
   - doc/vision
-status: draft
+  - doc/product-strategy
+status: active
 created: 2026-02-15
-updated: 2026-02-24
+updated: 2026-05-04
 related_maps:
+  - "[[DUUMBI Core Concepts Map]]"
+  - "[[DUUMBI Roadmap Map]]"
+  - "[[DUUMBI - Product Roadmap 2026-05]]"
   - "[[DUUMBI - MVP Specification]]"
   - "[[DUUMBI - Tools and Components]]"
-  - "[[DUUMBI - Task List]]"
   - "[[DUUMBI - Architecture Diagram]]"
   - "[[DUUMBI - Glossary]]"
 ---
-# DUUMBI — Product Vision and Architectural Design
+# DUUMBI -- Product Requirements and Architecture Strategy
 
-> [!important] This is a **vision document**. It describes the long-term north-star for DUUMBI, not the current build scope. For the implementation specification, see [[DUUMBI - MVP Specification]]. For terminology, see [[DUUMBI - Glossary]].
+> [!important] This document is the current product strategy and long-term PRD for DUUMBI as of 2026-05-04. For milestone execution status, see [[DUUMBI - Product Roadmap 2026-05]] and [[DUUMBI Roadmap Map]]. For terminology, see [[DUUMBI - Glossary]].
 
 ## 1. Executive Summary
 
-DUUMBI is a next-generation, AI-first software development platform. Its core thesis: software should be represented as a **semantic graph** (JSON-LD), not as text files in human programming languages. When AI generates structured semantic data instead of character-by-character source code, an entire class of errors (syntax hallucinations, type mismatches, structural inconsistencies) becomes mechanically preventable.
+DUUMBI is an AI-first semantic graph compiler and development platform. Its core thesis remains unchanged: software should be represented as a typed semantic graph in JSON-LD, not as text files in human programming languages. AI agents generate structured graph mutations, the system validates every mutation mechanically, and native binaries are produced only after the graph reaches the [[Semantic Fixed Point]].
 
-The system's central concept is the **Semantic Fixed Point** (see [[DUUMBI - Glossary#Semantic Fixed Point]]): software is not ready until the graph is valid, tests pass, and human intent is fulfilled. The compilation pipeline only produces a binary when the graph reaches this fixed point.
+The product has moved beyond the early MVP framing. Phases 0-12 are delivered: the compiler pipeline, usable CLI, AI mutation, web visualization, module system, intent-driven workflow, Studio, registry/auth, type-system work, multi-provider LLM support, intelligent context, CLI UX, dynamic agents, and MCP platform are now foundation capabilities. The active product problem is no longer "prove the compiler can work"; it is "turn the delivered foundation into a coherent, multi-surface development system with reliable session continuity."
 
-**Key properties:**
-- **Representation:** Program logic stored as a typed, graph-based ontology in JSON-LD format.
-- **Compilation:** The semantic graph compiles directly to native machine code — no intermediate human language.
-- **Developer role:** Shifts from *code author* to *intent definer* and *validator*.
-- **AI role:** AI agents generate and mutate the semantic graph. The system validates every mutation before acceptance.
+The strategic direction is to build one product with several surfaces, not five separate products:
+- CLI remains the deterministic authority surface and automation contract.
+- TUI/interactive CLI remains the fastest keyboard-first local workflow.
+- DUUMBI Studio becomes the shared graphical frontend for web and later desktop.
+- Slack/Discord integrations are operational bridges for status, assignment, and approval, not primary editing environments.
+- A future registry/control plane coordinates identity, policy, session sync, audit, model routing, and remote execution.
 
-## 2. The Problem: The Syntax Gap
+## 2. Product Thesis
 
-For seventy years, software development has optimized for human readability. In the AI era, this creates a mismatch:
+Traditional AI coding tools operate over text. That creates avoidable failure modes: syntax hallucinations, partial-file context, brittle patching, and weak traceability from user intent to executable behavior. DUUMBI changes the primary artifact from source text to a semantic instruction graph.
 
-- **For LLMs, syntax is overhead.** Statistical models generate code that "looks probable" but may be logically flawed, because textual representation does not enforce semantic correctness.
-- **Traditional compilers catch syntax errors, not logic errors.** A program can be syntactically valid and semantically wrong.
-- **Context windows are limited.** Text-based code forces AI to operate on file-sized fragments rather than the full program structure.
+The product promise is not that AI becomes infallible. The promise is narrower and stronger: AI output is forced through explicit schemas, graph invariants, type checks, validation, tests, and human approval points before it becomes executable software.
 
-## 3. The DUUMBI Solution: Deterministic Semantics
+**Core properties:**
+- **Representation:** program logic is stored as typed JSON-LD graph data.
+- **Compilation:** validated graph nodes lower to Cranelift IR and native binaries.
+- **Human role:** developers define intent, inspect plans/diffs, approve mutations, and validate outcomes.
+- **AI role:** agents propose and mutate graph structure inside a validation loop.
+- **System role:** DUUMBI enforces the graph contract, compilation pipeline, diagnostics, snapshots, history, and policy boundaries.
 
-DUUMBI replaces textual source code with a **Semantic Instruction Graph** stored in JSON-LD.
+## 3. Current Product State
 
-- **Fixed Point = Validated Semantics.** The JSON-LD graph generated by AI must comply with the defined ontological rules, type system, and structural constraints before it can be compiled.
-- **Language Independence.** The logical representation is an abstract graph. Rust is the language of the DUUMBI toolchain itself, but developers do not write Rust — they define intent, and AI generates the graph.
-- **Deterministic Validation.** Every graph mutation is validated against a JSON Schema before acceptance. Invalid mutations are rejected with structured error messages, creating a closed correction loop.
+### Delivered Foundation
 
-**Comparison: Traditional vs DUUMBI Development**
+Phases 0-12 are complete in the roadmap and GitHub issue history:
+- **Phases 0-3:** JSON-LD to Cranelift proof, CLI, AI mutation, and web graph visualization.
+- **Phases 4-8:** interactive CLI/module system, intent-driven development, Studio, registry/distribution, and registry auth/user management.
+- **Phases 9a-9C:** type-system completion, stdlib/instruction expansion, multi-LLM providers, benchmark/showcase work.
+- **Phases 10-12:** intelligent context/knowledge graph, CLI UX/developer experience, dynamic agent system, and MCP.
 
-| Aspect | Traditional | DUUMBI |
-|---|---|---|
-| Primary Artifact | Textual source code | Semantic JSON-LD graph |
-| Validation | Syntax checking (linting) | Schema + type + graph integrity validation |
-| Human Role | Code writing | Intent definition + validation |
-| Compilation | Source → AST → Binary | JSON-LD → Cranelift IR → Binary |
-| Error Source | Syntax + logic | Logic only (syntax errors are structurally impossible) |
-| AI Context | File window (token-limited) | Full queryable graph |
+### Active Work
 
-## 4. System Architecture (C4 Model)
+Phase 15, Studio Workflow Redesign, is the active delivery focus. GitHub state as of 2026-05-04:
+- #486 Calculator E2E is closed, completed on 2026-05-03.
+- #487 String Utilities E2E remains open.
+- #488 Math Library E2E remains open.
+- #489 Phase 15 E2E protocol documentation remains open.
 
-DUUMBI's architecture follows the C4 model (Context, Containers, Components, Code), extended with AI agent roles.
+Phase 16 is planned and partially started:
+- #421 path separator audit is closed.
+- #420 Windows CI matrix, #422 Windows terminal color test, and #423 Windows README requirements remain open.
 
-### 4.1 Level 1: System Context — Business View
-Handles business needs and external connections.
-- **Artifacts:** Requirements specifications, business goals, user stories.
-- **AI Agent (Vision):** Business Analyst Agent — transforms natural language inputs into structured specifications.
-- **Knowledge Base (Vision):** Documents appear as graph nodes connected to implementation modules, ensuring traceability from business need to running code.
+No open `phase-13` GitHub issues were found during the 2026-05-04 roadmap refresh. Phase 13 remains a planned product milestone, not an active issue-backed execution track.
 
-### 4.2 Level 2: Containers — Architectural View
-Defines executable units (applications, services) and their deployment.
-- **Artifacts:** JSON-LD infrastructure descriptions, deployment configurations.
-- **AI Agent (Vision):** Architect Agent (plans modular structure) + DevOps Agent (manages build and containerization).
-- **Operational View (Vision):** CI/CD pipeline and runtime telemetry are part of the knowledge graph, not separate systems.
+## 4. User Surfaces
 
-### 4.3 Level 3: Components — Logical View
-Describes internal modularity (e.g., Authentication Module, Payment Service).
-- **Artifacts:** JSON-LD module definitions, interface contracts.
-- **AI Agent (Vision):** Lead Developer Agent — defines APIs between components and guarantees type safety at module boundaries.
-- **Binary Caching (Vision):** Components stored in pre-compiled binary state. If a component's semantic hash has not changed, the system links from cache instead of recompiling.
+### CLI: Authority Surface
 
-### 4.4 Level 4: Code — Executable Semantics
-The instruction-level logic.
-- **Artifacts:** JSON-LD basic blocks, function definitions, data types.
-- **AI Agent (Vision):** Coder Agent — generates arithmetic, branching, and function call logic.
-- **No human language.** JSON-LD Op nodes map directly to compiler IR instructions.
+The CLI is the stable contract for automation, CI, scripting, and reproducible local development. It should keep strict stdout/stderr discipline, stable exit codes, machine-readable JSON/JSONL diagnostics, no-color/non-interactive modes, and explicit artifact paths. All higher-level surfaces should reuse the same domain APIs rather than reimplement compiler behavior.
 
-## 5. The Compilation Pipeline
+### Interactive CLI and TUI
 
-### 5.1 Logical Description Language (JSON-LD)
-Program logic is stored as a graph in JSON-LD format under the `https://duumbi.dev/ns/core#` namespace.
+The interactive CLI/TUI should be the fastest local developer workflow for session navigation, graph inspection, command palette actions, diagnostics, patch preview, build/run output, and resumable intent work. It should sit on the same session and domain APIs as CLI and Studio.
 
-The namespace defines elementary operations: `Const`, `Add`, `Sub`, `Mul`, `Div`, `Print`, `Return`, `Branch`, `Compare`, `Call`, `Load`, `Store`.
+### DUUMBI Studio
 
-Each operation is a node with typed inputs and outputs, enabling schema validation before compilation.
+Studio is the shared graphical product surface. The current direction is a focused workflow around Intents, Graph, and Build panels, context-aware chat, graph refresh after mutation, provider/template management, and end-to-end evidence for realistic tasks. Longer term, Studio should become the shared frontend that can run in web and desktop contexts.
 
-**Example (Addition):**
-```json
-{ 
- "@context": { "duumbi": "https://duumbi.dev/ns/core#" }, 
- "@type": "duumbi:Add", "@id": "duumbi:main/main/entry/2", 
- "duumbi:left": { "@id": "duumbi:main/main/entry/0" }, 
- "duumbi:right": { "@id": "duumbi:main/main/entry/1" },
- "duumbi:resultType": "i64" 
-}
-```
+### Desktop
 
-### 5.2 Machine Code Generation
+Desktop should not become a separate native-widget product. The preferred path is to package the shared Studio frontend with a Rust-backed local runner, most likely through a lightweight desktop shell such as Tauri once the core workflow is stable. Desktop should be macOS/Linux first until Windows support is officially validated.
 
-**MVP (Current):** Cranelift backend — lighter, embeddable, faster compile times.
-**Future:** LLVM backend via `inkwell` crate — advanced optimizations, wider target support.
+### Slack and Discord
 
-Pipeline stages:
-1. **Parsing:** `serde_json` reads the `.jsonld` files.
-2. **Graph Construction:** Parsed nodes are assembled into a `petgraph` directed graph.
-3. **Validation:** Schema validation, type checking, reference integrity (no orphan nodes).
-4. **Lowering:** Validated graph nodes are transformed to Cranelift IR instructions.
-5. **Optimization:** Cranelift's built-in optimization passes run on the IR.
-6. **Emission:** Cranelift emits a `.o` object file.
-7. **Linking:** System `cc` links the object file (+ libc for I/O) into a native executable.
+Chat integrations should stay thin and operational. The correct scope is assignment, status, notifications, approvals, short diff summaries, run triggers, and deep links into Studio or CLI instructions. They should not attempt graph editing, complex conflict resolution, or long configuration workflows.
 
-### 5.3 Repository and Binary Cache (Vision)
-A package manager for "logical modules":
-- **Logic Repository:** JSON-LD module definitions stored locally or in a registry.
-- **Binary Cache:** If a module's semantic hash has not changed, the pre-compiled binary is reused. This reduces build time proportionally to the number of unchanged modules.
+## 5. Target Architecture
 
-## 6. Knowledge Management (Vision)
+The product should be organized around shared kernels and contracts rather than UI-specific behavior.
 
-> [!note] This section describes the long-term vision. It is **not part of MVP scope**.
+### Core Compiler and Graph Kernel
 
-The full DUUMBI vision includes an Obsidian-like, local file system-based knowledge graph:
+The existing parser, graph, validator, compiler, patch, snapshot, config, and agent modules remain the product foundation. This layer owns semantic correctness and compilation.
 
-- **Hybrid Object Storage:** `.md` files for narrative, `.xml` files for structured business objects (tasks, bugs, requirements with XSD-enforced schemas), `.jsonld` files for executable logic.
-- **Cross-references:** Extended `[[wikilink]]` syntax spanning formats. A markdown file can reference an XML task (`[[task:123]]`), and a JSON-LD module can reference a specification (`[[req:auth-login]]`).
-- **Knowledge Graph:** A Rust-based daemon (`duumbi-daemon`) monitors the file system and maintains an in-memory graph index for instant search and backlink navigation.
-- **Semantic Search:** Structured data enables queries like: *"Show modules connected to high-priority tickets modified this week."*
-- **Diagram-Driven Development:** Developers draw flowcharts or C4 diagrams. The system converts visual elements into structured representation, and AI agents generate skeletal implementations.
+### Session Kernel
 
-## 7. Autonomous AI Agents (Vision)
+DUUMBI needs a first-class session model that is shared by CLI, interactive CLI/TUI, Studio, future desktop, and future chat bridges. The session kernel should define:
+- `session_id`, `workspace_id`, and `device_id`.
+- append-only event journal entries for intent, patch, validation, build, run, diagnostic, approval, and artifact events.
+- checkpoints for fast replay.
+- explicit branch/merge semantics for conflicting work.
+- resumability across local surfaces first, and policy-controlled remote sync later.
 
-> [!note] MVP includes a single AI agent for graph mutation (Phase 2). Multi-agent orchestration is a future capability.
+The natural sync unit is not a whole workspace copy. It is the append-only ledger of graph patches, checkpoints, diagnostics, build/run state, and artifact references.
 
-### 7.1 Multi-Agent Architecture
-The **Model Context Protocol (MCP)** standardizes communication between agents and the DUUMBI CLI (which acts as an MCP server).
+### Runner Abstraction
 
-Planned agents:
-- **Architect Agent:** Interprets requirements, creates C4 structure as JSON-LD skeleton.
-- **Coder Agent:** Implements function internals as JSON-LD instructions.
-- **Reviewer Agent:** Validates generated graphs for security and performance before compilation.
-- **Ops Agent:** Monitors running applications and handles incidents.
-- **Repair Agent:** Receives faulty graph fragments + error context, generates corrective patches.
+Local, CI, and future remote execution should share a runner abstraction. CLI can run locally, CI can run non-interactively, and the future control plane can dispatch isolated runner jobs. This avoids coupling Studio or chat integrations directly to compiler process details.
 
-### 7.2 Self-Healing (Vision)
-The closed-loop error correction cycle:
-1. **Telemetry Injection:** At compile time, every JSON-LD node gets a `traceId` and OpenTelemetry instrumentation.
-2. **Error Detection:** Runtime panics or threshold breaches trigger alerts to the Ops Agent.
-3. **Back-mapping:** The traceId maps deterministically to the exact graph node that caused the error.
-4. **Repair:** The Repair Agent receives the faulty fragment + variable values and generates a corrective graph patch.
-5. **Validation and Deploy:** The system recompiles only the changed module, runs tests, and either hot-swaps the binary or generates a pull request.
+### UI/API Protocol
 
-## 8. User Experience (Vision)
+CLI, TUI, Studio, desktop, and chat bridges should speak one domain protocol for sessions, graph views, intents, mutations, diagnostics, build/run state, and approvals. UI-specific presentation belongs in clients; product behavior belongs in shared services.
 
-### 8.1 Projectional Editing
-Since JSON-LD is not human-readable, the IDE uses **projections**:
-- **Language Projection:** Display the graph as pseudo-code with Python-like syntax or natural language description.
-- **Diagram Projection:** C4 diagrams are live views of the code graph — redrawing an arrow causes the Architect Agent to update JSON-LD references.
+### Control Plane and Execution Plane
 
-### 8.2 Natural Language Interaction
-Developers communicate intent in natural language:
-- *"Create a new endpoint that retrieves user data and caches the result for 5 minutes."*
-- The agent translates this into a specification, then into a JSON-LD implementation. The developer approves the result.
+Enterprise/cloud DUUMBI should separate the control plane from the execution plane:
+- **Control plane:** auth, tenant policy, session index, audit trail, registry metadata, model routing, telemetry aggregation, and user/org settings.
+- **Execution plane:** isolated runner jobs for validation, build, test, run, repair, and artifact generation.
 
-## 9. MVP Scope Boundary
+For an Azure-oriented enterprise path, a reasonable architecture is Container Apps for services, Container Apps Jobs for finite runner workloads, PostgreSQL for session/policy metadata, Blob Storage for artifacts/snapshots/logs, Redis for ephemeral locks/cache/queues, managed identity, Key Vault, private networking, and explicit egress controls.
 
-**In MVP scope** (see [[DUUMBI - MVP Specification]] for details):
-- Phase 0: JSON-LD → Cranelift → native binary (prove the pipeline)
-- Phase 1: CLI commands (`init`, `build`, `run`, `check`, `describe`), expanded operations
-- Phase 2: Single AI agent for natural language → graph mutation
-- Phase 3: Read-only web-based graph visualization
+## 6. Data, Sync, and Policy
 
-**NOT in MVP scope** (vision features for future phases):
-- Autonomous self-healing
-- Multi-agent orchestration
-- Obsidian-like knowledge graph / XML storage
-- Projectional editing
-- Diagram-driven development
-- Binary cache / package registry
-- Cloud sync / remote repository
-- XML-based ticket system
+Session sync must be policy-driven from the start. A useful policy matrix should distinguish:
+- `session_metadata`
+- `graph_patches`
+- `snapshots`
+- `artifacts`
+- `telemetry`
+- `prompts`
+- `attachments`
+- `notifications`
 
-## 10. Vision Roadmap
+Default posture should be local-first and conservative. Secrets and API keys must never sync as raw values; only references should move across devices or services. Prompts and telemetry are sensitive and should require explicit user or tenant policy decisions before remote sync.
 
-These are directional phases for the long-term vision. They are sequenced **after** the MVP (Phases 0-3).
+Conflict handling should prefer explicit branches and merges over last-write-wins. CRDT-style automatic merging is not the right first default for a semantic compiler where graph validity and human approval matter more than silent convergence.
 
-- **Vision Phase A (Knowledge Base):** Obsidian-like hybrid file system, XML-based business objects, `duumbi-daemon` indexer, cross-format wikilinks.
-- **Vision Phase B (Agent Swarm):** MCP server implementation, Architect + Coder + Reviewer agents, multi-agent orchestration.
-- **Vision Phase C (Self-Healing):** Telemetry feedback loop, Repair Agent, closed-loop error correction, hot-swap deployment.
-- **Vision Phase D (IDE):** Projectional editing, diagram-driven development, visual thinking organizer.
+## 7. Model and Agent Strategy
 
-## 11. Technical Foundation
+DUUMBI should not start by building a proprietary "smart model router." The first router should be deterministic and auditable:
+- tenant-approved provider/model allowlists.
+- task-category defaults.
+- explicit cost ceilings.
+- latency, success-rate, rollback-rate, and validation-failure telemetry.
+- full audit logs for routing decisions.
 
-### 11.1 Technology Choices
-- **Language:** Rust (memory safety, Cranelift integration, performance)
-- **MVP Compiler Backend:** Cranelift (lighter, embeddable, faster compile times than LLVM)
-- **Future Compiler Backend:** LLVM via `inkwell` crate (advanced optimizations)
-- **Data Formats:** `serde`, `serde_json` (JSON-LD), `quick-xml` (future XML support)
-- **Graph Engine:** `petgraph` crate (in-memory directed graph)
-- **Agent Communication (Vision):** Custom MCP implementation on `tokio` async runtime
+The dynamic agent system and MCP work delivered in Phase 12 are the foundation for multi-agent execution. The next step is to harden reliability, evidence, and handoff behavior through Phase 15 and then use Phase 13 to close the loop from runtime telemetry to repair suggestions.
 
-### 11.2 Data Structures
+## 8. Delivered, Active, Planned
 
-```rust
-/// A DUUMBI module containing functions and dependencies.
-pub struct SemanticModule {
-    #[serde(rename = "@id")]
-    pub id: String,
-    pub functions: Vec<FunctionDef>,
-    pub dependencies: Vec<Dependency>,
-}
+### Delivered
 
-/// A single instruction in the semantic graph.
-/// Each variant maps to a Cranelift IR instruction.
-#[serde(tag = "@type")]
-pub enum Instruction {
-    #[serde(rename = "duumbi:Const")]
-    Const { value: i64, out: String },
-    #[serde(rename = "duumbi:Add")]
-    Add { left: String, right: String, out: String },
-    #[serde(rename = "duumbi:Branch")]
-    Branch { cond: String, true_block: String, false_block: String },
-    #[serde(rename = "duumbi:Call")]
-    Call { func: String, args: Vec<String>, out: Option<String> },
-    // ... further operations defined in DUUMBI - MVP Specification
-}
-```
+- Semantic graph representation and Cranelift compilation pipeline.
+- CLI commands for init/build/run/check/describe and AI mutation workflows.
+- Snapshot/history and undo foundations.
+- Web visualization and Studio foundation.
+- Module system, registry/distribution, registry auth.
+- Intent pipeline, dynamic agents, MCP server/client work.
+- Multi-provider LLM support and developer UX improvements.
 
-**C4 Layers and Responsibilities:**
+### Active
 
-| C4 Layer | Entity Type | Storage Format | AI Agent (Vision) |
-|---|---|---|---|
-| Context | `duumbi:System`, `duumbi:Actor` | XML (requirements) | Business Analyst |
-| Container | `duumbi:Container` | JSON-LD (infra config) | Architect / DevOps |
-| Component | `duumbi:Component` | JSON-LD (interface) | Lead Developer |
-| Code | `duumbi:Function`, `duumbi:Block` | JSON-LD (implementation) | Coder / Repair |
+- Phase 15 Studio Workflow Redesign.
+- Remaining Phase 15 kill criterion tasks: #487, #488, #489.
+- Phase 14 go-to-market/content/community/ecosystem work in parallel.
+
+### Planned
+
+- Phase 16 Windows and cross-platform support completion.
+- Phase 13 self-healing and telemetry, including runtime error to nodeId mapping and repair loop validation.
+- Shared session kernel and append-only event ledger hardening.
+- Studio-as-shared-frontend path for web/desktop.
+- Thin Slack/Discord operational bridges.
+- Enterprise control plane with policy-based sync, audit, and isolated remote runners.
+
+## 9. Success Criteria
+
+Near-term product success should be measured by evidence, not feature count:
+- Phase 15 sample tasks complete in both CLI REPL and Studio with real LLM interaction.
+- Studio users can create, execute, inspect, build, and run intent-driven graph changes without falling back to raw JSON-LD.
+- CLI remains fully scriptable and deterministic.
+- Windows support is proven by CI and documented requirements.
+- Phase 13 has a concrete issue-backed plan before implementation starts.
+- Session continuity is specified before adding broad cloud sync or chat surfaces.
 
 ## Related Documents
 
-- [[DUUMBI - MVP Specification]] — Authoritative build specification
-- [[DUUMBI - Tools and Components]] — Technical stack details
-- [[DUUMBI - Task List]] — Implementation breakdown
-- [[DUUMBI - Architecture Diagram]] — Visual component overview
-- [[DUUMBI - Glossary]] — Canonical term definitions
+- [[DUUMBI Core Concepts Map]] -- conceptual overview
+- [[DUUMBI Roadmap Map]] -- roadmap hub
+- [[DUUMBI - Product Roadmap 2026-05]] -- current roadmap
+- [[DUUMBI - MVP Specification]] -- original MVP specification
+- [[DUUMBI - Tools and Components]] -- technical stack details
+- [[DUUMBI - Architecture Diagram]] -- visual component overview
+- [[DUUMBI - Glossary]] -- canonical term definitions

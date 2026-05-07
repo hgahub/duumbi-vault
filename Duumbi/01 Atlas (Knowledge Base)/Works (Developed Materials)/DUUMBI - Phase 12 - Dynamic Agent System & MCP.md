@@ -2,11 +2,12 @@
 tags:
   - project/duumbi
   - milestone/phase-12
-status: planned
-github_milestone: ~
-updated: 2026-03-14
+status: done
+github_milestone: "Phase 12: Dynamic Agent System & MCP"
+github_issues: "46/46 closed"
+updated: 2026-03-29
 ---
-# Phase 12 — Dynamic Agent System & MCP ⏳
+# Phase 12 — Dynamic Agent System & MCP ✅
 
 > **Kill Criterion:** (1) An external MCP client (e.g., Claude Desktop) successfully calls `graph.query` and `graph.mutate` tools, modifying the graph. (2) A task triggers dynamic agent assembly — the system creates the right agent team for the job without hardcoded agent types. (3) Agent knowledge persists in JSON-LD and improves over subsequent runs. (4) Two Coder agents execute in parallel on different modules, and their patches merge without conflict. (5) Total LLM cost for a 5-task intent stays within configurable budget.
 > **Status:** ⏳ Planned — starts after Phase 10

@@ -2,15 +2,15 @@
 tags:
   - project/duumbi
   - milestone/phase-7
-status: in-progress
+status: done
 github_milestone: "Phase 7: Registry & Distribution"
-github_issues: "35/37 closed"
-updated: 2026-03-13
+github_issues: "37/37 closed"
+updated: 2026-03-29
 ---
-# Phase 7 — Registry & Distribution 🔄
+# Phase 7 — Registry & Distribution ✅
 
 > **Kill Criterion:** Determinisztikus hash + `duumbi publish` + `duumbi deps install` működik publikus modulra. `duumbi deps vendor --all` + offline build működik. Lockfile v1 determinisztikus.
-> **Állapot:** 🔄 35/37 issue lezárva — 2 open infra issue (registry CI/CD + monitoring)
+> **Állapot:** ✅ 37/37 issue lezárva — Milestone closed 2026-03-29
 
 ← Vissza: [[DUUMBI Roadmap Map]]
 
@@ -72,14 +72,14 @@ Client-side registry & distribution: háromrétegű gráf tároló (workspace/ve
 
 ---
 
-## Nyitott feladatok 🔄
+## Lezárt infrastruktúra feladatok ✅
 
 | Issue | Cím | Megjegyzés |
 |-------|-----|------------|
-| #162 | M7-INFRA-02: CI/CD pipeline for duumbi-registry | `hgahub/duumbi-infra` repo |
-| #163 | M7-INFRA-03: Monitoring and observability | Azure Monitor + Application Insights |
+| #162 | M7-INFRA-02: CI/CD pipeline for duumbi-registry | `hgahub/duumbi-infra` repo ✅ |
+| #163 | M7-INFRA-03: Monitoring and observability | Azure Monitor + Application Insights ✅ |
 
-> Ezek a registry **szerver** infrastruktúráját érintik (külön repo), a client oldal kész.
+> Milestone teljesen lezárva 2026-03-29. Minden issue closed.
 
 ---
 

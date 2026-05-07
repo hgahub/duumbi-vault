@@ -6,9 +6,9 @@ status: active
 created: 2026-03-12
 updated: 2026-05-06
 ---
-# DUUMBI — Development Roadmap (Hub)
+# DUUMBI -- Development Roadmap (Hub)
 
-> Master overview. Every milestone links to its own note. Status reflects GitHub issues, milestones, and actual completion.
+> Master overview. Every milestone links to its own note. Status reflects GitHub issues, milestones, and actual completion. Current product roadmap: [[DUUMBI - Product Roadmap 2026-05]].
 
 ---
 
@@ -16,87 +16,117 @@ updated: 2026-05-06
 
 | Phase | Title | GitHub | Status |
 |-------|-------|--------|--------|
-| 0 | Proof of Concept | 9/9 ✓ | ✅ Done |
-| 1 | Usable CLI | 11/11 ✓ | ✅ Done |
-| 2 | AI Integration | 13/13 ✓ | ✅ Done |
-| 3 | Web Visualizer | 7/7 ✓ | ✅ Done |
-| 4 | Interactive CLI & Module System | 16/16 ✓ | ✅ Done |
-| 5 | Intent-Driven Development | 22/22 ✓ | ✅ Done |
-| 6 | DUUMBI Studio | 47/47 ✓ | ✅ Done |
-| 7 | Registry & Distribution | 35/37 ✓ | 🔄 In Progress (2 infra) |
-| 8 | Registry Auth & User Management | 22/22 ✓ | ✅ Done |
-| 9a | Type System Completion | 37/37 ✓ | ✅ Done |
-| 9 | Build Excellence & Multi-LLM | 42/42 (9a-3+9A+9B) ✓, 9C pending | 🔄 In Progress |
-| 10 | Intelligent Context & Knowledge Graph | – | ⏳ Planned |
-| 11 | CLI UX & Developer Experience | – | ⏳ Planned |
-| 12 | Dynamic Agent System & MCP | – | ⏳ Planned |
-| 13 | Self-Healing & Telemetry | – | ⏳ Planned |
-| 14 | Marketing & Go-to-Market | – | ⏳ Planned (continuous) |
+| 0 | Proof of Concept | 8/8 | Done |
+| 1 | Usable CLI | 12/12 | Done |
+| 2 | AI Integration | 13/13 | Done |
+| 3 | Web Visualizer | 9/9 | Done |
+| 4 | Interactive CLI & Module System | 16/16 | Done |
+| 5 | Intent-Driven Development | 22/22 | Done |
+| 6 | DUUMBI Studio | 47/47 | Done |
+| 7 | Registry & Distribution | 37/37 | Done |
+| 8 | Registry Auth & User Management | 23/23 | Done |
+| 9a | Type System Completion (9a-1/2/3) | 52/52 | Done |
+| 9A | Stdlib & Instruction Set | 16/16 | Done |
+| 9B | Multi-LLM Providers | 13/13 | Done |
+| 9C | Benchmark & Showcases | 10/10 | Done |
+| 10 | Intelligent Context & Knowledge Graph | 26/26 | Done |
+| 11 | CLI UX & Developer Experience | 35/35 | Done |
+| 12 | Dynamic Agent System & MCP | 46/46 | Done |
+| 13 | Self-Healing & Telemetry | no open `phase-13` issues found | Planned |
+| 14 | Marketing & Go-to-Market | open GTM/ecosystem issues remain | In Progress |
+| 15 | Studio Workflow Redesign | 10/13 | Partial: #487, #488, #489 open |
+| 16 | Windows & Cross-Platform Support | 1/4 (#420-#423) | Planned/partial: #420, #422, #423 open |
 
-**Current delivery focus:** Phase 9C — Benchmark & Showcases (9a-3 ✅, 9A ✅, 9B ✅ — only 9C remains)
+**Current delivery focus:** Phase 15 -- Studio Workflow Redesign. #486 closed on 2026-05-03; #487, #488, and #489 remain open.
 
 ---
 
 ## Dependency Graph
 
+```text
+Phase 0-12 (delivered foundation)
+    |
+    +--> Phase 15: Studio Workflow Redesign (active, 10/13)
+    |       |
+    |       +--> Phase 13: Self-Healing & Telemetry (planned; create issue-backed scope first)
+    |
+    +--> Phase 16: Windows & Cross-Platform Support (planned/partial, 1/4)
+    |
+    +--> Phase 14: Marketing & Go-to-Market (parallel, evidence-backed launch work)
 ```
-Phase 0-8 (DONE)
-    │
-    ▼
-Phase 9a: Type System Completion (String, Array, Struct, Ownership/Lifetimes)
-    │
-    ▼
-Phase 9: Build Excellence & Multi-LLM
-    │
-    ├──→ Phase 10: Intelligent Context & Knowledge Graph
-    │       │
-    │       ├──→ Phase 11: CLI UX & Developer Experience
-    │       │
-    │       └──→ Phase 12: Dynamic Agent System & MCP
-    │               │
-    │               └──→ Phase 13: Self-Healing & Telemetry
-    │
-    └──→ Phase 14: Marketing & Go-to-Market (continuous, starts after Phase 9 stable)
-              ↑ strengthens as Phase 10, 11, 12 complete
-```
+
+---
+
+## Current Roadmap
+
+- [[DUUMBI - Product Roadmap 2026-05]] -- current roadmap snapshot and sequencing.
+- [[DUUMBI - PRD]] -- current product strategy and architecture.
+
+The near-term sequence is:
+1. Finish Phase 15 E2E samples and documentation.
+2. Complete Phase 16 Windows CI/docs.
+3. Create issue-backed Phase 13 self-healing scope.
+4. Continue Phase 14 marketing with evidence-backed claims.
+5. Specify shared session kernel, append-only event ledger, runner abstraction, and multi-surface architecture.
 
 ---
 
 ## Milestone Notes
 
-### MVP (Phase 0–3) ✅
+### MVP (Phase 0-3)
 
-- [[DUUMBI - Phase 0 - Proof of Concept]] — JSON-LD → Cranelift → native binary ✅
-- [[DUUMBI - Phase 1 - Usable CLI]] — CLI commands, fibonacci, f64/bool ✅
-- [[DUUMBI - Phase 2 - AI Integration]] — `duumbi add`, undo, 20/20 benchmark ✅
-- [[DUUMBI - Phase 3 - Web Visualizer]] — Cytoscape.js + axum + WebSocket ✅
+- [[DUUMBI - Phase 0 - Proof of Concept]] -- JSON-LD to Cranelift to native binary.
+- [[DUUMBI - Phase 1 - Usable CLI]] -- CLI commands, fibonacci, f64/bool.
+- [[DUUMBI - Phase 2 - AI Integration]] -- `duumbi add`, undo, benchmark.
+- [[DUUMBI - Phase 3 - Web Visualizer]] -- Cytoscape.js, axum, WebSocket.
 
-### Post-MVP Foundation (Phase 4–8) ✅
+### Post-MVP Foundation (Phase 4-8)
 
-- [[DUUMBI - Phase 4 - Interactive CLI & Module System]] — REPL, module system, stdlib ✅
-- [[DUUMBI - Phase 5 - Intent-Driven Development]] — Intent spec, Coordinator, Verifier ✅
-- [[DUUMBI - Phase 6 - DUUMBI Studio]] — Leptos SSR, C4 drill-down, chat UI ✅
-- [[DUUMBI - Phase 7 - Registry & Distribution]] — publish, install, lockfile v1 🔄
-- [[DUUMBI - Phase 8 - Registry Auth & User Management]] — OAuth, tokens, device code flow ✅
+- [[DUUMBI - Phase 4 - Interactive CLI & Module System]] -- REPL, module system, stdlib.
+- [[DUUMBI - Phase 5 - Intent-Driven Development]] -- Intent spec, Coordinator, Verifier.
+- [[DUUMBI - Phase 6 - DUUMBI Studio]] -- Leptos SSR, C4 drill-down, chat UI.
+- [[DUUMBI - Phase 7 - Registry & Distribution]] -- publish, install, lockfile v1.
+- [[DUUMBI - Phase 8 - Registry Auth & User Management]] -- OAuth, tokens, device code flow.
 
-### Type System & Build (Phase 9a–9) 🔄
+### Type System & Build (Phase 9a-9C)
 
-- [[DUUMBI - Phase 9a - Type System Completion]] — String, Array, Struct, ownership/lifetimes — all delivered ✅
-- [[DUUMBI - Phase 9 - Build Excellence & Multi-LLM]] — Stdlib ✅, multi-provider ✅, benchmarks ⏳ (9C remaining)
+- [[DUUMBI - Phase 9a - Type System Completion]] -- String, Array, Struct, ownership/lifetimes.
+- [[DUUMBI - Phase 9 - Build Excellence & Multi-LLM]] -- stdlib, multi-provider, benchmarks, showcases.
 
-### Intelligence & UX (Phase 10–11) ⏳
+### Intelligence & UX (Phase 10-11)
 
-- [[DUUMBI - Phase 10 - Intelligent Context & Knowledge Graph]] — Automatic context, codebase awareness, knowledge graph ⏳
-- [[DUUMBI - Phase 11 - CLI UX & Developer Experience]] — Colors, menus, session management, Copilot CLI-level UX ⏳
+- [[DUUMBI - Phase 10 - Intelligent Context & Knowledge Graph]] -- MutationOutcome, `/resume`, `/knowledge`, auto-context.
+- [[DUUMBI - Phase 11 - CLI UX & Developer Experience]] -- CLI polish, completions, tables, fuzzy matching.
 
-### Agent Platform (Phase 12–13) ⏳
+### Agent Platform (Phase 12) + Self-Healing (Phase 13)
 
-- [[DUUMBI - Phase 12 - Dynamic Agent System & MCP]] — MCP server, dynamic agents, knowledge persistence ⏳
-- [[DUUMBI - Phase 13 - Self-Healing & Telemetry]] — OpenTelemetry, repair loop, autonomous improvement ⏳
+- [[DUUMBI - Phase 12 - Dynamic Agent System & MCP]] -- MCP server, dynamic agents, cost control, merge engine.
+- [[DUUMBI - Phase 13 - Self-Healing & Telemetry]] -- planned; no open `phase-13` issues found during 2026-05-04 refresh.
 
-### Go-to-Market (Phase 14) ⏳
+### Studio Workflow (Phase 15)
 
-- [[DUUMBI - Phase 14 - Marketing & Go-to-Market]] — duumbi.dev, content, community ⏳
+- [[DUUMBI - Phase 15 - Studio Workflow Redesign]] -- 3-panel design, WebSocket chat, REPL fixes, spinner, agent templates, E2E evidence.
+
+Open Phase 15 work:
+- #487 String Utilities E2E.
+- #488 Math Library E2E.
+- #489 E2E protocol documentation.
+
+### Go-to-Market (Phase 14)
+
+- [[DUUMBI - Phase 14 - Marketing & Go-to-Market]] -- content, community, ecosystem, launch execution.
+
+### Cross-Platform (Phase 16)
+
+- [[DUUMBI - Phase 16 - Windows & Cross-Platform Support]] -- Windows CI, path audit, terminal color test, README requirements.
+
+Open Phase 16 work:
+- #420 Windows CI matrix.
+- #422 Windows terminal color fallback test.
+- #423 Windows requirements in README.
+
+Closed Phase 16 work:
+- #421 path separator audit.
 
 ---
 
@@ -104,77 +134,57 @@ Phase 9: Build Excellence & Multi-LLM
 
 | Phase | Kill Criterion | Result |
 |-------|----------------|--------|
-| 0 | `add(3,5)` → binary prints `8` | ✅ |
-| 1 | External dev installs + runs in < 10 min | ✅ |
-| 2 | > 70% correct on 20-command benchmark | ✅ 20/20 |
-| 3 | 3/3 devs confirm faster than raw JSON-LD | ✅ |
-| 4 | `abs(-7) = 7` via init → 2-module → binary | ✅ |
-| 5 | `double(21)=42` via intent pipeline | ✅ |
-| 6 | 3/3 devs faster navigation web vs CLI | ✅ |
-| 7 | Deterministic hash + publish+install + offline build | 🔄 |
-| 8 | GitHub OAuth → token → device code flow login | ✅ |
-| 9a | String + Array + ownership validation rejects use-after-move | ✅ |
-| 9 | 5 showcases × 2+ LLM providers = flawless | ⏳ |
-| 10 | Existing graph recognition + modular add + auto-context | ⏳ |
-| 11 | 3/3 new users succeed via `/` menu in 10 min + `/resume` works | ⏳ |
-| 12 | External MCP client → graph mutation + dynamic agent team | ⏳ |
-| 13 | Runtime error → nodeId → valid patch → tests green | ⏳ |
-| 14 | duumbi.dev live + 3 demos + article + 50 stars | ⏳ |
+| 0 | `add(3,5)` -> binary prints `8` | Done |
+| 1 | External dev installs and runs in < 10 min | Done |
+| 2 | >70% correct on 20-command benchmark | Done: 20/20 |
+| 3 | 3/3 devs confirm faster than raw JSON-LD | Done |
+| 4 | `abs(-7) = 7` via init -> 2-module -> binary | Done |
+| 5 | `double(21)=42` via intent pipeline | Done |
+| 6 | 3/3 devs faster navigation web vs CLI | Done |
+| 7 | Deterministic hash + publish/install + offline build | Done |
+| 8 | GitHub OAuth -> token -> device code flow login | Done |
+| 9a | String + Array + ownership validation rejects use-after-move | Done |
+| 9 | 5 showcases x 2+ LLM providers >=95% | Done |
+| 10 | Existing graph recognition + modular add + auto-context | Done |
+| 11 | 3/3 new users succeed via `/` menu in 10 min and `/resume` works | Done |
+| 12 | External MCP client -> graph mutation + dynamic agent team | Done |
+| 15 | 3 sample tasks in CLI REPL + Studio 3-panel + real LLM chat | Partial: #486 done; #487/#488/#489 open |
+| 13 | Runtime error -> nodeId -> valid patch -> tests green | Planned |
+| 14 | duumbi.dev live + 3 demos + article + 200 stars | In progress |
+| 16 | `cargo test --all` passes on `windows-latest` CI + Windows install works | Planned/partial |
 
 ---
 
-## Business Milestones
+## Future Product Directions
 
-| Timeframe | Event | Revenue Model |
-|-----------|-------|---------------|
-| Phase 0–8 | Community building | Donation (GitHub Sponsors) |
-| Phase 9a–9 | Type system + build stabilization | Free tier strengthened |
-| Phase 10–11 | PRO value proposition | PRO tier ($19/month) |
-| Phase 12 | Multi-agent platform | TEAM tier ($49/month/seat) |
-| Phase 13 | Self-healing | TEAM tier enhanced |
-| 18+ months | Enterprise interest | Enterprise (custom pricing) |
-
----
-
-## Estimated Timeline (Solo Developer)
-
-| Phase | Title | Estimate | Prerequisite |
-|-------|-------|----------|-------------|
-| 9a | Type System Completion | 8–12 wks | Phase 8 done |
-| 9 | Build Excellence & Multi-LLM | 8–10 wks | Phase 9a |
-| 10 | Intelligent Context & Knowledge Graph | 8–10 wks | Phase 9 |
-| 11 | CLI UX & Developer Experience | 6–8 wks | Phase 10 (M10-SESSION) |
-| 12 | Dynamic Agent System & MCP | 10–12 wks | Phase 9 + 10 |
-| 13 | Self-Healing & Telemetry | 6–8 wks | Phase 12 |
-| 14 | Marketing & Go-to-Market | Continuous | Phase 9 stable |
-
-**Total estimated: ~46–60 weeks for Phase 9a–13 (sequential).**
-
----
-
-## Future Vision (Phase 15+)
-
-| # | Direction | Description |
-|---|-----------|-------------|
-| 15a | **LLVM Backend** | Inkwell crate → LLVM IR → more targets (WASM, RISC-V) |
-| 15b | **Projectional Editing** | Graph ↔ pseudo-code ↔ diagram view switching |
-| 15c | **Diagram-Driven Development** | Draw C4 diagrams → automatic graph generation |
-| 15d | **DUUMBI Playground** | Browser-based WASM compiler + visualizer |
-| 15e | **IDE Plugin** | VS Code extension: schema autocomplete, live graph preview |
-| 15f | **Code Import** | Python/JS/Rust → JSON-LD graph conversion |
+| Direction | Description |
+|---|---|
+| Shared session kernel | One session model across CLI, TUI, Studio, desktop, and chat bridges |
+| Append-only event ledger | Patch, checkpoint, diagnostic, build/run, approval, and artifact events |
+| Runner abstraction | Local, CI, and future remote execution through one contract |
+| Studio web/desktop | Shared Studio frontend, later packaged for desktop |
+| Thin chat bridges | Slack/Discord for status, assignment, approvals, and deep links |
+| Enterprise control plane | Auth, policy, audit, model routing, registry metadata, isolated runners |
+| LLVM backend | Inkwell/LLVM path for broader target support |
+| Projectional editing | Graph to pseudo-code to diagram view switching |
+| Diagram-driven development | C4 diagrams to graph skeletons |
+| IDE plugin | VS Code schema autocomplete and live graph preview |
+| Code import | Python/JS/Rust to JSON-LD graph conversion |
 
 ---
 
 ## Related Documents
 
-- [[DUUMBI - PRD]] — Long-term vision
-- [[DUUMBI - MVP Specification]] — Phase 0–3 specification
-- [[DUUMBI - Post-MVP Roadmap]] — Business plan, monetization
-- [[DUUMBI - Graph Repository Architecture]] — Phase 7 architecture
-- [[DUUMBI - Architecture Diagram]] — Technical architecture
-- [[DUUMBI - Tools and Components]] — Tech stack
-- [[DUUMBI - Glossary]] — Terminology
-- [[Slack as Thin Surface; GitHub + Obsidian as Sources of Truth]] — Operating rule for where roadmap state and architecture knowledge should live
+- [[DUUMBI - Product Roadmap 2026-05]] -- current roadmap snapshot
+- [[DUUMBI - PRD]] -- current product strategy and long-term vision
+- [[DUUMBI Core Concepts Map]] -- conceptual overview
+- [[DUUMBI - MVP Specification]] -- original Phase 0-3 specification
+- [[DUUMBI - Post-MVP Roadmap]] -- older business plan and monetization strategy
+- [[DUUMBI - Graph Repository Architecture]] -- Phase 7 architecture
+- [[DUUMBI - Architecture Diagram]] -- technical architecture
+- [[DUUMBI - Tools and Components]] -- tech stack
+- [[DUUMBI - Glossary]] -- terminology
+- [[Slack as Thin Surface; GitHub + Obsidian as Sources of Truth]] -- operating rule for where roadmap state and architecture knowledge should live
 
 
 > [!important] **Timeline update (2026-03-14):** Phase 9a estimate increased to 10–14 weeks (from 8–12) due to addition of Result/Option error handling system. Total sequential estimate: **~48–62 weeks for Phase 9a–13.**

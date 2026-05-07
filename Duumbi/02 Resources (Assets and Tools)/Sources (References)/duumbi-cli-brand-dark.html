@@ -1,0 +1,1060 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DUUMBI CLI — Start Screen · Brand Dark</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap"
+  rel="stylesheet"
+/>
+
+<style>
+  /* =========================================================================
+     BRAND TOKENS — copied verbatim from duumbi-web/src/styles/global.css.
+     The dark variant inverts the surface hierarchy: the site's --color-ink
+     becomes the canvas; --color-parchment becomes the primary text. The
+     rust/blue accents stay exactly as-is so the brand reads as the same
+     product, just after sundown.
+     ========================================================================= */
+  :root {
+    /* Canonical brand palette — DO NOT drift. */
+    --ink:         #1a1a18;    /* site primary ink → now canvas */
+    --ink-2:       #3a3a36;
+    --ink-3:       #6b6b65;
+    --parchment:   #f5f2ea;    /* site cream → now primary text */
+    --parchment-2: #ede9df;
+    --parchment-3: #e3ddd0;
+    /* Site-canonical values, kept for reference */
+    --blue-ink-site: #1d4a8c;
+    --blue-mid-site: #4a7fc1;
+    --rust-site:     #8c3d1d;
+
+    /* Dark-aligned accents: same hue family, lifted L* for ≥ 4.5:1 on #1a1a18.
+       Two tiers per hue so emphasized items stand out from ambient ones. */
+    --rust:        #d07a47;    /* body/label on dark — 5.44:1 AA  */
+    --rust-soft:   #c96a3e;    /* eyebrows, badges       — 4.66:1 AA  */
+    --rust-dim:    #8c3d1d;    /* reserved for hover/pressed on light surfaces */
+
+    --blue-ink:    #7ba8e0;    /* emphasized (italic, chips) — 7.07:1 AAA */
+    --blue-mid:    #6b9ed9;    /* interactive body text      — 6.24:1 AA  */
+    --blue-light:  #d8e6f7;    /* kept for tinted backgrounds */
+
+    /* Token colors for code (copied from site .tok-*) */
+    --tok-key:   #7dcfff;
+    --tok-str:   #9ece6a;
+    --tok-url:   #e0af68;
+    --tok-type:  #bb9af7;
+
+    /* Dark-variant derived surfaces (NOT new brand — just ink at different lifts) */
+    --surface-0: #131311;      /* deepest, behind the card */
+    --surface-1: var(--ink);   /* primary canvas = #1a1a18 */
+    --surface-2: #23231f;      /* elevated: rail, dock slot */
+    --surface-3: #2d2d28;      /* chip, active tab */
+    --surface-inset: #0e0e0c;  /* prompt input well */
+
+    /* Lines derived from parchment at low alpha */
+    --line-hairline: rgba(245, 242, 234, 0.07);
+    --line-soft:     rgba(245, 242, 234, 0.13);
+    --line-mid:      rgba(245, 242, 234, 0.22);
+
+    /* Grid motif — site uses rgba(26,26,24,0.07) on parchment; invert on ink */
+    --grid-line: rgba(245, 242, 234, 0.025);
+
+    /* Typography — verbatim from site */
+    --font-serif: "DM Serif Display", "Times New Roman", serif;
+    --font-sans:  "Inter", -apple-system, system-ui, sans-serif;
+    --font-mono:  "DM Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+    --pad: 22px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--parchment-2);
+    min-height: 100vh;
+    background-color: var(--surface-0);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Same grid motif as the site (body::before), inverted for dark */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;       /* match site exactly */
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    /* faint warm glow top-right so rust accents read as connected */
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(900px 550px at 88% -15%, rgba(208, 122, 71, 0.06), transparent 60%),
+      radial-gradient(800px 500px at -8% 118%, rgba(107, 158, 217, 0.05), transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page { position: relative; z-index: 1; }
+
+  /* =========================================================================
+     FRAME + PAGE META (echoes the site's eyebrow + display headline pattern)
+     ========================================================================= */
+  .frame { max-width: 1360px; margin: 0 auto; padding: 32px 28px 48px; }
+
+  .meta {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 24px; padding: 4px 4px 26px;
+  }
+  .meta .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rust-soft);
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .meta .eyebrow::before {
+    content: "";
+    width: 22px; height: 1px;
+    background: var(--rust-soft);
+  }
+  .meta h1 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 400;            /* DM Serif Display has only 400 */
+    font-size: 34px;
+    letter-spacing: -0.01em;
+    color: var(--parchment);
+    line-height: 1.05;
+  }
+  .meta h1 em {
+    font-style: italic;
+    color: var(--blue-mid);
+    font-weight: 400;
+  }
+  .meta .right {
+    display: flex; align-items: center; gap: 20px;
+    color: var(--ink-3);
+    font-size: 12px;
+  }
+  .meta .toggle {
+    display: inline-flex; align-items: center; gap: 10px;
+    cursor: pointer; user-select: none;
+    color: var(--parchment-3);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    transition: color 140ms ease;
+  }
+  .meta .toggle:hover { color: var(--parchment); }
+  .meta .toggle input { position: absolute; opacity: 0; pointer-events: none; }
+  .meta .toggle .sw {
+    width: 30px; height: 16px; border-radius: 999px;
+    background: var(--surface-3);
+    border: 1px solid var(--line-soft);
+    position: relative;
+    transition: background 160ms ease, border-color 160ms ease;
+  }
+  .meta .toggle .sw::after {
+    content: ""; position: absolute; top: 1px; left: 1px;
+    width: 12px; height: 12px; border-radius: 999px;
+    background: var(--parchment-3);
+    transition: transform 160ms ease, background 160ms ease;
+  }
+  .meta .toggle input:checked + .sw {
+    background: rgba(208, 122, 71, 0.28);
+    border-color: var(--rust);
+  }
+  .meta .toggle input:checked + .sw::after {
+    transform: translateX(14px);
+    background: var(--rust);
+  }
+
+  /* =========================================================================
+     TERMINAL CARD — echoes site card rhythm (subtle border, small radius)
+     ========================================================================= */
+  .term {
+    position: relative;
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    grid-template-rows:
+      28px     /* chrome strip                */
+      auto     /* REPL-01 header hint         */
+      auto     /* REPL-02 empty-state tip     */
+      1fr      /* REPL-03 conversation        */
+      auto     /* REPL-06 mode strip          */
+      auto     /* REPL-07 separator           */
+      auto     /* REPL-08 prompt input        */
+      auto     /* REPL-09 separator           */
+      auto;    /* REPL-10 status bar          */
+    min-height: 660px;
+    background: linear-gradient(180deg, var(--surface-1) 0%, #17171350 100%), var(--surface-1);
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    box-shadow:
+      0 1px 0 rgba(245, 242, 234, 0.03) inset,
+      0 24px 60px -30px rgba(0, 0, 0, 0.8),
+      0 8px 24px -14px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    font-family: var(--font-mono);
+  }
+
+  /* chrome strip — deliberately minimal, no macOS-style lights */
+  .chrome {
+    grid-column: 1 / -1; grid-row: 1;
+    background: linear-gradient(180deg, rgba(245, 242, 234, 0.04), rgba(245, 242, 234, 0) 70%), var(--surface-2);
+    border-bottom: 1px solid var(--line-hairline);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+  }
+  .chrome .dots {
+    display: inline-flex; gap: 6px;
+  }
+  .chrome .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--surface-3);
+    border: 1px solid var(--line-hairline);
+  }
+  .chrome .dot.r { background: rgba(208, 122, 71, 0.55); border-color: rgba(208, 122, 71, 0.7); }
+  .chrome .dot.b { background: rgba(123, 168, 224, 0.5);  border-color: rgba(123, 168, 224, 0.65); }
+  .chrome .title-bar {
+    font-family: var(--font-mono);
+    color: var(--parchment-3);
+    opacity: 0.55;
+  }
+  .chrome .right {
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  /* Left rail — REPL-xx region tags */
+  .rail {
+    grid-column: 1;
+    grid-row: 2 / -1;
+    border-right: 1px solid var(--line-hairline);
+    background: linear-gradient(180deg, var(--surface-2), var(--surface-1));
+    display: flex;
+    flex-direction: column;
+  }
+  .rail .tag {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    color: var(--ink-3);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+    padding: 14px 0;
+    border-top: 1px solid var(--line-hairline);
+    transition: color 160ms ease, background 160ms ease;
+  }
+  .rail .tag:first-child { border-top: none; }
+
+  /* Zones */
+  .zone {
+    grid-column: 2;
+    position: relative;
+    padding: 12px var(--pad);
+  }
+  .zone[data-id]::before {
+    content: attr(data-id);
+    position: absolute;
+    top: 8px; right: 10px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    color: var(--rust);
+    padding: 2px 7px;
+    border: 1px dashed transparent;
+    border-radius: 3px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 160ms ease, border-color 160ms ease, background 160ms ease;
+  }
+
+  .z-01 { grid-row: 2; padding-top: 24px; }
+  .z-02 { grid-row: 3; }
+  .z-03 { grid-row: 4; padding-bottom: 0; }
+  .z-06 { grid-row: 5; padding-top: 20px; }
+  .z-07 { grid-row: 6; padding: 0 var(--pad); }
+  .z-08 { grid-row: 7; padding-top: 12px; padding-bottom: 12px; }
+  .z-09 { grid-row: 8; padding: 0 var(--pad); }
+  .z-10 { grid-row: 9; padding-top: 14px; padding-bottom: 18px; }
+
+  /* =========================================================================
+     REPL-01 — Header Hint
+     ========================================================================= */
+  .z-01 .brand {
+    font-family: var(--font-mono);
+    color: var(--parchment-2);
+    font-size: 13px;
+  }
+  .z-01 .brand b {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--parchment);
+    font-size: 14px;
+  }
+  .z-01 .brand .ver {
+    color: var(--blue-mid);
+    margin-left: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .z-01 .brand .dot {
+    display: inline-block;
+    width: 3px; height: 3px; border-radius: 50%;
+    background: var(--ink-3);
+    vertical-align: middle;
+    margin: 0 12px 3px;
+  }
+  .z-01 .brand .hint { color: var(--parchment-3); }
+  .z-01 .brand .slash {
+    color: var(--rust);
+    font-weight: 500;
+  }
+  .z-01 .brand kbd {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: var(--surface-3);
+    border: 1px solid var(--line-soft);
+    color: var(--parchment-2);
+  }
+
+  /* =========================================================================
+     REPL-02 — Empty-State Tip (card matches site card rhythm)
+     ========================================================================= */
+  .z-02 .tip {
+    margin-top: 8px;
+    padding: 16px 18px 18px;
+    background: linear-gradient(180deg, rgba(245, 242, 234, 0.02), rgba(245, 242, 234, 0));
+    border: 1px solid var(--line-hairline);
+    border-left: 2px solid var(--rust);
+    border-radius: 4px;      /* 4px matches site cards more closely than 6px */
+  }
+  .z-02 .tip .lead {
+    display: flex; align-items: center; gap: 12px;
+    color: var(--ink-3);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .z-02 .tip .lead .pill {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(208, 122, 71, 0.14);
+    color: var(--rust);
+    border: 1px solid rgba(208, 122, 71, 0.4);
+    letter-spacing: 0.04em;
+    text-transform: none;
+  }
+  .z-02 .tip ul {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 9px;
+  }
+  .z-02 .tip li {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--parchment-2);
+    line-height: 1.5;
+    display: grid;
+    grid-template-columns: 122px 1fr;
+    gap: 18px;
+    align-items: baseline;
+  }
+  .z-02 .tip li .k {
+    color: var(--rust);
+    font-weight: 500;
+    text-align: left;
+  }
+  .z-02 .tip li .k.neutral { color: var(--ink-3); font-weight: 400; }
+  .z-02 .tip li .v .q { color: var(--parchment); }
+  .z-02 .tip li .v .c { color: var(--ink-3); }
+
+  /* =========================================================================
+     REPL-03 — Conversation Pane (empty on start screen)
+     ========================================================================= */
+  .z-03 .pane {
+    min-height: 120px;
+    position: relative;
+  }
+
+  /* =========================================================================
+     REPL-06 — Mode Strip (active mode = blue pill, matching --blue-ink tone)
+     ========================================================================= */
+  .z-06 .strip {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 22px;
+    font-family: var(--font-mono);
+  }
+  .z-06 .left {
+    display: inline-flex; align-items: center; gap: 14px;
+    color: var(--ink-3);
+    font-size: 12px;
+  }
+  .z-06 .left kbd {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--surface-3);
+    border: 1px solid var(--line-soft);
+    color: var(--parchment-2);
+    box-shadow: 0 1px 0 rgba(245, 242, 234, 0.04) inset, 0 1px 0 rgba(0, 0, 0, 0.35);
+  }
+  .z-06 .mode {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 3px 11px 3px 9px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(123, 168, 224, 0.18), rgba(107, 158, 217, 0.08));
+    border: 1px solid rgba(123, 168, 224, 0.45);
+    font-size: 12px;
+    color: var(--blue-ink);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .z-06 .mode::before {
+    content: "";
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--blue-ink);
+    box-shadow: 0 0 10px rgba(123, 168, 224, 0.7);
+    animation: pulse-mode 2.6s ease-in-out infinite;
+  }
+  .z-06 .right {
+    color: var(--ink-3);
+    font-size: 12px;
+    font-family: var(--font-mono);
+  }
+  .z-06 .right .intent { color: var(--blue-mid); }
+  .z-06 .right .intent.empty { color: var(--ink-3); }
+
+  @keyframes pulse-mode {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.45; }
+  }
+
+  /* =========================================================================
+     REPL-07 / 09 — Separators (dot-terminated hairlines)
+     ========================================================================= */
+  .sep {
+    position: relative;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0,
+      var(--line-soft) 8%,
+      var(--line-soft) 92%,
+      transparent 100%
+    );
+  }
+  .sep::before, .sep::after {
+    content: "";
+    position: absolute; top: 50%;
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--line-mid);
+    transform: translateY(-50%);
+  }
+  .sep::before { left: 0; }
+  .sep::after  { right: 0; }
+
+  /* =========================================================================
+     REPL-08 — Prompt Input (focus ring uses rust, matching brand)
+     ========================================================================= */
+  .z-08 .prompt {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 14px;
+    background:
+      linear-gradient(180deg, rgba(208, 122, 71, 0.045), transparent 85%),
+      var(--surface-inset);
+    border: 1px solid var(--line-soft);
+    border-radius: 6px;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  }
+  .z-08 .prompt:focus-within,
+  .z-08 .prompt.focused {
+    border-color: rgba(208, 122, 71, 0.6);
+    box-shadow:
+      0 0 0 3px rgba(208, 122, 71, 0.1),
+      0 0 22px -12px rgba(208, 122, 71, 0.7);
+  }
+  .z-08 .prompt .chev {
+    color: var(--rust);
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    user-select: none;
+    font-family: var(--font-mono);
+  }
+  .z-08 .prompt .field {
+    background: transparent; border: 0; outline: 0;
+    color: var(--parchment);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    width: 100%;
+    caret-color: var(--rust);
+  }
+  .z-08 .prompt .field::placeholder {
+    color: var(--ink-3);
+  }
+
+  /* =========================================================================
+     REPL-10 — Status Bar (data dock with labelled slots)
+     ========================================================================= */
+  .z-10 .dock {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    gap: 20px;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--ink-3);
+  }
+  .z-10 .slot { display: inline-flex; align-items: center; gap: 8px; }
+  .z-10 .slot .lbl {
+    font-family: var(--font-sans);
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 500;
+  }
+  .z-10 .slot .val { color: var(--parchment-2); }
+  .z-10 .slot .val.path {
+    color: var(--parchment-3);
+    max-width: 52ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .z-10 .slot .val.workspace {
+    color: var(--rust);
+    font-weight: 500;
+  }
+
+  /* Hide the entire activity slot (both the "activity" label and the button)
+     while idle. When JS flips data-state="working" on the button, the slot
+     is revealed as an inline-flex block. */
+  .z-10 .slot-activity { display: none; }
+  .z-10 .slot-activity:has(.activity[data-state="working"]) {
+    display: inline-flex;
+  }
+
+  /* ---------- Activity indicator (replaces the model chip) ---------------
+     Only the `working` state renders — idle and post-completion stay empty.
+     The pill is styled as a clickable interrupt button: spinner on the left,
+     INTERRUPT label, stop-square icon on the right. Clicking cancels work
+     (wired to the same signal as Ctrl+C / Esc in the real CLI).
+     ---------------------------------------------------------------------- */
+  .z-10 .activity {
+    display: none;                 /* hidden until working */
+    align-items: center;
+    gap: 10px;
+    padding: 3px 10px 3px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(208, 122, 71, 0.45);
+    background: rgba(208, 122, 71, 0.08);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--rust);
+    cursor: pointer;
+    user-select: none;
+    appearance: none;
+    transition:
+      background 140ms ease,
+      border-color 140ms ease,
+      color 140ms ease,
+      transform 80ms ease;
+  }
+  .z-10 .activity[data-state="working"] {
+    display: inline-flex;
+  }
+  .z-10 .activity:hover {
+    background: rgba(208, 122, 71, 0.16);
+    border-color: rgba(208, 122, 71, 0.7);
+    color: var(--parchment);
+  }
+  .z-10 .activity:hover .glyph,
+  .z-10 .activity:hover .stop {
+    color: var(--parchment);
+  }
+  .z-10 .activity:active { transform: translateY(1px); }
+  .z-10 .activity:focus-visible {
+    outline: 2px solid var(--rust);
+    outline-offset: 2px;
+  }
+
+  /* Braille spinner glyph on the left — rotates via JS */
+  .z-10 .activity .glyph {
+    display: inline-block;
+    width: 10px;
+    text-align: center;
+    color: var(--blue-ink);
+    text-shadow: 0 0 8px rgba(123, 168, 224, 0.5);
+    animation: glyph-pulse 0.9s ease-in-out infinite;
+    transition: color 140ms ease;
+  }
+  @keyframes glyph-pulse {
+    0%, 100% { opacity: 1;    }
+    50%      { opacity: 0.72; }
+  }
+
+  /* INTERRUPT label */
+  .z-10 .activity .label {
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* Stop icon on the right — tiny filled square, the universal "stop" mark */
+  .z-10 .activity .stop {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 1px;
+    background: currentColor;
+    margin-left: 2px;
+    transition: background 140ms ease;
+  }
+
+  /* Debug toggle pill — appears outside the terminal, just for demo */
+  .state-demo {
+    display: inline-flex;
+    gap: 4px;
+    padding: 2px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    border: 1px solid var(--line-hairline);
+    margin-left: 16px;
+  }
+  .state-demo button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 140ms ease, color 140ms ease;
+  }
+  .state-demo button:hover { color: var(--parchment-2); }
+  .state-demo button[aria-pressed="true"] {
+    background: var(--surface-3);
+    color: var(--parchment);
+  }
+  .z-10 .slot .time { font-variant-numeric: tabular-nums; }
+
+  /* =========================================================================
+     OVERLAY MODE — reveals REPL-xx region annotations
+     ========================================================================= */
+  body.overlay .zone[data-id]::before {
+    opacity: 1;
+    border-color: rgba(208, 122, 71, 0.55);
+    background: rgba(208, 122, 71, 0.1);
+  }
+  body.overlay .zone[data-id] {
+    outline: 1px dashed rgba(208, 122, 71, 0.28);
+    outline-offset: -6px;
+  }
+  body.overlay .rail .tag { color: var(--rust); }
+
+  /* =========================================================================
+     LEGEND — design notes below the terminal
+     ========================================================================= */
+  .legend {
+    margin-top: 24px;
+    padding: 22px 26px 24px;
+    border: 1px solid var(--line-hairline);
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(245, 242, 234, 0.018), transparent);
+    color: var(--parchment-3);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .legend h3 {
+    margin: 0 0 4px;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--parchment);
+    letter-spacing: -0.01em;
+  }
+  .legend h3 em {
+    font-style: italic;
+    color: var(--blue-mid);
+  }
+  .legend .sub {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rust-soft);
+    margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .legend .sub::before {
+    content: "";
+    width: 22px; height: 1px;
+    background: var(--rust-soft);
+  }
+  .legend .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px 28px;
+    margin-top: 4px;
+  }
+  .legend dt {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--rust);
+    letter-spacing: 0.04em;
+    margin-bottom: 3px;
+    font-weight: 500;
+  }
+  .legend dd {
+    margin: 0 0 6px;
+    color: var(--parchment-3);
+    font-size: 12.5px;
+  }
+  .legend code {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    padding: 0.05em 0.35em;
+    background: var(--surface-2);
+    border: 1px solid var(--line-hairline);
+    border-radius: 3px;
+    color: var(--parchment-2);
+  }
+
+  .foot {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 16px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* Mobile */
+  @media (max-width: 720px) {
+    .term { grid-template-columns: 1fr; }
+    .rail { display: none; }
+    .chrome { grid-column: 1 / -1; }
+    .zone { grid-column: 1 !important; }
+    .z-10 .dock { grid-template-columns: 1fr; gap: 8px; }
+    .z-02 .tip li { grid-template-columns: 1fr; gap: 2px; }
+    .meta { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="frame">
+
+      <!-- Meta strip -->
+      <div class="meta">
+        <div class="left">
+          <div class="eyebrow">Interactive surface · redesign</div>
+          <h1>Start screen <em>in the brand dark.</em></h1>
+        </div>
+        <div class="right">
+          <label class="toggle" for="regions">
+            <input type="checkbox" id="regions" />
+            <span class="sw" aria-hidden="true"></span>
+            <span>Show REPL regions</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Terminal card -->
+      <div class="term" role="application" aria-label="DUUMBI interactive terminal (brand dark redesign)">
+
+        <!-- Chrome strip -->
+        <div class="chrome">
+          <div class="dots">
+            <span class="dot r" aria-hidden="true"></span>
+            <span class="dot"   aria-hidden="true"></span>
+            <span class="dot b" aria-hidden="true"></span>
+          </div>
+          <div class="title-bar">duumbi · interactive · /private/tmp/duumbi-p15-test</div>
+          <div class="right">v0.2.0</div>
+        </div>
+
+        <!-- Left rail -->
+        <div class="rail" aria-hidden="true">
+          <div class="tag">REPL-01</div>
+          <div class="tag">REPL-02</div>
+          <div class="tag">REPL-03</div>
+          <div class="tag">REPL-06</div>
+          <div class="tag">REPL-08</div>
+          <div class="tag">REPL-10</div>
+        </div>
+
+        <!-- REPL-01 Header Hint -->
+        <section class="zone z-01" data-id="REPL-01 · Header Hint">
+          <div class="brand">
+            <b>duumbi</b><span class="ver">v0.2.0</span>
+            <span class="dot"></span>
+            <span class="hint">
+              Type a request or <span class="slash">/help</span> for commands.
+              <kbd>Ctrl</kbd>+<kbd>D</kbd> to exit.
+            </span>
+          </div>
+        </section>
+
+        <!-- REPL-02 Empty-State Tip -->
+        <section class="zone z-02" data-id="REPL-02 · Empty-State Tip">
+          <div class="tip">
+            <div class="lead">
+              <span class="pill">empty workspace</span>
+              <span>try one of these</span>
+            </div>
+            <ul>
+              <li>
+                <span class="k">/intent create</span>
+                <span class="v"><span class="q">"Build a calculator with add and multiply"</span></span>
+              </li>
+              <li>
+                <span class="k neutral">or just type</span>
+                <span class="v"><span class="q">"Add a function that adds two numbers"</span> <span class="c">— natural language works too</span></span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- REPL-03 Conversation Pane -->
+        <section class="zone z-03" data-id="REPL-03 · Conversation Pane">
+          <div class="pane"></div>
+        </section>
+
+        <!-- REPL-06 Mode Strip -->
+        <section class="zone z-06" data-id="REPL-06 · Mode Strip">
+          <div class="strip">
+            <div class="left">
+              <span><kbd>Shift</kbd>+<kbd>Tab</kbd> switch mode</span>
+              <span class="mode">agent</span>
+            </div>
+            <div class="right">
+              <!-- Empty state: intent not set (no focused intent in this session) -->
+              <span>intent <span class="intent empty">—</span></span>
+
+              <!-- When an intent is focused, the slug lights up in blue-mid, e.g.:
+                   <span>intent <span class="intent">calculator</span></span>  -->
+            </div>
+          </div>
+        </section>
+
+        <!-- REPL-07 Separator Top -->
+        <section class="zone z-07" data-id="REPL-07 · Separator"><div class="sep"></div></section>
+
+        <!-- REPL-08 Prompt Input -->
+        <section class="zone z-08" data-id="REPL-08 · Prompt Input">
+          <div class="prompt focused">
+            <div class="chev">›</div>
+            <input class="field" type="text"
+                   placeholder='e.g. "create a module that parses CSV" or /help'
+                   autocomplete="off" spellcheck="false" />
+          </div>
+        </section>
+
+        <!-- REPL-09 Separator Bottom -->
+        <section class="zone z-09" data-id="REPL-09 · Separator"><div class="sep"></div></section>
+
+        <!-- REPL-10 Status Bar -->
+        <section class="zone z-10" data-id="REPL-10 · Status Bar">
+          <div class="dock">
+            <div class="slot">
+              <span class="lbl">time</span>
+              <span class="val time" id="clock">10:46</span>
+            </div>
+            <div class="slot">
+              <span class="lbl">workspace</span>
+              <span class="val workspace">myapp</span>
+            </div>
+            <div class="slot">
+              <span class="lbl">cwd</span>
+              <span class="val path">/private/tmp/duumbi-p15-test</span>
+            </div>
+            <div class="slot slot-activity">
+              <span class="lbl">activity</span>
+              <button
+                type="button"
+                class="activity"
+                id="activity"
+                data-state="idle"
+                aria-live="polite"
+                title="Interrupt current work (Ctrl+C)"
+              >
+                <span class="glyph" aria-hidden="true">⠋</span>
+                <span class="label">Interrupt</span>
+                <span class="stop" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Legend / design notes -->
+      <section class="legend" aria-label="Design notes">
+        <div class="sub">Region legend</div>
+        <h3>What changed &amp; <em>why.</em>
+          <span class="state-demo" role="group" aria-label="Preview activity state">
+            <button type="button" data-set="idle"    aria-pressed="true">idle</button>
+            <button type="button" data-set="working" aria-pressed="false">working</button>
+          </span>
+        </h3>
+        <div class="grid">
+          <div>
+            <dt>Palette &amp; contrast</dt>
+            <dd>Canvas is <code>--color-ink</code> (<code>#1a1a18</code>), text is <code>--color-parchment</code> (<code>#f5f2ea</code>). Brand rust and blue are kept in the same hue family but lifted for dark-surface contrast: rust <code>#d07a47</code> (5.4:1 AA), blue <code>#7ba8e0</code> (7.1:1 AAA). Original site values (<code>#8c3d1d</code>, <code>#1d4a8c</code>) fail WCAG on this canvas at 2.3:1 and 2.0:1.</dd>
+          </div>
+          <div>
+            <dt>Typography</dt>
+            <dd>Same as the site: DM Serif Display for display italics, Inter for UI text, DM Mono for the terminal itself.</dd>
+          </div>
+          <div>
+            <dt>REPL-01 · Header Hint</dt>
+            <dd>Brand and version given primary weight; the exit hint reads as affordance via a keycap, not prose. <code>/help</code> picks up the rust accent.</dd>
+          </div>
+          <div>
+            <dt>REPL-02 · Empty-State Tip</dt>
+            <dd>Card with a rust left-border, echoing the site's architecture step cards. Two-column item list: <code>/intent create</code> is the primary path; direct natural language is the fallback.</dd>
+          </div>
+          <div>
+            <dt>REPL-06 · Mode Strip</dt>
+            <dd>Active mode becomes a blue pill with a pulsing dot. Right-side intent slot: shows the focused intent slug in <code>--blue-mid</code> when present, an em dash when empty.</dd>
+          </div>
+          <div>
+            <dt>REPL-07 / 09 · Separators</dt>
+            <dd>Dot-terminated hairlines instead of full-bleed lines — structural but quiet.</dd>
+          </div>
+          <div>
+            <dt>REPL-08 · Prompt Input</dt>
+            <dd>Bordered well with a rust focus ring — matches the brand's primary call-to-attention colour.</dd>
+          </div>
+          <div>
+            <dt>REPL-10 · Status Bar</dt>
+            <dd>Linear string broken into labelled slots (time · cwd · workspace · activity). Workspace uses rust. The activity slot is empty when the app is idle; when work starts, a rust <code>INTERRUPT</code> pill appears with a live Braille spinner. Clicking it cancels the current work — same signal as <code>Ctrl+C</code>. Use the toggle in the heading to preview.</dd>
+          </div>
+          <div>
+            <dt>Activity vs. REPL-04 overlay</dt>
+            <dd>Deliberately a different signal from the existing <code>REPL-04 Activity Spinner Overlay</code>. REPL-04 answers <em>"what is happening now"</em> (build, LLM, command name) over the transcript. REPL-10's INTERRUPT button answers <em>"give me a way to stop it"</em> — always in the same place, never hidden behind a keystroke.</dd>
+          </div>
+        </div>
+      </section>
+
+      <div class="foot">
+        <span>prototype · brand-aligned dark · single file</span>
+        <span>toggle <em>Show REPL regions</em> to annotate</span>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Region overlay toggle
+  const cb = document.getElementById('regions');
+  cb.addEventListener('change', () => {
+    document.body.classList.toggle('overlay', cb.checked);
+  });
+
+  // Live clock
+  const clock = document.getElementById('clock');
+  function tick() {
+    const d = new Date();
+    clock.textContent =
+      String(d.getHours()).padStart(2,'0') + ':' +
+      String(d.getMinutes()).padStart(2,'0');
+  }
+  tick();
+  setInterval(tick, 15000);
+
+  // Focus the prompt on load
+  document.querySelector('.z-08 .field').focus();
+
+  // ---------------------------------------------------------------------
+  // Activity indicator driver
+  // ---------------------------------------------------------------------
+  // Two states: idle (indicator hidden) and working (spinner + INTERRUPT
+  // button visible). Clicking the button sends an interrupt — in the real
+  // CLI this maps to the same cancel signal as Ctrl+C / Esc.
+  const BRAILLE = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+  const activity = document.getElementById('activity');
+  const slot     = activity.closest('.slot-activity');
+  const glyph    = activity.querySelector('.glyph');
+  let spinTimer = null;
+
+  function setActivity(state) {
+    if (spinTimer) { clearInterval(spinTimer); spinTimer = null; }
+    activity.dataset.state = state;
+
+    // Fallback for browsers without :has() — keep slot display in sync
+    slot.style.display = (state === 'working') ? 'inline-flex' : 'none';
+
+    if (state === 'working') {
+      let i = 0;
+      glyph.textContent = BRAILLE[0];
+      spinTimer = setInterval(() => {
+        i = (i + 1) % BRAILLE.length;
+        glyph.textContent = BRAILLE[i];
+      }, 80);
+    }
+
+    document.querySelectorAll('.state-demo button').forEach(b => {
+      b.setAttribute('aria-pressed', b.dataset.set === state ? 'true' : 'false');
+    });
+  }
+
+  // Clicking the indicator itself acts as interrupt → returns to idle
+  activity.addEventListener('click', () => {
+    if (activity.dataset.state === 'working') setActivity('idle');
+  });
+
+  // Demo toggle in the heading
+  document.querySelectorAll('.state-demo button').forEach(btn => {
+    btn.addEventListener('click', () => setActivity(btn.dataset.set));
+  });
+
+  // Start idle (nothing visible)
+  setActivity('idle');
+</script>
+</body>
+</html>
