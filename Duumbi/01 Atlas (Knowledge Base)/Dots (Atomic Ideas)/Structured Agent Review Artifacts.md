@@ -31,7 +31,7 @@ Every significant Oz or Codex implementation should produce:
 
 ## Sources
 
-- Local article: `/Users/heizergabor/Downloads/What Warp’s Open Source Release Tells Us About the Future of Agentic Software Development _ by Jonathan Fulton _ Jonathan’s Musings _ May, 2026 _ Medium.html`
+- [What Warp’s Open Source Release Tells Us About the Future of Agentic Software Development](https://medium.com/jonathans-musings/what-warps-open-source-release-tells-us-about-the-future-of-agentic-software-development-5d4409726bf1)
 - [Warp Oz platform docs](https://docs.warp.dev/agent-platform/cloud-agents/platform)
 - [Anthropic: Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)
 

@@ -12,6 +12,7 @@ updated: 2026-03-26
 
 ---
 
+![[demo.drawio.svgą]]
 ## v0.2.0 — Studio Workflow Redesign (2026-03-26)
 
 **GitHub Release:** [v0.2.0](https://github.com/hgahub/duumbi/releases/tag/v0.2.0)

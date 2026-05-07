@@ -6,7 +6,6 @@ status: active
 created: 2026-02-08
 updated: 2026-05-07
 ---
-
 # DUUMBI Core Concepts Map
 
 Use this map to navigate the stable ideas behind DUUMBI. For execution state, go to GitHub Project. For the active product definition, start with [[DUUMBI - PRD]].

@@ -10,7 +10,6 @@ related_maps:
   - "[[DUUMBI Technical Architecture Map]]"
   - "[[DUUMBI Agentic Development Map]]"
 ---
-
 # DUUMBI - PRD
 
 ## Executive Summary
