@@ -1,60 +1,55 @@
 ---
 tags:
   - project/duumbi
-  - map/overview
+  - map/core-concepts
 status: active
-created: 2026-03-12
-updated: 2026-05-04
+created: 2026-02-08
+updated: 2026-05-07
 ---
+
 # DUUMBI Core Concepts Map
 
-> This map connects the foundational ideas that define DUUMBI. Start here to understand what DUUMBI is, how its pieces fit together, and which product documents are current.
+Use this map to navigate the stable ideas behind DUUMBI. For execution state, go to GitHub Project. For the active product definition, start with [[DUUMBI - PRD]].
 
-## The Central Thesis
+## Product And Intent
 
-DUUMBI is an AI-first semantic graph compiler. Software is represented as a JSON-LD graph, not text files. AI generates structured data, not character sequences. What can be validated by schema cannot be hallucination.
+- [[Intent-Driven Development]] -- turns user goals into explicit system changes.
+- [[Semantic Fixed Point]] -- the target state where intent, graph, behavior, and evidence converge.
+- [[Original Vision Document (FixPoint)]] -- historical thesis distilled into current product language.
+- [[Open Source Monetization Model B]] -- durable commercial model for open-source product growth.
 
-The current product direction is multi-surface but single-product: CLI, interactive CLI/TUI, Studio, future desktop, and future chat bridges should share the same graph kernel, session model, event ledger, runner abstraction, and policy boundaries.
+## Knowledge And Graph
 
-## Core Concept Notes (Dots)
+- [[JSON-LD Graph Representation]] -- why DUUMBI uses JSON-compatible linked data.
+- [[Graph Repository Architecture]] -- how graph modules should remain resolvable and stable.
+- [[Obsidian Vault as Agent Knowledge Substrate]] -- how the vault feeds humans, agents, GPTs, and NotebookLM.
+- [[Inbox-to-Atlas Processing Workflow]] -- how raw input becomes durable knowledge.
 
-### Representation
-- [[JSON-LD Graph Representation]] -- why JSON-LD, how ops map to IR instructions
-- [[C4 Model in DUUMBI]] -- how C4 architecture layers map to graph layers
+## Agentic Development
 
-### Compilation
-- [[Semantic Fixed Point]] -- the central invariant: valid schema + passing tests + fulfilled intent
-- [[Compilation Pipeline]] -- JSON-LD to Cranelift IR to native binary, no intermediate language
+- [[DUUMBI Agentic Development Map]] -- hub for the operating model.
+- [[Warp Oz and Codex Development Toolchain]] -- tool responsibilities.
+- [[Spec-First Agentic Development]] -- spec quality bar before implementation.
+- [[Structured Agent Review Artifacts]] -- evidence expected from agents.
+- [[AGENTS.md as Agent Contract]] -- repo-local instruction layer.
+- [[Agent Skills as Operational Playbooks]] -- reusable operational knowledge.
+- [[MCP Resources and Prompts]] -- how external context and prompt templates are exposed.
 
-### Development Workflow
-- [[Intent-Driven Development]] -- developer defines intent, AI generates graph patches
-- [[AI Agent Architecture]] -- dynamic agents and MCP as the delivered orchestration foundation
+## Surfaces And Execution
 
-### Product Architecture
-- [[DUUMBI - PRD]] -- current product vision, architecture strategy, and multi-surface product model
-- [[DUUMBI - Product Roadmap 2026-05]] -- current roadmap snapshot based on GitHub issue state
-- [[DUUMBI Roadmap Map]] -- roadmap hub and milestone links
+- [[GitHub Project as Execution Source of Truth]] -- current work state belongs in GitHub.
+- [[Slack as Mobile Capture Surface]] -- Slack is capture and approval, not durable storage.
+- [[Slack as Thin Surface; GitHub + Obsidian as Sources of Truth]] -- companion note for the same split.
+- [[DUUMBI - TUI - Provider]] -- terminal UI provider pattern.
 
-### Infrastructure
-- [[Graph Repository Architecture]] -- three-layer module storage (Workspace -> Vendor -> Cache)
-- [[Open Source Monetization Model B]] -- fully open source + managed service revenue
+## Technical Foundation
 
-## Reference Documents (Works)
+- [[DUUMBI Technical Architecture Map]]
+- [[Compilation Pipeline]]
+- [[AI Agent Architecture]]
+- [[C4 Model in DUUMBI]]
 
-- [[DUUMBI - PRD]] -- current product strategy, architecture, and long-term vision
-- [[DUUMBI - Product Roadmap 2026-05]] -- current execution roadmap
-- [[DUUMBI Roadmap Map]] -- roadmap hub
-- [[DUUMBI - MVP Specification]] -- original Phase 0-3 specification
-- [[DUUMBI - Glossary]] -- canonical term definitions
-- [[DUUMBI - Post-MVP Roadmap]] -- historical/supporting business plan and monetization strategy
-- [[DUUMBI - Graph Repository Architecture]] -- detailed registry and namespace design
+## Active Works
 
-## For AI Agents
-
-If you are an AI agent working on DUUMBI:
-1. Read [[DUUMBI - Glossary]] first for canonical term definitions.
-2. Read [[DUUMBI - PRD]] for current product strategy and architecture.
-3. Read [[DUUMBI - Product Roadmap 2026-05]] and [[DUUMBI Roadmap Map]] for active milestone state.
-4. Treat GitHub issues as the source of truth for completion state.
-5. Every graph mutation must reach the [[Semantic Fixed Point]] before compilation.
-6. Follow the JSON-LD schema at `.duumbi/schema/core.schema.json`.
+- [[DUUMBI - PRD]]
+- [[DUUMBI - Glossary]]

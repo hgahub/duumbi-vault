@@ -1,44 +1,42 @@
 ---
 tags:
   - project/duumbi
-  - concept/development
-status: final
-created: 2026-03-12
-updated: 2026-03-12
-related_maps:
-  - "[[DUUMBI Technical Architecture Map]]"
+  - concept/agent-workflow
+status: active
+created: 2026-02-08
+updated: 2026-05-07
 ---
+
 # AI Agent Development Workflow
 
-This note describes the recommended workflow for using AI agents (Claude Code or similar) to develop DUUMBI features. Based on practical experience from MVP development.
+## Summary
 
-## Standard Task Cycle
+DUUMBI's agent workflow is a durable loop: capture, clarify, plan, implement, review, verify, merge, and sync knowledge.
 
-1. **Select** the next task from the active milestone
-2. **Clarify** intent and plan the approach
-3. **Design** test plan before implementation
-4. **Implement** the feature
-5. **Validate** with `duumbi check` (schema + type + reference integrity)
-6. **Test** with `cargo test` and manual verification
-7. **Review** using a code review agent — fix findings
-8. **Evaluate** from a user perspective — is the feature useful and productive?
-9. **Update** CLAUDE.md and memory with learnings
-10. **Iterate** — go through the cycle again with accumulated knowledge
+## Why it matters
 
-## CLAUDE.md Configuration
+Agents need structured handoffs and evidence. The workflow should survive tool changes because it is based on roles and artifacts, not a single agent vendor.
 
-The `CLAUDE.md` file in the project root configures AI agent behavior:
-- JSON-LD schema validation rules
-- Forbidden patterns and coding conventions
-- Test execution hooks
-- Architectural decisions and context
+## DUUMBI usage
 
-## Key Principle
+1. Capture work in GitHub or Inbox.
+2. Clarify product/spec behavior.
+3. Create a technical plan.
+4. Run Codex locally or Warp Oz for orchestration-heavy work.
+5. Produce structured review artifacts.
+6. Human verifies product and architecture fit.
+7. CI and PR review decide merge readiness.
+8. Update Dots, Maps, skills, or `AGENTS.md` only when durable knowledge changes.
 
-> Planning, decomposition, and clarity dominate everything else. The quality of AI-generated code is determined by how clearly the task is structured, not by which tool you use.
+## Sources
+
+- Local article: `/Users/heizergabor/Downloads/What Warp’s Open Source Release Tells Us About the Future of Agentic Software Development _ by Jonathan Fulton _ Jonathan’s Musings _ May, 2026 _ Medium.html`
+- [Warp Oz overview](https://docs.warp.dev/agent-platform)
+- [OpenAI Codex skills docs](https://developers.openai.com/codex/skills)
 
 ## Related
 
-- [[AI Agent Architecture]] — the technical agent system
-- [[Intent-Driven Development]] — the structured intent workflow
-- [[DUUMBI - Task List]] — the atomic implementation checklist
+- [[DUUMBI Agentic Development Map]]
+- [[Spec-First Agentic Development]]
+- [[Structured Agent Review Artifacts]]
+- [[Warp Oz and Codex Development Toolchain]]

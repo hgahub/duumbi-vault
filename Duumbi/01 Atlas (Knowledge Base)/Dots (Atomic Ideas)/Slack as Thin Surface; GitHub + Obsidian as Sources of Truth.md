@@ -1,41 +1,38 @@
 ---
 tags:
   - project/duumbi
-  - concept/architecture
-  - concept/agent-workflow
-  - roadmap
-status: draft
-source: slack
-created: 2026-05-06
-updated: 2026-05-06
-related_maps:
-  - "[[DUUMBI Roadmap Map]]"
+  - concept/source-of-truth
+status: active
+created: 2026-05-04
+updated: 2026-05-07
 ---
+
 # Slack as Thin Surface; GitHub + Obsidian as Sources of Truth
 
 ## Summary
-DUUMBI should use Slack for discussion and workflow triggers only. Execution state belongs in GitHub issues/milestones/PRs, and product and architecture knowledge belongs in Obsidian.
 
-## Captured Idea
-- Slack is an ephemeral coordination layer, not a canonical project database.
-- GitHub is the source of truth for execution: backlog state, sequencing, status, and delivery artifacts.
-- Obsidian is the source of truth for durable product and architecture knowledge.
-- Process rule: decisions and roadmap-relevant ideas discussed in Slack should be captured in Obsidian, and actionable work should be reflected in GitHub issues.
+Slack should stay thin: capture, discuss, approve, and follow up. GitHub stores execution state. Obsidian stores durable knowledge.
 
-## Assumptions
-- DUUMBI continues to use GitHub issues/milestones for execution management.
-- The Obsidian vault remains the maintained knowledge base for product and architecture context.
+## Why it matters
 
-## Open Questions
-- Do we want an explicit capture SLA (for example, decisions from Slack captured into Obsidian within 24 hours)?
-- Should this governance rule be referenced in additional maps beyond the roadmap hub (for example, technical architecture or core concepts)?
+The team can move quickly on mobile without losing the canonical record. Every Slack decision or agent result must graduate into GitHub or Obsidian.
+
+## DUUMBI usage
+
+- Slack thread becomes GitHub issue/PR when it affects execution.
+- Slack thread becomes Inbox/Dot/Map/Work when it affects durable knowledge.
+- Slack run updates should link to Oz, PRs, or final Obsidian notes.
+- Avoid treating Slack search as product memory.
+
+## Sources
+
+- [Warp Slack integration docs](https://docs.warp.dev/agent-platform/cloud-agents/integrations/slack)
+- [GitHub Projects docs](https://docs.github.com/en/issues/planning-and-tracking-with-projects)
+- [Obsidian internal links docs](https://help.obsidian.md/links)
 
 ## Related
-- [[DUUMBI Roadmap Map]]
-- [[DUUMBI - Post-MVP Roadmap]]
-- [[DUUMBI - PRD]]
-- [[AI Agent Development Workflow]]
 
-## Slack Source
-- Channel: `D0B2X744E2U`
-- Timestamp: `1778106798.663259`
+- [[Slack as Mobile Capture Surface]]
+- [[GitHub Project as Execution Source of Truth]]
+- [[Obsidian Vault as Agent Knowledge Substrate]]
+- [[Inbox-to-Atlas Processing Workflow]]

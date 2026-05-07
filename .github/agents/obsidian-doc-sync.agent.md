@@ -1,58 +1,72 @@
 ---
 name: obsidian-doc-sync
-description: Synchronizes completed GitHub project, milestone, and issue work into DUUMBI's Obsidian documentation and prepares a Discord-ready summary.
+description: Synchronizes verified DUUMBI source, issue, PR, and research outcomes into the active Obsidian knowledge base.
 ---
 
 # DUUMBI Obsidian documentation sync agent
 
-Use this agent when completed GitHub project, milestone, or issue work must be reflected in the Obsidian knowledge base.
+Use this agent when verified DUUMBI work or research changes durable product, architecture, workflow, or agent-skill knowledge.
 
 ## Repository layout
 
-This workflow spans two separate repositories:
+This workflow spans two repositories:
 
-- **`hgahub/duumbi`** — Rust source code, compiler, CLI, tests, and technical docs (`CLAUDE.md`, `docs/architecture.md`, `docs/coding-conventions.md`)
-- **`hgahub/duumbi-vault`** — Obsidian knowledge base (this repo): PRD, phase specs, roadmap, architecture diagrams, and planning notes
+- **`hgahub/duumbi`** -- Rust source code, compiler, CLI, tests, CI, PRs, and repo `AGENTS.md`.
+- **`hgahub/duumbi-vault`** -- Obsidian knowledge base: PRD, Glossary, Maps, Dots, skills, and source references.
 
-When reviewing delivery status, read code and GitHub issues from `hgahub/duumbi`. When updating documentation, write only to `hgahub/duumbi-vault`.
+Read code, CI, issues, and PRs from `hgahub/duumbi`. Write documentation only in `hgahub/duumbi-vault` unless the user explicitly requests source-code changes.
+
+## Source of truth rules
+
+- GitHub Project, issues, PRs, CI, and review threads are the execution source of truth.
+- Obsidian stores durable knowledge only.
+- Slack is a capture and approval surface; durable outputs must link into GitHub or Obsidian.
+- Repository `AGENTS.md` governs code-agent behavior in the source repo.
 
 ## Primary targets
 
-Start with the roadmap map, then determine the affected phase/milestone notes from the current GitHub project state:
+Start with:
 
-- `Duumbi/01 Atlas (Knowledge Base)/Maps (Overviews)/DUUMBI Roadmap Map.md`
+- `Duumbi/How to use.md`
+- `Duumbi/01 Atlas (Knowledge Base)/Works (Developed Materials)/DUUMBI - PRD.md`
+- `Duumbi/01 Atlas (Knowledge Base)/Works (Developed Materials)/DUUMBI - Glossary.md`
+- `Duumbi/01 Atlas (Knowledge Base)/Maps (Overviews)/DUUMBI Core Concepts Map.md`
+- `Duumbi/01 Atlas (Knowledge Base)/Maps (Overviews)/DUUMBI Technical Architecture Map.md`
+- `Duumbi/01 Atlas (Knowledge Base)/Maps (Overviews)/DUUMBI Agentic Development Map.md`
+- `Duumbi/01 Atlas (Knowledge Base)/Dots (Atomic Ideas)/`
+- `.agents/skills/`
 
-Use the roadmap links plus the relevant GitHub project / milestone / issue set to identify which `DUUMBI - Phase ...` notes need updates for the current sync.
-
-Expand to other linked notes only when the roadmap map or GitHub project state shows they are also affected.
+Update only the notes whose durable knowledge is affected.
 
 ## Required workflow
 
-1. Review `hgahub/duumbi` plus the relevant GitHub project, milestone, and issue status before editing anything.
-2. Work on a dedicated branch and PR in **this repo** (`hgahub/duumbi-vault`). Never write directly to `main`.
-3. Keep edits surgical: update only the notes that are out of sync with actual GitHub delivery.
-4. Preserve existing Obsidian conventions:
-   - frontmatter keys such as `status`, `github_milestone`, `github_issues`, and `updated`
-   - wikilinks such as `[[DUUMBI Roadmap Map]]`
-   - English wording for durable project documentation
-5. Refresh roadmap and phase-note status snapshots so they clearly separate completed GitHub delivery from still-open follow-up work.
-6. If the completed work changes milestone sequencing or roadmap emphasis, update the roadmap map summary as well.
-7. Validate the touched files for consistency before finishing.
+1. Inspect GitHub Project, issue, PR, CI, or code evidence before claiming implementation state.
+2. Classify the change:
+   - execution-only -> leave in GitHub
+   - durable product/architecture/workflow knowledge -> update Obsidian
+   - agent operating behavior -> update a skill or repo `AGENTS.md`
+3. Keep edits concise and source-backed.
+4. Prefer Dots for atomic concepts and Maps for navigation.
+5. Update the PRD only when product thesis, users, core workflows, architecture principles, agent strategy, non-goals, or success criteria change.
+6. Preserve archive material as history. Do not relink archived execution documents into active guidance unless explicitly labeled historical.
+7. Validate links and stale terminology before finishing.
 
 ## Expected output
 
 When the sync is complete, provide:
 
-- the branch/PR used for the documentation update (in `hgahub/duumbi-vault`)
-- the exact Obsidian notes that were updated
-- the GitHub milestone/issues (from `hgahub/duumbi`) that were synchronized
-- any remaining open blockers or follow-up notes
+- branch/PR used for the vault update, if one was opened
+- exact Obsidian notes changed
+- GitHub evidence inspected
+- external sources used
+- remaining open questions or follow-up items
 
 ## Notifications
 
-Prepare a concise Discord-ready status update instead of an email summary. The message should include:
+Prepare a concise Slack- or Discord-ready status update when requested. Include:
 
 - branch or PR link
-- touched documentation files
-- completed GitHub scope now reflected in Obsidian
-- remaining open item(s), if any
+- changed documentation files
+- source evidence inspected
+- durable knowledge now reflected in Obsidian
+- unresolved questions, if any

@@ -1,43 +1,36 @@
 ---
 tags:
   - project/duumbi
-  - concept/core
-status: final
-created: 2026-03-12
-updated: 2026-03-12
-related_maps:
-  - "[[DUUMBI Core Concepts Map]]"
-  - "[[DUUMBI - Glossary]]"
+  - concept/json-ld
+status: active
+created: 2026-02-08
+updated: 2026-05-07
 ---
+
 # JSON-LD Graph Representation
 
-DUUMBI represents program logic as a **semantic graph** stored in JSON-LD format, not as textual source code.
+## Summary
 
-## Core Idea
+JSON-LD gives DUUMBI a JSON-compatible way to represent linked semantic data with stable identifiers and graph relationships.
 
-JSON-LD (JavaScript Object Notation for Linked Data) provides semantic typing via `@type` and identity via `@id`, enabling schema validation and graph construction. Every program element is a node in a directed graph with typed edges representing data flow.
+## Why it matters
 
-## Namespace
+DUUMBI needs program structure to be machine-readable, linkable, and compatible with existing JSON tooling. JSON-LD supports that without requiring every tool to become RDF-native.
 
-All DUUMBI operations live under `https://duumbi.dev/ns/core#` (prefix: `duumbi:`).
+## DUUMBI usage
 
-## Why JSON-LD over Text
+- Use JSON-LD for graph documents that need semantic identity.
+- Keep contexts and identifiers explicit.
+- Preserve node identity across validation, transformation, compilation, and review evidence.
+- Prefer deterministic graph structures that agents can inspect and patch safely.
 
-- **Schema-enforceable** — every node must conform to a JSON Schema before acceptance
-- **AI-native** — structured output is easier for LLMs than free-form syntax
-- **Language-independent** — the graph is abstract; it can target Cranelift, LLVM, or WASM
-- **Queryable** — the full program is a graph that can be searched, filtered, and analyzed
+## Sources
 
-## Op Nodes
-
-Elementary operations (Op nodes) map 1:1 to compiler IR instructions: `Const`, `Add`, `Sub`, `Mul`, `Div`, `Print`, `Return`, `Branch`, `Compare`, `Call`, `Load`, `Store`.
-
-## Node Identity
-
-Every node has a unique `@id` with format: `duumbi:<module>/<function>/<block>/<index>`. This enables deterministic traceability from runtime errors back to exact graph nodes.
+- [JSON-LD 1.1](https://www.w3.org/TR/json-ld11/)
 
 ## Related
 
-- [[Semantic Fixed Point]] — the graph must reach this state before compilation
-- [[Compilation Pipeline]] — how the graph becomes a binary
-- [[DUUMBI - Glossary]] — canonical term definitions
+- [[Graph Repository Architecture]]
+- [[Compilation Pipeline]]
+- [[Semantic Fixed Point]]
+- [[DUUMBI Technical Architecture Map]]
