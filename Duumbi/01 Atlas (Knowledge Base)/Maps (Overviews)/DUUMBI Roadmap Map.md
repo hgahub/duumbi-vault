@@ -4,7 +4,7 @@ tags:
   - map/roadmap
 status: active
 created: 2026-03-12
-updated: 2026-03-17
+updated: 2026-05-06
 ---
 # DUUMBI — Development Roadmap (Hub)
 
@@ -174,6 +174,7 @@ Phase 9: Build Excellence & Multi-LLM
 - [[DUUMBI - Architecture Diagram]] — Technical architecture
 - [[DUUMBI - Tools and Components]] — Tech stack
 - [[DUUMBI - Glossary]] — Terminology
+- [[Slack as Thin Surface; GitHub + Obsidian as Sources of Truth]] — Operating rule for where roadmap state and architecture knowledge should live
 
 
 > [!important] **Timeline update (2026-03-14):** Phase 9a estimate increased to 10–14 weeks (from 8–12) due to addition of Result/Option error handling system. Total sequential estimate: **~48–62 weeks for Phase 9a–13.**
