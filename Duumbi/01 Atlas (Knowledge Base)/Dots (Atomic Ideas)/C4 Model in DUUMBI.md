@@ -2,37 +2,35 @@
 tags:
   - project/duumbi
   - concept/architecture
-status: final
-created: 2026-03-12
-updated: 2026-03-12
-related_maps:
-  - "[[DUUMBI Core Concepts Map]]"
+status: active
+created: 2026-02-08
+updated: 2026-05-07
 ---
+
 # C4 Model in DUUMBI
 
-DUUMBI maps the C4 architectural model (Context → Container → Component → Code) directly onto JSON-LD graph layers. Each C4 level corresponds to a specific set of DUUMBI entity types.
+## Summary
 
-## Layer Mapping
+The C4 model gives DUUMBI a layered way to explain architecture: system context, containers, components, and code.
 
-| C4 Level | DUUMBI Entity Types | Storage | AI Agent (Vision) |
-|---|---|---|---|
-| **Context** | `duumbi:System`, `duumbi:Actor` | XML (requirements) | Business Analyst |
-| **Container** | `duumbi:Container` | JSON-LD (infra config) | Architect / DevOps |
-| **Component** | `duumbi:Component` | JSON-LD (interface) | Lead Developer |
-| **Code** | `duumbi:Function`, `duumbi:Block`, Op nodes | JSON-LD (implementation) | Coder / Repair |
+## Why it matters
 
-## Current Status
+Agents and humans need architecture context at different levels of detail. C4 keeps high-level product boundaries separate from implementation details.
 
-- **Code level**: fully operational (MVP Phase 0-3)
-- **Component level**: representable in graph, manual creation
-- **Container/Context levels**: vision — planned for multi-agent orchestration
+## DUUMBI usage
 
-## Why C4
+- Use system context to explain users, agents, GitHub, Slack, Obsidian, and DUUMBI.
+- Use containers to separate CLI, Studio, compiler, graph store, agent layer, and integrations.
+- Use components to explain module boundaries before agent implementation.
+- Use code-level references only when changing a specific module.
 
-C4 provides a hierarchical zoom: from business stakeholders (Context) down to individual instructions (Code). In DUUMBI, this hierarchy lives in a single queryable graph, enabling traceability from a business requirement to the binary instruction that implements it.
+## Sources
+
+- [C4 model](https://c4model.com/)
 
 ## Related
 
-- [[JSON-LD Graph Representation]] — the format for all C4 levels
-- [[Intent-Driven Development]] — how intents map to C4 levels
-- [[DUUMBI - PRD]] — full C4 architecture description
+- [[DUUMBI Technical Architecture Map]]
+- [[Graph Repository Architecture]]
+- [[Compilation Pipeline]]
+- [[AI Agent Architecture]]

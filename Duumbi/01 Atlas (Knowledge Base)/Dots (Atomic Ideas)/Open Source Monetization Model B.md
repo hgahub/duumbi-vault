@@ -1,51 +1,36 @@
 ---
 tags:
   - project/duumbi
-  - concept/business
-status: final
-created: 2026-03-12
-updated: 2026-03-12
-related_maps:
-  - "[[DUUMBI Core Concepts Map]]"
+  - concept/business-model
+status: active
+created: 2026-02-08
+updated: 2026-05-07
 ---
-# Open Source Monetization (Model B)
 
-DUUMBI follows the **Fully Open + Managed Service** monetization model. All source code — including the Intent Engine, multi-agent orchestration, and registry server — is open source under AGPLv3. Revenue comes from hosted services, not from restricting access to code.
+# Open Source Monetization Model B
 
-## Core Principle
+## Summary
 
-> The software is free. The operations are valuable.
+DUUMBI can use open-source adoption to build trust, community, and developer reach while monetizing hosted services, team features, automation, support, and enterprise controls.
 
-## License Structure
+## Why it matters
 
-| Component | License | Rationale |
-|---|---|---|
-| DUUMBI CLI (compiler, validator, all ops) | AGPLv3 | Fully open; AGPLv3 prevents cloud competitors from offering it as a service without contributing back |
-| JSON-LD Core Schema | CC0 (Public Domain) | The schema is a standard — anyone should use it freely |
-| Registry server code | AGPLv3 | Open source; self-hostable by anyone |
-| Intent Engine code | AGPLv3 | Open source; included in the CLI |
+Agentic development products need trust and extensibility. Open source can support adoption, while paid surfaces can fund hosted orchestration, collaboration, and governance.
 
-## Revenue Sources
+## DUUMBI usage
 
-- **Hosted registry** (`registry.duumbi.dev`) — private modules, binary cache CDN
-- **Managed telemetry dashboard** — trace visualization, node-level error mapping
-- **Support tiers** — prioritized response, dedicated support engineering
-- **Enterprise managed deployment** — on-premise setup, compliance assistance
+- Keep the core developer experience inspectable and contributor-friendly.
+- Monetize convenience, scale, governance, hosted infrastructure, and support.
+- Align business value with reliable agent workflows and durable knowledge packaging.
+- Do not mix business strategy with execution tracking in the vault.
 
-## Pricing Tiers
+## Sources
 
-- **Free (self-hosted)**: unlimited, full functionality, community support
-- **Pro ($19/mo)**: hosted registry + CDN + private modules + telemetry dashboard
-- **Team ($49/mo/seat)**: + SSO + audit log + SLA
-- **Enterprise (custom)**: + on-premise deployment + dedicated support + compliance
-
-## Phased Rollout
-
-- Phase 0-4: donation only (GitHub Sponsors + OpenCollective)
-- Phase 5 (Registry launch): Pro tier starts
-- Phase 6-7: Team tier starts
+- [Warp open-source announcement](https://www.warp.dev/blog/warp-is-now-open-source)
+- [OpenAI Academy: custom GPTs](https://openai.com/academy/custom-gpts/)
 
 ## Related
 
-- [[DUUMBI - Post-MVP Roadmap]] — full business plan and monetization timeline
-- [[Graph Repository Architecture]] — the registry architecture that underpins Pro/Team tiers
+- [[DUUMBI - PRD]]
+- [[Warp Oz and Codex Development Toolchain]]
+- [[GPT and NotebookLM Knowledge Packaging]]

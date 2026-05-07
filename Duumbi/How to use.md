@@ -1,84 +1,81 @@
 ---
 tags:
+  - project/duumbi
   - tool/obsidian
   - doc/reference
-status: final
-created: 2026-02-05
-updated: 2026-03-12
+status: active
+created: 2026-02-08
+updated: 2026-05-07
 ---
+
 # How to Use This Vault
 
-This Obsidian vault is the knowledge base for the DUUMBI project. It follows the **LYT (Linking Your Thinking)** methodology, adapted for AI-agent-supported development.
+This vault is DUUMBI's durable knowledge base for product, architecture, workflow, and agent-skill context. It is not the execution tracker. Current work state lives in the DUUMBI GitHub Project and source repository issues/PRs.
 
-## Structure Overview
+## Start Here
 
-### `01 Atlas (Knowledge Base)/`
+Read in this order when onboarding a developer, Codex session, Warp Oz run, custom GPT, or NotebookLM notebook:
 
-The heart of the vault. Three tiers:
+1. [[DUUMBI - PRD]] -- product thesis, users, workflows, architecture principles, agent strategy, non-goals, and success criteria.
+2. [[DUUMBI - Glossary]] -- shared terms used by product, code, and agents.
+3. [[DUUMBI Core Concepts Map]] -- conceptual entrypoint into the atomic notes.
+4. [[DUUMBI Technical Architecture Map]] -- durable technical model and active architecture Dots.
+5. [[DUUMBI Agentic Development Map]] -- operating model for spec-first agentic development.
+6. Repository `AGENTS.md` in `hgahub/duumbi` -- the source-code agent contract for build, test, review, and coding norms.
 
-- **`Dots (Atomic Ideas)/`** — One note, one concept. Each Dot captures a single idea, definition, or architectural decision. Keep these short (under 50 lines). Examples: [[Semantic Fixed Point]], [[JSON-LD Graph Representation]], [[Compilation Pipeline]].
+## Source Of Truth Rules
 
-- **`Maps (Overviews)/`** — Navigation hubs that connect Dots into coherent themes. Maps primarily contain links and brief context. Examples: [[DUUMBI Core Concepts Map]], [[DUUMBI Technical Architecture Map]], [[DUUMBI Roadmap Map]].
+- **Execution state:** GitHub Project, GitHub issues, PRs, CI, and linked code reviews.
+- **Durable knowledge:** this Obsidian vault.
+- **Repo-specific agent behavior:** repository `AGENTS.md` and checked-in skills.
+- **Mobile capture and approvals:** Slack, with durable outcomes linked back into GitHub or Obsidian.
+- **Agent orchestration:** Warp Oz for cloud, parallel, scheduled, and long-running work; Codex for local repo/vault inspection, implementation support, PR review handling, skill authoring, and knowledge-base maintenance.
 
-- **`Works (Developed Materials)/`** — Large, detailed documents built from multiple Dots and Maps. These are the authoritative specifications. Examples: [[DUUMBI - PRD]], [[DUUMBI - MVP Specification]], [[DUUMBI - Post-MVP Implementation Roadmap]].
+## Vault Structure
 
-### `02 Resources (Assets and Tools)/`
+- `00 Inbox (ToProcess)/` -- raw ideas, Slack captures, article links, and unresolved research input.
+- `01 Atlas (Knowledge Base)/Dots (Atomic Ideas)/` -- short, source-backed atomic notes.
+- `01 Atlas (Knowledge Base)/Maps (Overviews)/` -- navigation hubs that connect Dots and active Works.
+- `01 Atlas (Knowledge Base)/Works (Developed Materials)/` -- current synthesized documents. The single active product requirements document is [[DUUMBI - PRD]].
+- `02 Resources (Assets and Tools)/` -- source material, assets, and reusable references.
+- `05 Archive/` -- preserved historical material only. Do not use archived notes as current guidance unless explicitly labeled historical in the active note that links them.
 
-- **`Attachments (MediaFiles)/`** — Excalidraw diagrams, images, PDFs. Set as the default attachment folder in Obsidian settings.
-- **`Sources (References)/`** — Notes from external sources (articles, papers, tools).
-- **`Tag Pages (Tag Notes)/`** — Dedicated notes for major tags with Dataview queries.
+## Operating Workflow
 
-### `03 Templates/`
+1. Capture an idea, bug, question, or external source in Slack, GitHub, or `00 Inbox (ToProcess)/`.
+2. Classify it:
+   - execution item -> GitHub issue or Project item
+   - durable knowledge -> Dot, Map, Work, or source note in this vault
+3. Clarify product behavior before implementation.
+4. Produce a technical plan with validation steps and affected files.
+5. Use Warp Oz or Codex to implement, inspect, review, and gather evidence.
+6. Require structured agent review artifacts before human review.
+7. Human reviews behavior, product fit, and risk.
+8. CI and PR review decide merge readiness.
+9. Sync only durable learnings back into Obsidian.
 
-Note templates for consistent structure (idea template, meeting template, etc.).
+## Spec Quality Bar
 
-### `00 Inbox (ToProcess)/`
+Before implementation, a spec must make agent behavior unambiguous:
 
-Quick capture. Regularly process into Dots or discard. Contains historical documents (Original PRD) that have been absorbed into the Atlas.
+- default behavior
+- inputs and outputs
+- visible states
+- error and empty states
+- cancellation behavior
+- offline, retry, and race-condition behavior
+- accessibility and focus expectations
+- invariants that must not change
+- verification steps and evidence expected from the agent
 
-## For AI Agents
+## Dot Rules
 
-**If you are an AI agent working on DUUMBI, start here:**
+Dots must stay short and direct. Each active Dot should include:
 
-1. **Orientation**: Read [[DUUMBI Core Concepts Map]] for the conceptual overview
-2. **Terminology**: Read [[DUUMBI - Glossary]] for canonical definitions — use these terms exactly
-3. **Current scope**: Read [[DUUMBI - MVP Specification]] for the build specification
-4. **Active work**: Check [[DUUMBI - Post-MVP Implementation Roadmap]] for the current milestone
-5. **Architecture**: Read [[DUUMBI Technical Architecture Map]] for technical decisions
-6. **Roadmap**: Read [[DUUMBI Roadmap Map]] for timeline and business context
+- `Summary`
+- `Why it matters`
+- `DUUMBI usage`
+- `Sources`
+- `Related`
 
-### Documentation sync agent
-
-For recurring GitHub → Obsidian synchronization work, use the dedicated Copilot Agent or its underlying prompt:
-
-- `.github/agents/obsidian-doc-sync.agent.md` — reusable custom Copilot Agent for this workflow
-- `.github/prompts/obsidian-doc-sync.prompt.md` — lightweight prompt version of the same instructions
-
-The workflow is intentionally lightweight and repeatable:
-
-1. Review the relevant GitHub project, milestone, and issue status first
-2. Work on a dedicated branch and PR because `main` is protected
-3. Update only the affected roadmap / phase notes under `docs/Obsidian/`
-4. Keep the frontmatter status fields and roadmap snapshot current
-5. Share the completion summary in Discord instead of email
-
-**Rules for graph mutations:**
-- Every mutation must pass schema validation (`duumbi check`)
-- The graph must reach [[Semantic Fixed Point]] before compilation
-- Follow the JSON-LD schema at `.duumbi/schema/core.schema.json`
-- Use 4-segment node IDs: `duumbi:<module>/<function>/<block>/<index>`
-
-## Workflow
-
-1. **Quick Capture** → `00 Inbox (ToProcess)/`
-2. **Process** → create atomic Dots in `01 Atlas/Dots/`, link to Maps
-3. **Connect** → use `[[wikilinks]]` extensively, check the graph view
-4. **Develop** → when multiple Dots converge, create a Work in `01 Atlas/Works/`
-5. **Review** → periodically update Maps, prune stale Dots
-
-## Naming Conventions
-
-- Dots: descriptive concept name (e.g., `Semantic Fixed Point.md`)
-- Maps: `DUUMBI <Topic> Map.md` (e.g., `DUUMBI Core Concepts Map.md`)
-- Works: `DUUMBI - <Document Name>.md` (e.g., `DUUMBI - PRD.md`)
-- Language: **English** for all documentation
+Use primary sources where possible. Prefer official docs, source repos, papers, standards, and direct project evidence. Do not turn Dots into execution logs.

@@ -1,201 +1,109 @@
 ---
 tags:
   - project/duumbi
-  - doc/vision
-  - doc/product-strategy
+  - doc/product-requirements
 status: active
-created: 2026-02-15
-updated: 2026-05-04
+created: 2026-02-08
+updated: 2026-05-07
 related_maps:
   - "[[DUUMBI Core Concepts Map]]"
-  - "[[DUUMBI Roadmap Map]]"
-  - "[[DUUMBI - Product Roadmap 2026-05]]"
-  - "[[DUUMBI - MVP Specification]]"
-  - "[[DUUMBI - Tools and Components]]"
-  - "[[DUUMBI - Architecture Diagram]]"
-  - "[[DUUMBI - Glossary]]"
+  - "[[DUUMBI Technical Architecture Map]]"
+  - "[[DUUMBI Agentic Development Map]]"
 ---
-# DUUMBI -- Product Requirements and Architecture Strategy
 
-> [!important] This document is the current product strategy and long-term PRD for DUUMBI as of 2026-05-04. For milestone execution status, see [[DUUMBI - Product Roadmap 2026-05]] and [[DUUMBI Roadmap Map]]. For terminology, see [[DUUMBI - Glossary]].
+# DUUMBI - PRD
 
-## 1. Executive Summary
+## Executive Summary
 
-DUUMBI is an AI-first semantic graph compiler and development platform. Its core thesis remains unchanged: software should be represented as a typed semantic graph in JSON-LD, not as text files in human programming languages. AI agents generate structured graph mutations, the system validates every mutation mechanically, and native binaries are produced only after the graph reaches the [[Semantic Fixed Point]].
+DUUMBI is an intent-driven development system where product intent, semantic structure, executable code, runtime feedback, and agent activity are connected through a graph-oriented workflow. The product should help developers and business stakeholders understand what exists, why it exists, how it behaves, and how it should safely evolve.
 
-The product has moved beyond the early MVP framing. Phases 0-12 are delivered: the compiler pipeline, usable CLI, AI mutation, web visualization, module system, intent-driven workflow, Studio, registry/auth, type-system work, multi-provider LLM support, intelligent context, CLI UX, dynamic agents, and MCP platform are now foundation capabilities. The active product problem is no longer "prove the compiler can work"; it is "turn the delivered foundation into a coherent, multi-surface development system with reliable session continuity."
+The development model is agentic by design: humans define intent, constraints, and acceptance criteria; agents implement, inspect, review, and produce structured evidence; humans verify outcomes and make product or architectural decisions.
 
-The strategic direction is to build one product with several surfaces, not five separate products:
-- CLI remains the deterministic authority surface and automation contract.
-- TUI/interactive CLI remains the fastest keyboard-first local workflow.
-- DUUMBI Studio becomes the shared graphical frontend for web and later desktop.
-- Slack/Discord integrations are operational bridges for status, assignment, and approval, not primary editing environments.
-- A future registry/control plane coordinates identity, policy, session sync, audit, model routing, and remote execution.
+## Product Thesis
 
-## 2. Product Thesis
+Software work breaks down when intent, implementation, execution state, and knowledge drift apart. DUUMBI should reduce that drift by treating intent and structure as first-class artifacts that can be compiled, inspected, modified, reviewed, and connected to durable knowledge.
 
-Traditional AI coding tools operate over text. That creates avoidable failure modes: syntax hallucinations, partial-file context, brittle patching, and weak traceability from user intent to executable behavior. DUUMBI changes the primary artifact from source text to a semantic instruction graph.
+The product wins when a user can answer:
 
-The product promise is not that AI becomes infallible. The promise is narrower and stronger: AI output is forced through explicit schemas, graph invariants, type checks, validation, tests, and human approval points before it becomes executable software.
+- what the system is supposed to do
+- where the behavior is represented
+- what agent or human changed it
+- what evidence proves it works
+- what knowledge must be updated after the change
 
-**Core properties:**
-- **Representation:** program logic is stored as typed JSON-LD graph data.
-- **Compilation:** validated graph nodes lower to Cranelift IR and native binaries.
-- **Human role:** developers define intent, inspect plans/diffs, approve mutations, and validate outcomes.
-- **AI role:** agents propose and mutate graph structure inside a validation loop.
-- **System role:** DUUMBI enforces the graph contract, compilation pipeline, diagnostics, snapshots, history, and policy boundaries.
+## Users
 
-## 3. Current Product State
+- **Developer:** builds and changes DUUMBI behavior using the source repo, Codex, Warp Oz, tests, and PR review.
+- **Product/business decision maker:** asks what works, why it matters, what trade-offs exist, and what should be prioritized.
+- **Agent operator:** turns issues, specs, and Slack captures into agent runs with reviewable evidence.
+- **Knowledge maintainer:** converts raw input into source-backed Dots, Maps, Works, and agent skills.
+- **Evaluator:** checks whether implementation evidence matches product intent, architectural constraints, and user-facing behavior.
 
-### Delivered Foundation
+## Core Workflows
 
-Phases 0-12 are complete in the roadmap and GitHub issue history:
-- **Phases 0-3:** JSON-LD to Cranelift proof, CLI, AI mutation, and web graph visualization.
-- **Phases 4-8:** interactive CLI/module system, intent-driven development, Studio, registry/distribution, and registry auth/user management.
-- **Phases 9a-9C:** type-system completion, stdlib/instruction expansion, multi-LLM providers, benchmark/showcase work.
-- **Phases 10-12:** intelligent context/knowledge graph, CLI UX/developer experience, dynamic agent system, and MCP.
+- Capture a user intent or problem and classify it as execution work or durable knowledge.
+- Convert ambiguous intent into a concise product/spec artifact with defaults, states, edge cases, and verification criteria.
+- Produce a technical plan that identifies affected areas, risks, tests, and review evidence.
+- Use Codex for local/vault/repo work and Warp Oz for cloud, parallel, scheduled, or long-running work.
+- Require structured agent review before human review.
+- Use GitHub Project, issues, PRs, and CI as the execution state.
+- Sync only stable product, architecture, workflow, and skill knowledge into Obsidian.
 
-### Active Work
+## Architecture Principles
 
-Phase 15, Studio Workflow Redesign, is the active delivery focus. GitHub state as of 2026-05-04:
-- #486 Calculator E2E is closed, completed on 2026-05-03.
-- #487 String Utilities E2E remains open.
-- #488 Math Library E2E remains open.
-- #489 Phase 15 E2E protocol documentation remains open.
+- **Intent-first:** natural-language intent should become explicit product behavior and graph changes before implementation begins.
+- **Graph-centered:** semantic nodes, edges, identifiers, and metadata should be inspectable and linkable.
+- **Compiled where useful:** executable output should be generated from validated structure rather than hidden transformation steps.
+- **Evidence-oriented:** every agent run should produce reviewable artifacts: summary, diff, tests, risks, and follow-up items.
+- **Human-verifiable:** the system should make product behavior easy to inspect, not just easy to generate.
+- **Knowledge-backed:** agent context should come from concise, source-backed notes rather than stale long documents.
+- **Tool-agnostic core:** Warp Oz, Codex, Slack, GitHub, and Obsidian are workflow tools; DUUMBI's durable model should not depend on one vendor surface.
 
-Phase 16 is planned and partially started:
-- #421 path separator audit is closed.
-- #420 Windows CI matrix, #422 Windows terminal color test, and #423 Windows README requirements remain open.
+## Agent Strategy
 
-No open `phase-13` GitHub issues were found during the 2026-05-04 roadmap refresh. Phase 13 remains a planned product milestone, not an active issue-backed execution track.
+DUUMBI follows the Warp/Oz-style operating model: people shape the work and verify outcomes while agents perform implementation-heavy, review-heavy, and synthesis-heavy tasks with explicit rules and evidence.
 
-## 4. User Surfaces
+- **Warp Oz:** preferred for orchestration, cloud execution, parallel work, scheduled automation, Slack-triggered work, session visibility, and audit trails.
+- **Codex:** preferred for local source inspection, code changes, vault maintenance, skill authoring, PR review handling, and structured documentation updates.
+- **Slack:** mobile capture, status, approvals, and agent follow-up only; durable conclusions move to GitHub or Obsidian.
+- **GitHub Project:** execution source of truth for issue state, PR state, CI state, and work sequencing.
+- **Obsidian:** durable knowledge substrate for concepts, architecture, operating model, source-backed Dots, and packaging for GPT/NotebookLM.
 
-### CLI: Authority Surface
+## Knowledge Strategy
 
-The CLI is the stable contract for automation, CI, scripting, and reproducible local development. It should keep strict stdout/stderr discipline, stable exit codes, machine-readable JSON/JSONL diagnostics, no-color/non-interactive modes, and explicit artifact paths. All higher-level surfaces should reuse the same domain APIs rather than reimplement compiler behavior.
+The vault should train humans and agents without flooding them with execution history.
 
-### Interactive CLI and TUI
+- Keep the active source set small: PRD, Glossary, Core Concepts Map, Technical Architecture Map, Agentic Development Map, and the relevant Dots.
+- Break complex concepts into Dots with explicit sources and related links.
+- Use Maps as navigation and synthesis, not as status logs.
+- Store raw captures in `00 Inbox (ToProcess)/` until classified.
+- Preserve old delivery documents in the archive for history, not active guidance.
+- Package the active source set for custom GPTs and NotebookLM; exclude archive material unless a specific historical question requires it.
 
-The interactive CLI/TUI should be the fastest local developer workflow for session navigation, graph inspection, command palette actions, diagnostics, patch preview, build/run output, and resumable intent work. It should sit on the same session and domain APIs as CLI and Studio.
+## Non-Goals
 
-### DUUMBI Studio
+- Obsidian does not track current execution status.
+- Slack is not a durable decision store.
+- Agent output is not accepted without tests, review, or explicit human verification.
+- The vault does not duplicate source-code documentation that belongs in the DUUMBI repo.
+- Long historical planning documents should not be recreated as active guidance.
 
-Studio is the shared graphical product surface. The current direction is a focused workflow around Intents, Graph, and Build panels, context-aware chat, graph refresh after mutation, provider/template management, and end-to-end evidence for realistic tasks. Longer term, Studio should become the shared frontend that can run in web and desktop contexts.
+## Success Criteria
 
-### Desktop
+- A new developer or agent can locate execution state, architecture context, workflow rules, and spec requirements within five minutes.
+- Agent runs start from clear specs and produce structured evidence.
+- GitHub Project remains the only current execution-state tracker.
+- The active NotebookLM/GPT source set is small, coherent, and free of historical delivery noise.
+- Dots are concise, source-backed, and link into Maps.
+- Slack captures are processed into GitHub items, Inbox notes, or Atlas notes without becoming orphaned decisions.
 
-Desktop should not become a separate native-widget product. The preferred path is to package the shared Studio frontend with a Rust-backed local runner, most likely through a lightweight desktop shell such as Tauri once the core workflow is stable. Desktop should be macOS/Linux first until Windows support is officially validated.
+## Related
 
-### Slack and Discord
-
-Chat integrations should stay thin and operational. The correct scope is assignment, status, notifications, approvals, short diff summaries, run triggers, and deep links into Studio or CLI instructions. They should not attempt graph editing, complex conflict resolution, or long configuration workflows.
-
-## 5. Target Architecture
-
-The product should be organized around shared kernels and contracts rather than UI-specific behavior.
-
-### Core Compiler and Graph Kernel
-
-The existing parser, graph, validator, compiler, patch, snapshot, config, and agent modules remain the product foundation. This layer owns semantic correctness and compilation.
-
-### Session Kernel
-
-DUUMBI needs a first-class session model that is shared by CLI, interactive CLI/TUI, Studio, future desktop, and future chat bridges. The session kernel should define:
-- `session_id`, `workspace_id`, and `device_id`.
-- append-only event journal entries for intent, patch, validation, build, run, diagnostic, approval, and artifact events.
-- checkpoints for fast replay.
-- explicit branch/merge semantics for conflicting work.
-- resumability across local surfaces first, and policy-controlled remote sync later.
-
-The natural sync unit is not a whole workspace copy. It is the append-only ledger of graph patches, checkpoints, diagnostics, build/run state, and artifact references.
-
-### Runner Abstraction
-
-Local, CI, and future remote execution should share a runner abstraction. CLI can run locally, CI can run non-interactively, and the future control plane can dispatch isolated runner jobs. This avoids coupling Studio or chat integrations directly to compiler process details.
-
-### UI/API Protocol
-
-CLI, TUI, Studio, desktop, and chat bridges should speak one domain protocol for sessions, graph views, intents, mutations, diagnostics, build/run state, and approvals. UI-specific presentation belongs in clients; product behavior belongs in shared services.
-
-### Control Plane and Execution Plane
-
-Enterprise/cloud DUUMBI should separate the control plane from the execution plane:
-- **Control plane:** auth, tenant policy, session index, audit trail, registry metadata, model routing, telemetry aggregation, and user/org settings.
-- **Execution plane:** isolated runner jobs for validation, build, test, run, repair, and artifact generation.
-
-For an Azure-oriented enterprise path, a reasonable architecture is Container Apps for services, Container Apps Jobs for finite runner workloads, PostgreSQL for session/policy metadata, Blob Storage for artifacts/snapshots/logs, Redis for ephemeral locks/cache/queues, managed identity, Key Vault, private networking, and explicit egress controls.
-
-## 6. Data, Sync, and Policy
-
-Session sync must be policy-driven from the start. A useful policy matrix should distinguish:
-- `session_metadata`
-- `graph_patches`
-- `snapshots`
-- `artifacts`
-- `telemetry`
-- `prompts`
-- `attachments`
-- `notifications`
-
-Default posture should be local-first and conservative. Secrets and API keys must never sync as raw values; only references should move across devices or services. Prompts and telemetry are sensitive and should require explicit user or tenant policy decisions before remote sync.
-
-Conflict handling should prefer explicit branches and merges over last-write-wins. CRDT-style automatic merging is not the right first default for a semantic compiler where graph validity and human approval matter more than silent convergence.
-
-## 7. Model and Agent Strategy
-
-DUUMBI should not start by building a proprietary "smart model router." The first router should be deterministic and auditable:
-- tenant-approved provider/model allowlists.
-- task-category defaults.
-- explicit cost ceilings.
-- latency, success-rate, rollback-rate, and validation-failure telemetry.
-- full audit logs for routing decisions.
-
-The dynamic agent system and MCP work delivered in Phase 12 are the foundation for multi-agent execution. The next step is to harden reliability, evidence, and handoff behavior through Phase 15 and then use Phase 13 to close the loop from runtime telemetry to repair suggestions.
-
-## 8. Delivered, Active, Planned
-
-### Delivered
-
-- Semantic graph representation and Cranelift compilation pipeline.
-- CLI commands for init/build/run/check/describe and AI mutation workflows.
-- Snapshot/history and undo foundations.
-- Web visualization and Studio foundation.
-- Module system, registry/distribution, registry auth.
-- Intent pipeline, dynamic agents, MCP server/client work.
-- Multi-provider LLM support and developer UX improvements.
-
-### Active
-
-- Phase 15 Studio Workflow Redesign.
-- Remaining Phase 15 kill criterion tasks: #487, #488, #489.
-- Phase 14 go-to-market/content/community/ecosystem work in parallel.
-
-### Planned
-
-- Phase 16 Windows and cross-platform support completion.
-- Phase 13 self-healing and telemetry, including runtime error to nodeId mapping and repair loop validation.
-- Shared session kernel and append-only event ledger hardening.
-- Studio-as-shared-frontend path for web/desktop.
-- Thin Slack/Discord operational bridges.
-- Enterprise control plane with policy-based sync, audit, and isolated remote runners.
-
-## 9. Success Criteria
-
-Near-term product success should be measured by evidence, not feature count:
-- Phase 15 sample tasks complete in both CLI REPL and Studio with real LLM interaction.
-- Studio users can create, execute, inspect, build, and run intent-driven graph changes without falling back to raw JSON-LD.
-- CLI remains fully scriptable and deterministic.
-- Windows support is proven by CI and documented requirements.
-- Phase 13 has a concrete issue-backed plan before implementation starts.
-- Session continuity is specified before adding broad cloud sync or chat surfaces.
-
-## Related Documents
-
-- [[DUUMBI Core Concepts Map]] -- conceptual overview
-- [[DUUMBI Roadmap Map]] -- roadmap hub
-- [[DUUMBI - Product Roadmap 2026-05]] -- current roadmap
-- [[DUUMBI - MVP Specification]] -- original MVP specification
-- [[DUUMBI - Tools and Components]] -- technical stack details
-- [[DUUMBI - Architecture Diagram]] -- visual component overview
-- [[DUUMBI - Glossary]] -- canonical term definitions
+- [[DUUMBI - Glossary]]
+- [[DUUMBI Core Concepts Map]]
+- [[DUUMBI Technical Architecture Map]]
+- [[DUUMBI Agentic Development Map]]
+- [[Spec-First Agentic Development]]
+- [[Warp Oz and Codex Development Toolchain]]
+- [[GitHub Project as Execution Source of Truth]]
+- [[Obsidian Vault as Agent Knowledge Substrate]]

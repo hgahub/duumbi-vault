@@ -1,40 +1,39 @@
 ---
 tags:
   - project/duumbi
-  - concept/development
-status: final
-created: 2026-03-12
-updated: 2026-03-12
-related_maps:
-  - "[[DUUMBI Core Concepts Map]]"
+  - concept/intent-driven-development
+status: active
+created: 2026-02-08
+updated: 2026-05-07
 ---
+
 # Intent-Driven Development
 
-In DUUMBI, the developer defines **intent** in natural language. The system transforms this into a structured spec, decomposes it into tasks, and generates JSON-LD graph patches through AI agents.
+## Summary
 
-## The Intent Flow
+Intent-driven development starts from what the user wants the system to do, then turns that intent into explicit behavior, graph changes, implementation, tests, and evidence.
 
-1. Developer writes natural language intent (e.g., "Build a calculator with add, sub, mul, div")
-2. `duumbi intent create` — AI generates a structured YAML spec with acceptance criteria, modules, and test cases
-3. **Coordinator Agent** decomposes the spec into ordered tasks (CreateModule, AddFunction, ModifyMain)
-4. `duumbi intent execute` — each task is executed via AI graph mutation with 3-step retry
-5. **Verifier Agent** runs test cases from the spec
-6. If all pass → intent is marked Completed; graph reaches [[Semantic Fixed Point]]
+## Why it matters
 
-## Intent Spec Format
+Agents can generate code quickly, but speed is not value unless the result matches intent. DUUMBI should make intent traceable from request to graph to runtime behavior.
 
-Stored as `.duumbi/intents/<slug>.yaml`. Contains: intent description, acceptance criteria, module targets (create/modify), test cases with expected return values, and execution metadata.
+## DUUMBI usage
 
-## Current Status (M5)
+- Capture intent in natural language.
+- Clarify behavior before implementation.
+- Map behavior to graph concepts and source modules.
+- Verify with tests, screenshots, logs, or structured review artifacts.
+- Sync durable learnings into Dots and Maps.
 
-The Coordinator uses **rule-based decomposition** (no LLM call): deterministic task generation from the spec. LLM-based decomposition planned for a future milestone.
+## Sources
 
-## Inspiration
-
-Inspired by Augment Intent's spec-driven development model, adapted for semantic graph compilation. The key difference: DUUMBI's spec output is a graph patch, not text code — enabling deterministic validation.
+- Local article: `/Users/heizergabor/Downloads/What Warp’s Open Source Release Tells Us About the Future of Agentic Software Development _ by Jonathan Fulton _ Jonathan’s Musings _ May, 2026 _ Medium.html`
+- [Warp open-source announcement](https://www.warp.dev/blog/warp-is-now-open-source)
+- [Anthropic: Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)
 
 ## Related
 
-- [[Semantic Fixed Point]] — the goal of every intent execution
-- [[C4 Model in DUUMBI]] — intents map to C4 component/code levels
-- [[DUUMBI - MVP Specification]] — Phase 2 (AI Integration) and Phase 6 (Intent Engine)
+- [[Spec-First Agentic Development]]
+- [[Semantic Fixed Point]]
+- [[JSON-LD Graph Representation]]
+- [[Structured Agent Review Artifacts]]

@@ -1,56 +1,46 @@
 ---
 tags:
   - project/duumbi
-  - map/technical
+  - map/technical-architecture
 status: active
-created: 2026-03-12
-updated: 2026-03-12
+created: 2026-02-08
+updated: 2026-05-07
 ---
+
 # DUUMBI Technical Architecture Map
 
-> This map provides navigation for understanding DUUMBI's technical implementation. Use it to find the right document for any architectural question.
+This map points to the durable architecture concepts agents and developers need before changing code. It is not an implementation status page.
 
-## System Overview
+## Architecture Viewpoints
 
-DUUMBI is a Rust CLI application that compiles JSON-LD semantic graphs to native binaries via Cranelift. It includes AI-powered graph mutation, validation, visualization, and an intent-driven development workflow.
+- [[C4 Model in DUUMBI]] -- system, container, component, and code viewpoints for explaining architecture.
+- [[Graph Repository Architecture]] -- storage, module identity, namespace, and resolution principles.
+- [[JSON-LD Graph Representation]] -- linked-data substrate for semantic graph documents.
+- [[Compilation Pipeline]] -- validated graph to executable output.
+- [[AI Agent Architecture]] -- product agent layer, runtime context, and review evidence.
 
-## Architecture by Layer
+## Development Contracts
 
-### Compiler Core
-- [[Compilation Pipeline]] — the 7-stage pipeline from parsing to linking
-- [[JSON-LD Graph Representation]] — the input format and op node taxonomy
-- [[DUUMBI - MVP Specification]] — canonical schema reference, type system, error codes
+- Repository `AGENTS.md` in `hgahub/duumbi` defines repo-specific agent instructions.
+- Source code, tests, CI, and PR review remain authoritative for implementation behavior.
+- Obsidian explains durable concepts and workflows, but does not override code or CI.
+- GitHub Project tracks current work state; this map links only stable architecture guidance.
 
-### AI Integration
-- [[AI Agent Architecture]] — LLM client, orchestrator, retry logic, MCP vision
-- [[Intent-Driven Development]] — spec → coordinator → tasks → graph patches → verification
+## Agent-Ready Architecture Checklist
 
-### Module System
-- [[Graph Repository Architecture]] — three-layer storage, namespace scoping, semantic hash
-- [[DUUMBI - Graph Repository Architecture]] — full specification with CLI commands and migration plan
+Before assigning architecture work to an agent, provide:
 
-### Visualization
-- Cytoscape.js + axum HTTP server (port 8420)
-- WebSocket live sync via `tokio::sync::broadcast`
-- See [[DUUMBI - MVP Specification]] Phase 3
+- intended user-visible behavior
+- affected graph concepts and source modules
+- invariants that must not change
+- compatibility and migration expectations
+- expected tests, screenshots, logs, or structured evidence
+- required updates to Dots, Maps, skills, or repo `AGENTS.md`
 
-## Technology Stack
+## Related
 
-| Component | Technology | Crate/Tool |
-|---|---|---|
-| Language | Rust | — |
-| Compiler backend | Cranelift | `cranelift-codegen`, `cranelift-frontend`, `cranelift-module`, `cranelift-object` |
-| Graph engine | petgraph | `petgraph` (StableGraph) |
-| JSON parsing | serde | `serde`, `serde_json` |
-| CLI framework | clap | `clap` |
-| Web server | axum | `axum` 0.8 |
-| Async runtime | tokio | `tokio` |
-| Visualization | Cytoscape.js | vendored in `src/web/assets/` |
-
-## For AI Agents
-
-If you are implementing a feature:
-1. Check [[DUUMBI - Tools and Components]] for the current tech stack details
-2. Check [[DUUMBI - Task List]] for the implementation checklist
-3. Validate all graph mutations against the schema in `.duumbi/schema/core.schema.json`
-4. Run `cargo test` before committing — see CLAUDE.md for hooks configuration
+- [[DUUMBI - PRD]]
+- [[DUUMBI - Glossary]]
+- [[DUUMBI Agentic Development Map]]
+- [[Spec-First Agentic Development]]
+- [[Structured Agent Review Artifacts]]
