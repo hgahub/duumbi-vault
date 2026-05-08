@@ -4,7 +4,7 @@ tags:
   - map/agentic-development
 status: active
 created: 2026-05-07
-updated: 2026-05-07
+updated: 2026-05-08
 ---
 
 # DUUMBI Agentic Development Map
@@ -14,13 +14,14 @@ This is the hub for DUUMBI's agentic development operating model. It follows the
 ## Durable Workflow
 
 1. Capture idea, bug, question, or source in Slack, GitHub, or `00 Inbox (ToProcess)/`.
-2. Route execution work to GitHub Project and durable knowledge to Obsidian.
-3. Clarify product/spec behavior until defaults, states, errors, cancellation, accessibility, invariants, and verification are explicit.
-4. Create a technical plan with affected files, risks, test strategy, and evidence expectations.
-5. Use Warp Oz for orchestration-heavy work or Codex for local repo/vault work.
-6. Require structured agent review before human review.
-7. Use CI, PR review, and human verification before merge.
-8. Sync stable learnings back into Dots, Maps, skills, or `AGENTS.md`.
+2. Ask read-only questions first when context is unclear: what exists, why it exists, where behavior lives, what depends on it, what proves it, and what risk a change carries.
+3. Route execution work to GitHub Project and durable knowledge to Obsidian.
+4. Clarify product/spec behavior until defaults, states, errors, cancellation, accessibility, invariants, and verification are explicit.
+5. Create a technical plan with affected files, risks, test strategy, and evidence expectations.
+6. Use Warp Oz for orchestration-heavy work or Codex for local repo/vault work.
+7. Require structured agent review before human review.
+8. Use CI, PR review, and human verification before merge.
+9. Sync stable learnings back into Dots, Maps, skills, or `AGENTS.md`.
 
 ## Tool Roles
 
@@ -28,12 +29,14 @@ This is the hub for DUUMBI's agentic development operating model. It follows the
 - [[Slack as Mobile Capture Surface]] -- quick capture, approvals, and agent follow-up.
 - [[GitHub Project as Execution Source of Truth]] -- issue/PR state and execution workflow.
 - [[Obsidian Vault as Agent Knowledge Substrate]] -- durable product and architecture memory.
+- [[DUUMBI Repository Map]] -- repository ownership before routing work.
 - [[AGENTS.md as Agent Contract]] -- repository-local agent expectations.
 - [[Agent Skills as Operational Playbooks]] -- repeatable workflows for agents.
 - [[MCP Resources and Prompts]] -- structured context and prompt surfaces.
 
 ## Spec And Review
 
+- [[DUUMBI - Service and Research Direction]]
 - [[Spec-First Agentic Development]]
 - [[Structured Agent Review Artifacts]]
 - [[AI Agent Development Workflow]]
@@ -42,6 +45,7 @@ This is the hub for DUUMBI's agentic development operating model. It follows the
 ## Knowledge Packaging
 
 - [[Inbox-to-Atlas Processing Workflow]]
+- [[Visual Documentation in Obsidian]]
 - [[GPT and NotebookLM Knowledge Packaging]]
 - [[DUUMBI Core Concepts Map]]
 - [[DUUMBI Technical Architecture Map]]

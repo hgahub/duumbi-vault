@@ -4,9 +4,9 @@ tags:
   - map/core-concepts
 status: active
 created: 2026-02-08
-updated: 2026-05-07
+updated: 2026-05-08
 ---
-# DUUMBI Core Concepts Map
+í# DUUMBI Core Concepts Map
 
 Use this map to navigate the stable ideas behind DUUMBI. For execution state, go to GitHub Project. For the active product definition, start with [[DUUMBI - PRD]].
 
@@ -14,6 +14,7 @@ Use this map to navigate the stable ideas behind DUUMBI. For execution state, go
 
 - [[Intent-Driven Development]] -- turns user goals into explicit system changes.
 - [[Semantic Fixed Point]] -- the target state where intent, graph, behavior, and evidence converge.
+- [[DUUMBI - Service and Research Direction]] -- frames DUUMBI as an intent-to-validated-software service with read-only question answering.
 - [[Original Vision Document (FixPoint)]] -- historical thesis distilled into current product language.
 - [[Open Source Monetization Model B]] -- durable commercial model for open-source product growth.
 
@@ -23,6 +24,7 @@ Use this map to navigate the stable ideas behind DUUMBI. For execution state, go
 - [[Graph Repository Architecture]] -- how graph modules should remain resolvable and stable.
 - [[Obsidian Vault as Agent Knowledge Substrate]] -- how the vault feeds humans, agents, GPTs, and NotebookLM.
 - [[Inbox-to-Atlas Processing Workflow]] -- how raw input becomes durable knowledge.
+- [[Visual Documentation in Obsidian]] -- when to use Mermaid or Excalidraw for fast understanding.
 
 ## Agentic Development
 
@@ -36,9 +38,13 @@ Use this map to navigate the stable ideas behind DUUMBI. For execution state, go
 
 ## Surfaces And Execution
 
+- Query mode -- read-only service surface for answering what exists, why it exists, where behavior lives, what depends on it, what proves it, and what change risk exists.
+- [[DUUMBI Repository Map]] -- how vault, infra, registry, and web repositories relate.
+- [[DUUMBI Repository Responsibility Model]] -- routing rules for repo ownership.
 - [[GitHub Project as Execution Source of Truth]] -- current work state belongs in GitHub.
 - [[Slack as Mobile Capture Surface]] -- Slack is capture and approval, not durable storage.
 - [[Slack as Thin Surface; GitHub + Obsidian as Sources of Truth]] -- companion note for the same split.
+- [[Public Docs as Product Interface]] -- public docs describe dependable user behavior.
 - [[DUUMBI - TUI - Provider]] -- terminal UI provider pattern.
 
 ## Technical Foundation
@@ -47,8 +53,11 @@ Use this map to navigate the stable ideas behind DUUMBI. For execution state, go
 - [[Compilation Pipeline]]
 - [[AI Agent Architecture]]
 - [[C4 Model in DUUMBI]]
+- [[DUUMBI Registry Architecture]]
+- [[DUUMBI Azure Infrastructure Model]]
 
 ## Active Works
 
 - [[DUUMBI - PRD]]
+- [[DUUMBI - Service and Research Direction]]
 - [[DUUMBI - Glossary]]

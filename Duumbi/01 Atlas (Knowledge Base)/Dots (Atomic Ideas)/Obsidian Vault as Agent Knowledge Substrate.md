@@ -22,6 +22,8 @@ Agents perform better when context is concise, linked, current, and source-backe
 - Keep active guidance in PRD, Glossary, Maps, and source-backed Dots.
 - Use Inbox for raw material until an agent classifies it.
 - Archive historical execution documents instead of linking them from active guidance.
+- Keep Works limited to canonical synthesis: product requirements, glossary, architecture overview, and mature specs.
+- Use Mermaid or Excalidraw when a visual explanation makes relationships, flow, or sequence easier to inspect.
 - Package a small active source set for GPT and NotebookLM.
 
 ## Sources
@@ -35,5 +37,7 @@ Agents perform better when context is concise, linked, current, and source-backe
 
 - [[Inbox-to-Atlas Processing Workflow]]
 - [[GPT and NotebookLM Knowledge Packaging]]
+- [[Visual Documentation in Obsidian]]
+- [[DUUMBI Repository Map]]
 - [[DUUMBI Core Concepts Map]]
 - [[DUUMBI Technical Architecture Map]]
