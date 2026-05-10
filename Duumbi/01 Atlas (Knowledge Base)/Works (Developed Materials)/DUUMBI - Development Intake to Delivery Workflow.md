@@ -807,26 +807,55 @@ Do not create new GitHub labels or Project fields.
 
 ## Stage 10 - Ralph-Cycle Implementation
 
+Authoritative current skill: `.agents/skills/duumbi-ralph-cycle/SKILL.md`
+
+Stage 10 is permission-gated implementation. The current skill is the per-cycle executor, not the full implementation coordinator. A future `duumbi-implementation` skill may coordinate the whole Stage 10 flow, but `duumbi-ralph-cycle` is the authoritative unit for requesting or running one bounded cycle.
+
 Tool choice:
 
-- Use Codex for local repo changes, vault updates, focused implementation, review feedback, and work that benefits from direct local inspection.
+- Use Codex for local source repo changes, focused implementation, review feedback, and work that benefits from direct local inspection.
 - Use Oz for cloud execution, scheduled work, Slack-triggered tasks, parallel exploration, long-running tasks, or team-visible runs.
+
+Input:
+
+- one GitHub Issue in `Ready for Build` or `Cycle Authorization`
+- linked approved product spec
+- linked approved technical spec
+- source repo `AGENTS.md`
+- explicit cycle approval, or enough context to prepare the next approval request
+
+If the issue is not in `Ready for Build` or `Cycle Authorization`, or either spec approval is missing, the agent stops and reports the missing gate.
 
 Implementation steps:
 
 1. Read the approved issue, product spec, and technical spec.
 2. Read the source repo `AGENTS.md`.
-3. Create a feature branch.
-4. Gather source context and identify affected modules.
-5. Request permission for Ralph cycle 1 before making changes.
-6. For each approved Ralph cycle, implement only the approved bounded goal.
-7. Run the prescribed checks for that cycle.
-8. Report evidence, failures, resource usage, and remaining unmet requirements.
-9. If requirements are unmet, request explicit approval for the next cycle.
-10. Stop the cycle loop when the product spec and technical spec completion criteria are met, or when the user declines another cycle.
-11. Produce a structured review artifact.
-12. Open a PR linked to the issue, product spec, and technical spec.
-13. Move the issue to `In Review`.
+3. Gather source context and identify affected modules.
+4. If explicit approval for the next Ralph cycle is missing, request permission before making changes and stop.
+5. When explicit cycle approval exists, set Status to `In Progress` when available.
+6. Create or switch to the feature branch if needed.
+7. Implement exactly one approved bounded goal.
+8. Run the checks prescribed for that approved cycle.
+9. Report evidence, failures, resource usage, files changed, commands run, and remaining unmet requirements.
+10. If requirements are unmet, prepare the next cycle request, set Status to `Cycle Authorization` when available, and stop.
+11. If the product spec and technical spec completion criteria are met, open or update a PR linked to the issue, product spec, and technical spec.
+12. Move the issue to `In Review` only after the implementation PR exists.
+
+Write boundaries:
+
+- Allowed within an approved cycle: implementation files, tests, docs, generated artifacts, configuration, feature branch work, and implementation PR work.
+- Allowed writes must stay inside the approved cycle goal, file or module area, command budget, and planned checks.
+- Forbidden: editing product specs, technical specs, workflow docs, Obsidian Atlas notes, or intake artifacts.
+- Forbidden: broad refactors, unrelated cleanup, unplanned dependency changes, scope expansion, or a second cycle without a new explicit approval.
+
+GitHub and Project behavior:
+
+- When requesting approval: set Status to `Cycle Authorization` when available.
+- When running an approved cycle: set Status to `In Progress` when available.
+- If requirements remain unmet after a cycle: return to `Cycle Authorization` with the next proposed cycle request.
+- If all product and technical spec completion criteria are met: open or update the implementation PR, link the issue and specs, and set Status to `In Review`.
+- If blocked: set Status to `Blocked`, write concise blocker evidence, and stop.
+- Do not create new GitHub labels or Project fields.
 
 Per-cycle permission request format:
 
@@ -931,8 +960,8 @@ The workflow should be split into focused, reusable skills rather than one large
 | `duumbi-spec-review` | Oz, Codex | Stage 7 product spec review gate; prepare findings, record explicit decision, and route to technical spec preparation |
 | `duumbi-tech-spec-draft` | Oz, Codex | Stage 8 technical spec drafting; create agent-facing TECHNICAL.md draft PR with bounded Ralph-cycle instructions |
 | `duumbi-tech-spec-review` | Oz, Codex | Stage 9 technical spec review gate; prepare findings, record explicit human decision, and route to Ready for Build or revision |
-| `duumbi-ralph-cycle` | Oz, Codex | Run one approved Ralph cycle and stop with evidence plus next-cycle recommendation |
-| `duumbi-implementation` | Oz, Codex | Implement approved technical specs with repo `AGENTS.md`, Ralph cycles, and evidence rules |
+| `duumbi-ralph-cycle` | Oz, Codex | Stage 10 per-cycle implementation skill; request approval or run exactly one approved Ralph cycle, then stop with evidence |
+| `duumbi-implementation` | Oz, Codex | Future Stage 10 coordinator skill for approved technical specs, branches, PRs, and repeated Ralph-cycle orchestration |
 | `duumbi-review-artifact` | Oz, Codex | Produce structured review artifacts for PRs |
 | `duumbi-knowledge-sync` | Oz, Codex | Sync durable lessons to Dots, Maps, Works, skills, or `AGENTS.md` |
 
