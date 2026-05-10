@@ -807,9 +807,11 @@ Do not create new GitHub labels or Project fields.
 
 ## Stage 10 - Ralph-Cycle Implementation
 
-Authoritative current skill: `.agents/skills/duumbi-ralph-cycle/SKILL.md`
+Coordinator skill: `.agents/skills/duumbi-implementation/SKILL.md`
 
-Stage 10 is permission-gated implementation. The current skill is the per-cycle executor, not the full implementation coordinator. A future `duumbi-implementation` skill may coordinate the whole Stage 10 flow, but `duumbi-ralph-cycle` is the authoritative unit for requesting or running one bounded cycle.
+Per-cycle executor skill: `.agents/skills/duumbi-ralph-cycle/SKILL.md`
+
+Stage 10 is permission-gated implementation. `duumbi-implementation` coordinates the implementation lane from `Ready for Build` through branch and PR readiness. `duumbi-ralph-cycle` remains the authoritative unit for executing exactly one approved bounded cycle. The coordinator may manage GitHub comments, status updates, branch or PR setup, PR body evidence, blockers, and routing decisions, but implementation edits happen only inside an explicitly approved Ralph cycle.
 
 Tool choice:
 
@@ -818,35 +820,45 @@ Tool choice:
 
 Input:
 
-- one GitHub Issue in `Ready for Build` or `Cycle Authorization`
+- one GitHub Issue in `Ready for Build`, `Cycle Authorization`, `In Progress`, or `Blocked`
 - linked approved product spec
 - linked approved technical spec
 - source repo `AGENTS.md`
-- explicit cycle approval, or enough context to prepare the next approval request
+- implementation branch or PR state when available
+- cycle approval or cycle evidence when available
 
-If the issue is not in `Ready for Build` or `Cycle Authorization`, or either spec approval is missing, the agent stops and reports the missing gate.
+If the issue is not in a Stage 10 status, or either spec approval is missing, the agent stops and reports the missing gate.
+
+Coordinator responsibilities:
+
+- verify Stage 9 technical spec approval, product spec approval, technical spec approval, source repo, branch state, PR state, and existing cycle evidence
+- create or identify the implementation branch after the issue is approved for build
+- create or update a draft implementation PR when needed to collect implementation evidence
+- decide the next action: request cycle approval, run one approved Ralph cycle, consolidate PR evidence, move to `In Review`, or report a blocker
+- keep the work inside the approved product and technical specs
+- delegate implementation edits to `duumbi-ralph-cycle`
 
 Implementation steps:
 
 1. Read the approved issue, product spec, and technical spec.
 2. Read the source repo `AGENTS.md`.
 3. Gather source context and identify affected modules.
-4. If explicit approval for the next Ralph cycle is missing, request permission before making changes and stop.
-5. When explicit cycle approval exists, set Status to `In Progress` when available.
-6. Create or switch to the feature branch if needed.
-7. Implement exactly one approved bounded goal.
-8. Run the checks prescribed for that approved cycle.
-9. Report evidence, failures, resource usage, files changed, commands run, and remaining unmet requirements.
-10. If requirements are unmet, prepare the next cycle request, set Status to `Cycle Authorization` when available, and stop.
-11. If the product spec and technical spec completion criteria are met, open or update a PR linked to the issue, product spec, and technical spec.
-12. Move the issue to `In Review` only after the implementation PR exists.
+4. Create or identify the feature branch and draft implementation PR when needed.
+5. If explicit approval for the next Ralph cycle is missing, request permission before implementation edits and stop.
+6. When explicit cycle approval exists, hand off to `duumbi-ralph-cycle` and run exactly one approved bounded goal.
+7. Report evidence, failures, resource usage, files changed, commands run, and remaining unmet requirements.
+8. If requirements are unmet, prepare the next cycle request, set Status to `Cycle Authorization` when available, and stop.
+9. If the product spec and technical spec completion criteria are met, consolidate PR evidence.
+10. Move the issue to `In Review` only after the implementation PR exists and evidence is linked.
 
 Write boundaries:
 
-- Allowed within an approved cycle: implementation files, tests, docs, generated artifacts, configuration, feature branch work, and implementation PR work.
-- Allowed writes must stay inside the approved cycle goal, file or module area, command budget, and planned checks.
+- Allowed for the coordinator: GitHub comments, status updates, branch or PR setup, PR body updates, evidence consolidation, blocker reports, and routing decisions.
+- Allowed implementation edits only inside an explicitly approved `duumbi-ralph-cycle` run.
+- Approved cycle writes must stay inside the approved cycle goal, file or module area, command budget, and planned checks.
 - Forbidden: editing product specs, technical specs, workflow docs, Obsidian Atlas notes, or intake artifacts.
 - Forbidden: broad refactors, unrelated cleanup, unplanned dependency changes, scope expansion, or a second cycle without a new explicit approval.
+- Forbidden: merge decisions, final `Done` closure, or knowledge sync.
 
 GitHub and Project behavior:
 
@@ -960,8 +972,8 @@ The workflow should be split into focused, reusable skills rather than one large
 | `duumbi-spec-review` | Oz, Codex | Stage 7 product spec review gate; prepare findings, record explicit decision, and route to technical spec preparation |
 | `duumbi-tech-spec-draft` | Oz, Codex | Stage 8 technical spec drafting; create agent-facing TECHNICAL.md draft PR with bounded Ralph-cycle instructions |
 | `duumbi-tech-spec-review` | Oz, Codex | Stage 9 technical spec review gate; prepare findings, record explicit human decision, and route to Ready for Build or revision |
-| `duumbi-ralph-cycle` | Oz, Codex | Stage 10 per-cycle implementation skill; request approval or run exactly one approved Ralph cycle, then stop with evidence |
-| `duumbi-implementation` | Oz, Codex | Future Stage 10 coordinator skill for approved technical specs, branches, PRs, and repeated Ralph-cycle orchestration |
+| `duumbi-implementation` | Oz, Codex | Stage 10 coordinator skill for approved technical specs, branch/PR readiness, evidence consolidation, blockers, and Ralph-cycle routing |
+| `duumbi-ralph-cycle` | Oz, Codex | Stage 10 per-cycle executor; request approval or run exactly one approved Ralph cycle, then stop with evidence |
 | `duumbi-review-artifact` | Oz, Codex | Produce structured review artifacts for PRs |
 | `duumbi-knowledge-sync` | Oz, Codex | Sync durable lessons to Dots, Maps, Works, skills, or `AGENTS.md` |
 
