@@ -4,7 +4,7 @@ tags:
   - doc/glossary
 status: active
 created: 2026-02-08
-updated: 2026-05-07
+updated: 2026-05-09
 ---
 
 # DUUMBI - Glossary
@@ -73,6 +73,10 @@ A navigation and synthesis note that connects related Dots and Works around a to
 
 A synthesized document built from multiple Dots and Maps. DUUMBI keeps one active PRD as the primary product Work.
 
+## Technical Specification
+
+An agent-facing implementation specification derived from an approved product spec. It defines affected areas, technical approach, invariants, task breakdown, verification plan, completion criteria, and resource controls for implementation agents.
+
 ## AGENTS.md
 
 A repository instruction file read by Codex before work begins. It defines project-local agent expectations such as commands, review norms, constraints, and style.
@@ -92,6 +96,10 @@ A Model Context Protocol prompt template exposed by a server so clients can invo
 ## Structured Agent Review
 
 A review artifact produced by an agent that records findings, severity, evidence, tests, risks, and open questions in a consistent format before human review.
+
+## Ralph Cycle
+
+A permission-gated AI implementation loop used after product and technical specs are approved. Each cycle proposes one bounded implementation goal, asks for explicit approval, executes only the approved scope, runs checks, reports evidence and remaining gaps, then stops or requests approval for the next cycle.
 
 ## Knowledge Packaging
 
