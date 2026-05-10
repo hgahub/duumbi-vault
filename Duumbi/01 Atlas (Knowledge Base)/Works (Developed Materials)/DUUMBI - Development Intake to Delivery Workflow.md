@@ -70,8 +70,9 @@ flowchart TD
   S["Slack @Oz or DM"] --> K["Shared DUUMBI intake skill"]
   C["Codex skill invocation"] --> K
   I["Manual Obsidian Inbox note"] --> R["Triage sweep"]
-  GI["GitHub issue"] --> R
-  GD["GitHub Discussion: Ideas"] --> R
+  GI["GitHub issue"] --> GIN["Stage 3 GitHub intake"]
+  GD["GitHub Discussion: Ideas"] --> GIN
+  GIN --> R
 
   K --> Q{"Enough context?"}
   Q -- "No" --> A["Ask clarifying questions using vault and source context"]
@@ -197,12 +198,41 @@ The important design constraint is that Slack Oz and Codex must not have separat
 
 ## Stage 3 - GitHub Issues And Discussions Intake
 
-GitHub Issues can enter the flow in two ways:
+Trigger:
+
+- A user asks Oz or Codex to review a GitHub Issue or GitHub Discussion.
+- A GitHub Issue is opened, updated, or selected for intake review.
+- A GitHub Discussion under Ideas is selected for intake review.
+- A scheduled or manual agent sweep finds GitHub-origin input that needs normalization before Stage 4 triage.
+
+Authoritative skill:
+
+- `.agents/skills/duumbi-github-intake/SKILL.md`
+
+Agent behavior:
+
+1. Read the GitHub item title, body, comments, labels, linked issues, linked PRs, and project state when available.
+2. Inspect active DUUMBI context before writing anything:
+   - `Duumbi/How to use.md`
+   - `DUUMBI - PRD`
+   - `DUUMBI - Glossary`
+   - `DUUMBI Agentic Development Map`
+   - this workflow
+   - specific Dots, Maps, Works, or source files only when directly relevant
+3. Classify the item as actionable, unclear, duplicate or likely duplicate, Discussion-only, Discussion that may become an issue later, existing accepted or in-progress work, or no action / out of scope.
+4. Ask 1-3 targeted clarification questions when missing information would materially change routing, scope, or acceptance.
+5. Apply existing labels such as `needs-clarification` only when appropriate and available.
+6. Do not create new labels, GitHub Issues, PRs, Discussions, Project items, Obsidian Inbox notes, Dots, Maps, Works, PRDs, specs, or source-code changes.
+7. Report the classification, reasoning, GitHub updates made, relevant DUUMBI context, open questions, and recommended Stage 4 routing.
+
+GitHub Issues can enter Stage 4 in two ways:
 
 - Already actionable issue: include it in the triage sweep and improve it if required.
 - Unclear issue: label it `needs-clarification` and ask targeted questions before moving it forward.
 
-GitHub Discussions under Ideas are treated as open-ended product input. They should be converted to a GitHub issue only when there is an actionable outcome, bounded scope, and enough confidence that the team wants to evaluate it as execution work.
+GitHub Discussions under Ideas are treated as open-ended product input. Stage 3 may recommend later conversion, but conversion belongs to Stage 4 triage. A Discussion should become a GitHub Issue only when there is an actionable outcome, bounded scope, and enough confidence that the team wants to evaluate it as execution work.
+
+Stage 3 output should not be a durable Obsidian artifact. Its durable trace is the GitHub comment or label when a write is needed, plus the later Stage 4 triage artifact if the item moves forward.
 
 ## Stage 4 - Triage Sweep
 
@@ -619,6 +649,7 @@ The workflow should be split into focused, reusable skills rather than one large
 |---|---|---|
 | `duumbi-obsidian-capture` | Oz | Stage 1 Slack-to-Inbox capture for Warp/Oz compatibility |
 | `duumbi-codex-intake` | Codex | Stage 2 Codex-to-Inbox capture with optional read-only GitHub inspection |
+| `duumbi-github-intake` | Oz, Codex | Stage 3 GitHub Issues and Discussions intake with clarification comments, existing labels, and Stage 4 routing recommendations |
 | `duumbi-idea-intake` | Oz, Codex | Future shared compatibility name for raw input capture |
 | `duumbi-triage` | Oz, Codex | Sweep Inbox, Issues, Discussions; dedupe; create/update GitHub issue |
 | `duumbi-spec-draft` | Oz, Codex | Turn accepted issues into PRODUCT specs |
