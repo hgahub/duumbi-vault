@@ -747,25 +747,63 @@ Questions that block implementation or require human trade-off decisions.
 
 Stage 9 is the technical spec approval gate. The technical spec must be reviewed before implementation agents start work.
 
+Authoritative skill: `.agents/skills/duumbi-tech-spec-review/SKILL.md`
+
+Stage 9 is review-only. Oz or Codex may prepare review findings, write GitHub issue comments, comment on the technical spec draft PR, and update existing labels or Project status after an explicit human decision. Stage 9 must not edit `TECHNICAL.md`, create implementation code, run Ralph cycles, open implementation PRs, or request cycle approval.
+
+Input:
+
+- one GitHub Issue in `Technical Spec Review`
+- linked `specs/DUUMBI-<issue-number>/TECHNICAL.md` draft PR
+- linked approved product spec and Stage 7 approval decision
+
+If the issue is not in `Technical Spec Review`, the approved product spec is missing, or the technical spec draft PR is missing, the agent stops and reports the missing gate.
+
 Review checklist:
 
 - The technical approach maps directly to the approved product spec.
+- Source context links to the issue, product spec, technical spec PR, relevant code, tests, Obsidian notes, and repo instructions.
 - Affected areas are concrete enough for an AI agent to inspect and modify.
 - Invariants and out-of-bounds areas are explicit.
 - Ralph cycle protocol requires approval before every cycle.
 - Cycle budget is small enough to manage resource usage.
 - Verification plan maps to product-spec `Checks`.
 - Failure and escalation rules stop the agent from spending unbounded resources.
+- Blocking findings, non-blocking findings, assumptions, and open questions are separated.
 
-If accepted:
+If no explicit human decision is present:
+
+- Output a Stage 9 review report and recommendation.
+- Do not change GitHub status or labels.
+- Ask for one explicit decision: `Approve`, `Request Changes`, `Needs Clarification`, or `Reject / No Longer Needed`.
+
+If approved by an explicit human decision:
 
 - Status: `Ready for Build`
 - Labels: remove `needs-tech-spec`, add `tech-spec-approved`
+- Write a structured Stage 9 decision comment in the GitHub Issue.
+- Comment on the technical spec draft PR when available.
+- Next stage: Stage 10 Ralph-Cycle Implementation.
 
-If rejected:
+If changes are requested:
 
-- Status: `Technical Spec Needed` or `Needs Clarification`
-- Agent updates the technical spec with review feedback.
+- Status: `Technical Spec Needed`
+- Labels: keep or add `needs-tech-spec`
+- Write blocking findings and route the work back to Stage 8.
+- Stage 8 updates the technical spec from review feedback.
+
+If clarification is needed:
+
+- Status: `Needs Clarification`
+- Labels: add `needs-clarification` when available.
+- Ask targeted questions and do not move to implementation.
+
+If rejected or no longer needed:
+
+- Status: `Closed` or `Deferred`, matching the explicit human decision.
+- Close the issue only when explicitly requested.
+
+Do not create new GitHub labels or Project fields.
 
 ## Stage 10 - Ralph-Cycle Implementation
 
@@ -892,7 +930,7 @@ The workflow should be split into focused, reusable skills rather than one large
 | `duumbi-spec-draft` | Oz, Codex | Turn accepted issues into PRODUCT specs |
 | `duumbi-spec-review` | Oz, Codex | Stage 7 product spec review gate; prepare findings, record explicit decision, and route to technical spec preparation |
 | `duumbi-tech-spec-draft` | Oz, Codex | Stage 8 technical spec drafting; create agent-facing TECHNICAL.md draft PR with bounded Ralph-cycle instructions |
-| `duumbi-tech-spec-review` | Oz, Codex | Review technical specs for implementability, bounded cycles, and verification |
+| `duumbi-tech-spec-review` | Oz, Codex | Stage 9 technical spec review gate; prepare findings, record explicit human decision, and route to Ready for Build or revision |
 | `duumbi-ralph-cycle` | Oz, Codex | Run one approved Ralph cycle and stop with evidence plus next-cycle recommendation |
 | `duumbi-implementation` | Oz, Codex | Implement approved technical specs with repo `AGENTS.md`, Ralph cycles, and evidence rules |
 | `duumbi-review-artifact` | Oz, Codex | Produce structured review artifacts for PRs |
