@@ -647,14 +647,34 @@ Purpose:
 - The product specification defines what should be true.
 - The technical specification defines how AI implementation agents should safely make it true.
 
+Authoritative skill:
+
+- `.agents/skills/duumbi-tech-spec-draft/SKILL.md`
+
 Agent behavior:
 
-1. Read the approved product spec, issue, source links, relevant Obsidian notes, existing source code, tests, and repo `AGENTS.md`.
-2. Identify the affected modules, contracts, data structures, commands, tests, generated artifacts, and documentation surfaces.
-3. Translate product behavior into implementation boundaries, task order, validation checks, rollback expectations, and evidence requirements.
-4. Define the Ralph cycle instructions that implementation agents must follow.
-5. Define per-cycle resource controls: expected goal, max scope, expected commands, approximate cost/risk, and permission request format.
-6. Move the issue to `Technical Spec Review`.
+1. Verify that the GitHub issue is in `Technical Spec Needed` and has an approved product spec; otherwise stop and report the missing gate.
+2. Read the approved product spec, Stage 7 review decision, issue, source links, relevant Obsidian notes, existing source code, tests, and repo `AGENTS.md`.
+3. Identify affected modules, contracts, data structures, commands, tests, docs, generated artifacts, UI/API surfaces, and CI paths.
+4. Translate product behavior into implementation boundaries, task order, invariants, validation checks, rollback expectations, failure handling, and evidence requirements.
+5. If blocking technical questions remain, ask targeted questions in the GitHub issue, move the issue to `Needs Clarification`, and do not create a technical spec artifact.
+6. Create or update `specs/DUUMBI-<issue-number>/TECHNICAL.md` in the relevant source repository and open a draft PR.
+7. Link the technical spec draft PR back to the GitHub issue.
+8. Define the permission-gated Ralph cycle instructions that implementation agents must follow.
+9. Define small bounded per-cycle resource controls: expected goal, max scope, expected commands, approximate cost/risk, and permission request format.
+10. Move the issue to `Technical Spec Review` only after the technical spec artifact exists.
+
+Write rules:
+
+- Allowed source-repo writes: `TECHNICAL.md` and minimal spec metadata required to make the spec discoverable.
+- Forbidden writes: implementation code, tests, migrations, generated outputs, runtime assets, product spec approval, technical spec approval, Ralph-cycle execution, and implementation branches beyond the spec draft PR.
+- Do not create new GitHub labels or Project fields.
+- Do not mark the technical spec approved; Stage 9 owns technical spec review and approval.
+
+GitHub/project rules:
+
+- On successful technical spec draft: set Status to `Technical Spec Review`, link the draft PR and `TECHNICAL.md` path, keep or add existing `needs-tech-spec` as appropriate, and add existing `technical-spec-review` label if available.
+- On blocking technical questions: set Status to `Needs Clarification`, add existing `needs-clarification` if available, and ask the questions in the issue.
 
 Assumption:
 
@@ -680,7 +700,7 @@ Which agents should use this spec: Codex, Oz, specialized reviewer, tester, or o
 - Repo instructions:
 
 ## Affected Areas
-Files, modules, graph nodes, schemas, commands, UI surfaces, docs, or CI paths expected to change.
+Files, modules, graph nodes, schemas, commands, UI surfaces, docs, generated artifacts, or CI paths expected to change.
 
 ## Technical Approach
 The intended implementation strategy, important boundaries, dependencies, and rejected alternatives.
@@ -701,9 +721,10 @@ Each cycle must:
 9. stop if requirements are met or request approval for the next cycle
 
 ## Cycle Budget
-- Default cycle size:
+- Default cycle size: one bounded implementation goal per cycle.
 - Max files or modules per cycle:
 - Expected command budget:
+- Approval required before every cycle: yes.
 - When to stop and ask for human guidance:
 
 ## Task Breakdown
@@ -724,7 +745,7 @@ Questions that block implementation or require human trade-off decisions.
 
 ## Stage 9 - Technical Specification Review Gate
 
-The technical spec must be reviewed before implementation agents start work.
+Stage 9 is the technical spec approval gate. The technical spec must be reviewed before implementation agents start work.
 
 Review checklist:
 
@@ -870,7 +891,7 @@ The workflow should be split into focused, reusable skills rather than one large
 | `duumbi-human-acceptance` | Oz, Codex | Stage 5 human acceptance gate; prepare acceptance brief, record explicit decision, and update GitHub state |
 | `duumbi-spec-draft` | Oz, Codex | Turn accepted issues into PRODUCT specs |
 | `duumbi-spec-review` | Oz, Codex | Stage 7 product spec review gate; prepare findings, record explicit decision, and route to technical spec preparation |
-| `duumbi-tech-spec-draft` | Oz, Codex | Turn approved product specs into agent-facing technical specs |
+| `duumbi-tech-spec-draft` | Oz, Codex | Stage 8 technical spec drafting; create agent-facing TECHNICAL.md draft PR with bounded Ralph-cycle instructions |
 | `duumbi-tech-spec-review` | Oz, Codex | Review technical specs for implementability, bounded cycles, and verification |
 | `duumbi-ralph-cycle` | Oz, Codex | Run one approved Ralph cycle and stop with evidence plus next-cycle recommendation |
 | `duumbi-implementation` | Oz, Codex | Implement approved technical specs with repo `AGENTS.md`, Ralph cycles, and evidence rules |
