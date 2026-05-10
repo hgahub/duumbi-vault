@@ -98,6 +98,36 @@ Prefer 1-3 focused questions. Ask about:
 
 Do not over-question low-risk captures. If the input is clear enough for later triage, create the Inbox note and preserve remaining uncertainty under `Open`.
 
+## Capture Confirmation
+
+Treat the user's first Slack message as confirmation when it explicitly asks to capture, record, save, or process the idea with this skill.
+
+Ask for confirmation before writing the Inbox note when:
+
+- the user is only discussing or brainstorming
+- the routing or intent is materially ambiguous
+- the note would contain sensitive, personal, or private context
+- the agent made a major interpretation that the user has not accepted
+
+Use a short confirmation prompt in Slack, in the user's initiated language. Do not write the Inbox note until the user confirms.
+
+## Duplicate And Filename Rules
+
+Before creating a note:
+
+1. Search `Duumbi/00 Inbox (ToProcess)/` for the Slack thread URL, if available.
+2. Search for an existing Inbox note with the same or very similar title.
+3. If the same Slack thread is already captured, do not create a duplicate; reply with the existing note path unless the user explicitly asks to update it.
+4. If only the title collides, create a distinct filename by appending a short qualifier or `- 2`.
+
+Filename rules:
+
+- Format: `YYYY-MM-DD - <short-title>.md`
+- Use the current local date.
+- Keep the title short, descriptive, and English.
+- Remove characters that are unsafe or awkward in filenames, including `/`, `:`, `?`, `#`, and newlines.
+- Do not include private names or unnecessary personal data in the filename.
+
 ## Inbox Note Contract
 
 Create exactly one Markdown note at:

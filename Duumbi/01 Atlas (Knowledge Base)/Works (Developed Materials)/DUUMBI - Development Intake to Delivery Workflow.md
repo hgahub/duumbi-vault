@@ -131,11 +131,15 @@ Agent behavior:
 3. Inspect the relevant active vault notes before answering.
 4. Classify the input as quick idea, bug, feature proposal, architecture decision, research note, execution task, or agent-skill improvement.
 5. Ask clarifying questions if the outcome, problem, target user, source evidence, urgency, or expected behavior is unclear.
-6. When the user agrees, create one raw intake note under `Duumbi/00 Inbox (ToProcess)/`.
+6. Treat an explicit Slack capture request as confirmation; otherwise ask before writing the Inbox note.
 7. Write the Inbox note in English, even when the Slack thread uses another language.
-8. Reply in Slack with the note path, captured interpretation, open questions, and the next processing step, using the language the user initiated.
+8. Before creating a note, check `Duumbi/00 Inbox (ToProcess)/` for an existing capture by Slack thread URL or similar title.
+9. Create one raw intake note under `Duumbi/00 Inbox (ToProcess)/` using the authoritative Stage 1 template from `.agents/skills/duumbi-obsidian-capture/SKILL.md`.
+10. Reply in Slack with the note path, captured interpretation, open questions, and the next processing step, using the language the user initiated.
 
 Minimum Inbox capture fields:
+
+> The authoritative Stage 1 Inbox template lives in `.agents/skills/duumbi-obsidian-capture/SKILL.md`. The workflow-level minimum is:
 
 ```markdown
 # YYYY-MM-DD - Short Idea Title
