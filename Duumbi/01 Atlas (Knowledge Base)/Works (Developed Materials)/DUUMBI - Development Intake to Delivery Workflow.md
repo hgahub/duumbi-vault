@@ -36,6 +36,15 @@ The core rule is source-of-truth separation:
 - Agent skills store repeatable operating behavior.
 - `AGENTS.md` stores source-repository-specific agent constraints.
 
+## Workflow Implementation Status
+
+The workflow v1 is functionally implemented when the current Stage 1-12 skills listed in the skill table exist under `.agents/skills/` and match the stage boundaries in this document.
+
+The remaining future entries are non-blocking backlog items:
+
+- `duumbi-idea-intake` is a future shared compatibility name for raw intake capture. Stage 1 currently uses `duumbi-obsidian-capture`; Stage 2 uses `duumbi-codex-intake`.
+- `duumbi-knowledge-sync` is a future specialized durable-learning sync skill. Stage 12 currently uses `duumbi-closure` to decide and perform v1 closure and knowledge-sync routing.
+
 ## Operating Principles
 
 - One workflow, multiple front doors. Slack Oz and Codex must use the same DUUMBI intake/triage/spec skills where possible.

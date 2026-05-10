@@ -30,7 +30,7 @@ This skill does not:
 - merge PRs or mark final completion
 - create new GitHub labels or Project fields
 
-Stage 9 owns technical spec approval. Stage 11 owns review, verification, and merge. A future `duumbi-implementation` skill may coordinate the whole Stage 10 flow, but this skill is the authoritative per-cycle execution unit.
+Stage 9 owns technical spec approval. `duumbi-implementation` owns Stage 10 coordination. This skill remains the authoritative per-cycle execution unit. Stage 11 owns review, verification, and merge decision support.
 
 ## Source Of Truth Rules
 
