@@ -5,7 +5,7 @@ tags:
   - doc/development-process
 status: active
 created: 2026-05-09
-updated: 2026-05-09
+updated: 2026-05-10
 related_maps:
   - "[[DUUMBI Agentic Development Map]]"
 ---
@@ -18,7 +18,7 @@ DUUMBI development should use one shared process with multiple entry points. A u
 
 1. capture the intent
 2. clarify enough context
-3. route raw material through `00 Inbox (ToProcess)/`
+3. capture raw Slack or Codex material in `00 Inbox (ToProcess)/`
 4. triage against the knowledge base and GitHub
 5. create or update a GitHub issue in the DUUMBI Project
 6. require human acceptance
@@ -45,6 +45,7 @@ The core rule is source-of-truth separation:
 - Obsidian is the durable memory. Stable product, architecture, workflow, and research lessons should graduate into Dots, Maps, Works, or skills after verification.
 - Human review gates product and architecture decisions. Agents can prepare, deduplicate, summarize, and recommend; humans accept scope and trade-offs.
 - Each handoff must leave a traceable artifact with links back to source material.
+- Slack communication should use the language initiated by the user. Obsidian notes and durable documentation should be written in English.
 
 ## Tool Roles
 
@@ -130,8 +131,9 @@ Agent behavior:
 3. Inspect the relevant active vault notes before answering.
 4. Classify the input as quick idea, bug, feature proposal, architecture decision, research note, execution task, or agent-skill improvement.
 5. Ask clarifying questions if the outcome, problem, target user, source evidence, urgency, or expected behavior is unclear.
-6. When the user agrees, create a raw capture note under `Duumbi/00 Inbox (ToProcess)/`.
-7. Reply in Slack with the captured interpretation, open questions, and the next processing step.
+6. When the user agrees, create one raw intake note under `Duumbi/00 Inbox (ToProcess)/`.
+7. Write the Inbox note in English, even when the Slack thread uses another language.
+8. Reply in Slack with the note path, captured interpretation, open questions, and the next processing step, using the language the user initiated.
 
 Minimum Inbox capture fields:
 
@@ -156,8 +158,19 @@ Minimum Inbox capture fields:
 - Answered:
 - Open:
 
+## Relevant DUUMBI context
+- <active notes or source files inspected>
+
 ## Initial routing recommendation
 <GitHub issue | GitHub Discussion | Dot/Map/Work | skill update | no action>
+
+## Requested follow-up
+- <explicit user requests such as "make atomic idea", "link to roadmap map", or "create issue later">
+
+## Notes
+- Facts:
+- Assumptions:
+- Recommendations:
 ```
 
 ## Stage 2 - Intake From Codex
@@ -599,7 +612,7 @@ The workflow should be split into focused, reusable skills rather than one large
 
 | Skill | Used by | Responsibility |
 |---|---|---|
-| `duumbi-idea-intake` | Oz, Codex | Capture Slack/Codex/raw input, clarify, write Inbox capture |
+| `duumbi-idea-intake` | Oz, Codex | Capture Slack/Codex/raw input, clarify, and write one Inbox capture |
 | `duumbi-triage` | Oz, Codex | Sweep Inbox, Issues, Discussions; dedupe; create/update GitHub issue |
 | `duumbi-spec-draft` | Oz, Codex | Turn accepted issues into PRODUCT specs |
 | `duumbi-spec-review` | Oz, Codex | Review specs against DUUMBI checklist before build |
@@ -610,7 +623,7 @@ The workflow should be split into focused, reusable skills rather than one large
 | `duumbi-review-artifact` | Oz, Codex | Produce structured review artifacts for PRs |
 | `duumbi-knowledge-sync` | Oz, Codex | Sync durable lessons to Dots, Maps, Works, skills, or `AGENTS.md` |
 
-The existing `duumbi-obsidian-capture` skill already covers part of intake and knowledge routing. It can either be extended or kept as the knowledge-sync layer while more specialized execution skills are added.
+The existing `duumbi-obsidian-capture` skill currently covers Stage 1 Slack-to-Inbox capture. It should either be renamed later to `duumbi-idea-intake` or kept as a compatibility wrapper while more specialized execution skills are added.
 
 ## Source Set
 
