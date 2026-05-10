@@ -438,14 +438,37 @@ Trigger:
 
 Stage 6 is the first specification step. No product spec or technical spec should be created before the Stage 5 human acceptance decision.
 
+Authoritative skill:
+
+- `.agents/skills/duumbi-spec-draft/SKILL.md`
+
 Agent behavior:
 
-1. Read the accepted issue, source links, related Discussions, PRD, glossary, relevant Dots/Maps/Works, and source code if the issue is implementation-facing.
-2. Check whether an existing spec already covers the work.
-3. Draft a `PRODUCT.md` style spec for non-trivial work.
-4. For small issues, add the spec directly to the GitHub issue or as an issue comment.
-5. For larger or architectural work, create a versioned spec in the source repository, for example `specs/DUUMBI-<issue-number>/PRODUCT.md`, and open a PR for the spec.
-6. Move the issue to `Spec Review`.
+1. Verify that the GitHub issue has explicit Stage 5 human acceptance and is marked `Spec Needed`; otherwise stop and report the missing gate.
+2. Read the accepted issue, Stage 5 decision comment, Stage 4 triage context, source links, related Discussions, PRD, glossary, Agentic Development Map, relevant Dots/Maps/Works, and source code if the issue is implementation-facing.
+3. Check whether an existing spec already covers the work.
+4. If blocking questions remain, ask targeted questions in the GitHub issue, move the issue to `Needs Clarification`, and do not create a spec artifact.
+5. Draft a `PRODUCT.md` style product spec in English.
+6. For small, low-risk issues, add the product spec directly to the GitHub issue as a structured comment.
+7. For larger, architectural, cross-module, or durable specs, create `specs/DUUMBI-<issue-number>/PRODUCT.md` in the relevant source repository and open a draft PR for review.
+8. Link the spec artifact back to the GitHub issue.
+9. Move the issue to `Spec Review` only after the spec artifact exists.
+
+Spec placement:
+
+| Issue shape | Spec artifact |
+|---|---|
+| Small, low-risk, narrow issue | GitHub issue comment |
+| Larger, architectural, cross-module, user-visible, or durable behavior | Source repo `specs/DUUMBI-<issue-number>/PRODUCT.md` in a draft PR |
+| Blocking product questions remain | No spec artifact; ask questions and set `Needs Clarification` |
+
+GitHub/project rules:
+
+- On successful spec draft: set Status to `Spec Review`, link the spec artifact, keep or add existing `needs-spec` as appropriate, and add existing `spec-review` label if available.
+- On blocking questions: set Status to `Needs Clarification`, add existing `needs-clarification` if available, and ask the questions in the issue.
+- Do not create new labels or Project fields.
+- Do not mark the product spec approved; Stage 7 owns product spec review and approval.
+- Do not create technical specs, implementation code, source changes outside the spec file, or Ralph cycles.
 
 Recommended DUUMBI product spec structure:
 
@@ -501,7 +524,7 @@ For DUUMBI, that minimum should be extended with `Problem`, `Behavior`, `Open Qu
 
 ## Stage 7 - Spec Review Gate
 
-The spec must be reviewed before implementation.
+Stage 7 is the first product spec approval gate. The spec must be reviewed before technical specification or implementation.
 
 Review checklist:
 
