@@ -908,12 +908,51 @@ PR evidence should include:
 
 ## Stage 11 - Review, Verification, And Merge
 
+Authoritative skill: `.agents/skills/duumbi-review-artifact/SKILL.md`
+
+Stage 11 is a review artifact gate that supports the human merge decision. Oz or Codex reviews the implementation PR, verifies evidence against the approved product and technical specs, classifies findings, and records a structured review artifact. Stage 11 does not merge PRs, close issues, move work to `Done`, or perform Stage 12 closure.
+
+Input:
+
+- one implementation PR or GitHub Issue in `In Review`
+- linked GitHub Issue
+- linked approved product spec
+- linked approved technical spec
+- Stage 10 PR evidence and Ralph cycle approvals/evidence
+- CI/check status, changed files, commits, and review threads
+
+If the item is not in `In Review`, the implementation PR is missing, or required spec links are missing, the agent stops and reports the missing gate or missing evidence.
+
 Verification layers:
 
 1. Automated checks: tests, lint, build, CI, benchmarks when relevant.
 2. Agent review: Codex or Oz reviews the diff against the spec and reports findings by severity.
 3. Human review: product fit, architecture fit, maintainability, risk, and operational impact.
 4. Final PR merge only when checks and review expectations are satisfied.
+
+Review artifact must include:
+
+- linked issue, product spec, technical spec, and implementation PR
+- CI/check summary
+- product-spec `Checks` mapped to evidence
+- technical-spec completion criteria mapped to evidence
+- Ralph cycle approvals and evidence summaries
+- changed files review
+- findings classified as `Blocking`, `Non-blocking`, `Question`, or `No issue`
+- recommendation: `Ready for Human Merge Decision`, `Needs Implementation Changes`, `Blocked`, or `Needs Clarification`
+
+GitHub and Project behavior:
+
+- If blocking implementation issues exist: comment with findings and keep Status `In Review`, or set `Blocked` when the blocker is external.
+- If checks or evidence are missing: request the missing evidence and keep Status `In Review`.
+- If all checks and review expectations pass: write the review artifact and recommend `Ready for Human Merge Decision`.
+- Requested implementation changes route back to Stage 10.
+- Do not merge PRs, close issues, move to `Done`, create new labels, or create new Project fields.
+
+Write boundaries:
+
+- Allowed: GitHub issue or PR comments, PR body evidence updates when useful, existing labels or status updates, and review summaries.
+- Forbidden: implementation code changes, product spec edits, technical spec edits, Obsidian Atlas edits, merge commits, final issue closure, Stage 12 closure, or knowledge sync.
 
 No PR should merge only because the agent says it is done. The merge decision should be tied to evidence that maps back to the spec's `Checks` section.
 
@@ -974,7 +1013,7 @@ The workflow should be split into focused, reusable skills rather than one large
 | `duumbi-tech-spec-review` | Oz, Codex | Stage 9 technical spec review gate; prepare findings, record explicit human decision, and route to Ready for Build or revision |
 | `duumbi-implementation` | Oz, Codex | Stage 10 coordinator skill for approved technical specs, branch/PR readiness, evidence consolidation, blockers, and Ralph-cycle routing |
 | `duumbi-ralph-cycle` | Oz, Codex | Stage 10 per-cycle executor; request approval or run exactly one approved Ralph cycle, then stop with evidence |
-| `duumbi-review-artifact` | Oz, Codex | Produce structured review artifacts for PRs |
+| `duumbi-review-artifact` | Oz, Codex | Stage 11 review artifact gate; verify PR evidence against specs, classify findings, and support human merge decision without merging |
 | `duumbi-knowledge-sync` | Oz, Codex | Sync durable lessons to Dots, Maps, Works, skills, or `AGENTS.md` |
 
 The existing `duumbi-obsidian-capture` skill currently covers Stage 1 Slack-to-Inbox capture. It should either be renamed later to `duumbi-idea-intake` or kept as a compatibility wrapper while more specialized execution skills are added.
