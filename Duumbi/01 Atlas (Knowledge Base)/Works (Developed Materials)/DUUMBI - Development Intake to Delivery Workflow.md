@@ -91,8 +91,11 @@ flowchart TD
   GH --> HA["Set status: Needs Human Acceptance"]
   M --> HA
   HA --> HR{"Human accepts?"}
-  HR -- "No" --> X["Close, defer, mark duplicate, or request clarification"]
-  HR -- "Yes" --> SN["Set status: Spec Needed"]
+  HR -- "Accept" --> SN["Set status: Spec Needed"]
+  HR -- "Needs clarification" --> HN["Set status: Needs Clarification"]
+  HR -- "Duplicate" --> HD["Set status: Duplicate"]
+  HR -- "Defer" --> HF["Set status: Deferred"]
+  HR -- "Reject" --> HC["Set status: Closed"]
 
   SN --> SP["Oz or Codex prepares PRODUCT spec"]
   SP --> SR["Set status: Spec Review"]
@@ -359,15 +362,42 @@ Required triage report:
 
 Stage 5 is the first human acceptance gate. The triaged issue is not yet approved work. A human reviewer decides whether the team wants to spend specification effort on it.
 
+Authoritative skill:
+
+- `.agents/skills/duumbi-human-acceptance/SKILL.md`
+
+Trigger:
+
+- GitHub issue is in `Needs Human Acceptance`.
+- A human asks Oz or Codex to prepare an acceptance brief for a triaged issue.
+- A human gives an explicit decision for a triaged issue.
+
+Inputs:
+
+- one triaged GitHub Issue
+- Stage 4 triage recommendation
+- source links, open questions, linked issues, linked PRs, related Discussions, labels, comments, and Project state
+- active DUUMBI context needed for the decision
+
+Agent behavior:
+
+1. Read the GitHub issue, Stage 4 triage recommendation, source links, open questions, related GitHub items, labels, comments, and Project state.
+2. Inspect relevant active DUUMBI context: PRD, Glossary, Agentic Development Map, this workflow, and directly relevant Dots, Maps, or Works.
+3. Prepare an acceptance brief for the human reviewer covering problem validity, outcome clarity, DUUMBI fit, duplicate risk, value/cost/risk, and unresolved questions.
+4. If no explicit human decision exists, stop after the brief and ask for one of: `Accept`, `Needs Clarification`, `Duplicate`, `Defer`, or `Reject`.
+5. If an explicit human decision exists, write a structured GitHub issue comment as the durable decision record.
+6. Apply GitHub status and label changes only after the explicit human decision.
+7. Report the decision, GitHub writes, next stage, and remaining open questions.
+
 Outcomes:
 
 | Decision | Agent action | GitHub state |
 |---|---|---|
-| Accept | Move to spec preparation | `Spec Needed`, `accepted`, `needs-spec` |
-| Needs clarification | Ask targeted questions in the source surface | `Needs Clarification` |
-| Duplicate | Link canonical issue and close or mark duplicate | `Duplicate` |
-| Defer | Preserve rationale and review date if known | `Deferred` |
-| Reject | Close with short rationale | `Closed` |
+| `Accept` | Write decision comment, set Status `Spec Needed`, add existing `accepted` and `needs-spec`, remove existing `needs-human-review` | `Spec Needed` |
+| `Needs Clarification` | Write decision comment, ask targeted questions, set Status `Needs Clarification`, add existing `needs-clarification` | `Needs Clarification` |
+| `Duplicate` | Write decision comment, link canonical issue/discussion/PR, set Status `Duplicate`; close only if explicitly requested | `Duplicate` |
+| `Defer` | Write decision comment, preserve rationale and review date if known, set Status `Deferred` | `Deferred` |
+| `Reject` | Write decision comment, close with short rationale, set Status `Closed` when available | `Closed` |
 
 Acceptance should verify:
 
@@ -376,6 +406,29 @@ Acceptance should verify:
 - the work belongs in DUUMBI
 - there is no already-accepted duplicate
 - the expected value is plausible relative to cost and risk
+
+Required GitHub decision comment:
+
+```markdown
+## Stage 5 Human Acceptance Decision
+
+**Decision:** <Accept | Needs Clarification | Duplicate | Defer | Reject>
+**Reviewer source:** <Codex | Oz | Slack | GitHub | other>
+**Rationale:** <short rationale>
+**Stage 4 recommendation considered:** <yes/no and short note>
+**Remaining open questions:** <none or list>
+**Canonical duplicate:** <link or none>
+**Review date:** <date or not specified>
+**Next state:** <Spec Needed | Needs Clarification | Duplicate | Deferred | Closed>
+```
+
+Stage 5 rules:
+
+- The agent may recommend, summarize, and prepare the decision, but cannot accept work by itself.
+- A vague positive reaction is not an explicit decision.
+- Do not create new GitHub labels or Project fields.
+- Do not create product specs, technical specs, PRs, source-code changes, or implementation work.
+- Product specification begins only after `Accept` moves the issue to `Spec Needed`.
 
 ## Stage 6 - Spec Preparation
 
@@ -702,6 +755,7 @@ The workflow should be split into focused, reusable skills rather than one large
 | `duumbi-github-intake` | Oz, Codex | Stage 3 GitHub Issues and Discussions intake with clarification comments, existing labels, and Stage 4 routing recommendations |
 | `duumbi-idea-intake` | Oz, Codex | Future shared compatibility name for raw input capture |
 | `duumbi-triage` | Oz, Codex | Stage 4 convergence sweep across Inbox, Issues, and Discussions; dedupe; create/update GitHub issues and durable Atlas artifacts |
+| `duumbi-human-acceptance` | Oz, Codex | Stage 5 human acceptance gate; prepare acceptance brief, record explicit decision, and update GitHub state |
 | `duumbi-spec-draft` | Oz, Codex | Turn accepted issues into PRODUCT specs |
 | `duumbi-spec-review` | Oz, Codex | Review specs against DUUMBI checklist before build |
 | `duumbi-tech-spec-draft` | Oz, Codex | Turn approved product specs into agent-facing technical specs |
