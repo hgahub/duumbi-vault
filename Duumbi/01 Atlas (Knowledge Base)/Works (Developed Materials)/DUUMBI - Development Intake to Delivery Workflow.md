@@ -182,17 +182,18 @@ Minimum Inbox capture fields:
 Trigger:
 
 - The user invokes Codex directly and asks to capture or refine an idea.
-- The user uses the same DUUMBI skill that Oz uses.
+- The user invokes the Stage 2 Codex intake skill at `.agents/skills/duumbi-codex-intake/SKILL.md`.
 
 Agent behavior:
 
 1. Read the user's request and the local vault context.
 2. Use the same classification and clarification rules as Slack Oz.
-3. If needed, inspect related GitHub state before deciding whether the input is new, duplicate, blocked, or already accepted.
-4. Create the same Inbox capture artifact as the Oz path.
-5. Return the same interpretation, open questions, and routing recommendation.
+3. Follow the same confirmation, duplicate detection, filename, and English Inbox-note rules as Stage 1.
+4. If needed, inspect related GitHub state read-only before deciding whether the input is new, duplicate, blocked, or already accepted.
+5. Create one Inbox capture artifact under `Duumbi/00 Inbox (ToProcess)/` using the authoritative Stage 2 template from `.agents/skills/duumbi-codex-intake/SKILL.md`.
+6. Return the note path, interpretation, open questions, related GitHub context, and routing recommendation in the user's initiated language.
 
-The important design constraint is that Slack Oz and Codex must not have separate mental models. Their entry surfaces differ; their capture schema and routing rules should be shared.
+The important design constraint is that Slack Oz and Codex must not have separate mental models. Their entry surfaces differ; Stage 1 uses `duumbi-obsidian-capture`, Stage 2 uses `duumbi-codex-intake`, and both produce Inbox notes for later triage.
 
 ## Stage 3 - GitHub Issues And Discussions Intake
 
@@ -616,7 +617,9 @@ The workflow should be split into focused, reusable skills rather than one large
 
 | Skill | Used by | Responsibility |
 |---|---|---|
-| `duumbi-idea-intake` | Oz, Codex | Capture Slack/Codex/raw input, clarify, and write one Inbox capture |
+| `duumbi-obsidian-capture` | Oz | Stage 1 Slack-to-Inbox capture for Warp/Oz compatibility |
+| `duumbi-codex-intake` | Codex | Stage 2 Codex-to-Inbox capture with optional read-only GitHub inspection |
+| `duumbi-idea-intake` | Oz, Codex | Future shared compatibility name for raw input capture |
 | `duumbi-triage` | Oz, Codex | Sweep Inbox, Issues, Discussions; dedupe; create/update GitHub issue |
 | `duumbi-spec-draft` | Oz, Codex | Turn accepted issues into PRODUCT specs |
 | `duumbi-spec-review` | Oz, Codex | Review specs against DUUMBI checklist before build |
