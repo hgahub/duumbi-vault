@@ -958,21 +958,48 @@ No PR should merge only because the agent says it is done. The merge decision sh
 
 ## Stage 12 - Closure And Knowledge Sync
 
-After merge:
+Authoritative coordinator skill: `.agents/skills/duumbi-closure/SKILL.md`
 
-1. Close or update the GitHub issue.
-2. Move the Project item to `Done`.
-3. Link the merged PR, checks, and final decision.
-4. Update Slack or the original Discussion with the final link if the work started there.
-5. Process any related Inbox note so it no longer looks untriaged.
-6. Sync durable learning only when it changes future behavior:
-   - Dot for atomic concept or decision
-   - Map for navigation or synthesis
-   - Work for mature product/architecture/spec synthesis
-   - Skill for repeated workflow behavior
-   - `AGENTS.md` for source-repository execution rules
+Future specialized durable-learning skill: `.agents/skills/duumbi-knowledge-sync/SKILL.md`
+
+Stage 12 runs only after a merged PR or equivalent human-approved completion is verified. Stage 11 supports the human merge decision; Stage 12 does not merge PRs. It closes the loop across GitHub, source surfaces, Inbox notes, and durable knowledge.
+
+Input:
+
+- one merged implementation PR, completed GitHub Issue, or human-selected completed work item
+- linked GitHub Issue
+- Stage 11 review artifact
+- approved product spec and technical spec
+- checks and final human merge or acceptance evidence
+
+If merge or equivalent completion evidence cannot be verified, the agent stops and does not close the issue, set `Done`, update source surfaces, or sync durable knowledge.
+
+Closure steps:
+
+1. Verify the merged PR, linked issue, review artifact, product spec, technical spec, checks, and final human merge or acceptance evidence.
+2. Add closure evidence to the GitHub Issue.
+3. Move the Project item to `Done` when available.
+4. Close the GitHub Issue when the issue is fully resolved and closure is appropriate.
+5. Link the merged PR, checks, review artifact, specs, and final decision.
+6. Update Slack or the original Discussion with the final link if the work started there and the source context is available.
+7. Process any related Inbox note so it no longer looks untriaged.
+8. Decide whether durable learning should update a Dot, Map, Work, skill, PRD, Glossary, or source repo `AGENTS.md`.
+
+Knowledge sync rules:
+
+- Sync durable learning only when it changes future behavior, architecture, product understanding, workflow, or agent instructions.
+- Dot for atomic concept, decision, fact, or source-backed lesson.
+- Map for navigation or synthesis across multiple related notes.
+- Work for mature product, architecture, workflow, or spec-like synthesis.
+- Skill update for repeated workflow behavior.
+- PRD or Glossary update for product promise or canonical vocabulary changes.
+- Source repo `AGENTS.md` update only when the merged work changes reusable repository execution rules.
+- Obsidian durable documentation is always English.
+- Keep facts, decisions, assumptions, recommendations, and open questions separate.
 
 Do not copy every PR summary into Obsidian. Only durable knowledge belongs there.
+
+Do not mirror live GitHub delivery status in Obsidian. Do not create new GitHub labels or Project fields. Do not start implementation, review, or new execution work during closure.
 
 ## Recommended Project Status Model
 
@@ -1014,7 +1041,8 @@ The workflow should be split into focused, reusable skills rather than one large
 | `duumbi-implementation` | Oz, Codex | Stage 10 coordinator skill for approved technical specs, branch/PR readiness, evidence consolidation, blockers, and Ralph-cycle routing |
 | `duumbi-ralph-cycle` | Oz, Codex | Stage 10 per-cycle executor; request approval or run exactly one approved Ralph cycle, then stop with evidence |
 | `duumbi-review-artifact` | Oz, Codex | Stage 11 review artifact gate; verify PR evidence against specs, classify findings, and support human merge decision without merging |
-| `duumbi-knowledge-sync` | Oz, Codex | Sync durable lessons to Dots, Maps, Works, skills, or `AGENTS.md` |
+| `duumbi-closure` | Oz, Codex | Stage 12 closure coordinator; verify completion, close GitHub loop, update source surfaces and Inbox disposition, and decide durable knowledge sync |
+| `duumbi-knowledge-sync` | Oz, Codex | Future specialized durable-learning sync skill for Dots, Maps, Works, skills, PRD, Glossary, or `AGENTS.md` |
 
 The existing `duumbi-obsidian-capture` skill currently covers Stage 1 Slack-to-Inbox capture. It should either be renamed later to `duumbi-idea-intake` or kept as a compatibility wrapper while more specialized execution skills are added.
 
