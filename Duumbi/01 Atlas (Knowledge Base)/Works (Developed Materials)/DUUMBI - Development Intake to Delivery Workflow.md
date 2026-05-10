@@ -526,6 +526,24 @@ For DUUMBI, that minimum should be extended with `Problem`, `Behavior`, `Open Qu
 
 Stage 7 is the first product spec approval gate. The spec must be reviewed before technical specification or implementation.
 
+Authoritative skill:
+
+- `.agents/skills/duumbi-spec-review/SKILL.md`
+
+Trigger:
+
+- GitHub issue is in `Spec Review`.
+- A product spec exists as a GitHub issue comment or source-repo `specs/DUUMBI-<issue-number>/PRODUCT.md` draft PR.
+- A human asks Oz or Codex to review the product spec.
+
+Inputs:
+
+- one GitHub Issue in `Spec Review`
+- linked Stage 6 product spec artifact
+- Stage 5 human acceptance decision
+- Stage 6 draft context, source links, labels, comments, Project state, related issues, PRs, and Discussions
+- active DUUMBI PRD, Glossary, Agentic Development Map, workflow, and directly relevant Dots, Maps, or Works
+
 Review checklist:
 
 - Outcome is testable.
@@ -536,16 +554,87 @@ Review checklist:
 - Tasks are small enough for Codex or Oz runs.
 - Checks map to acceptance criteria.
 - Open questions are either resolved or explicitly accepted as risk.
+- Sources are traceable to issues, discussions, Slack captures, Obsidian notes, code, docs, or external references.
+
+Agent behavior:
+
+1. Verify that the issue is in `Spec Review` and has a linked Stage 6 product spec artifact; otherwise stop and report the missing gate.
+2. Read the issue, spec artifact, Stage 5 decision, Stage 6 draft context, source links, related GitHub context, and relevant DUUMBI notes.
+3. Review the product spec against the checklist.
+4. Classify findings as `Blocking`, `Non-blocking`, or `Question`.
+5. If no explicit human decision exists, produce a structured review report and stop before status or label changes.
+6. If an explicit human decision exists, write a structured GitHub issue comment as the durable review decision record.
+7. For file-based specs, also comment on the draft PR or point the PR back to the issue decision comment.
+8. Apply GitHub status and label changes only after the explicit decision.
+
+Required review report:
+
+```markdown
+## Stage 7 Product Spec Review
+
+**Issue:** <link>
+**Spec artifact:** <comment link or PRODUCT.md path / PR link>
+**Recommendation:** <Approve | Request Changes | Needs Clarification>
+
+## Checklist
+- Outcome is testable:
+- Scope has explicit non-goals:
+- Constraints separate facts from assumptions:
+- Decisions cite evidence:
+- Behavior covers required states:
+- Tasks are appropriately sized:
+- Checks map to acceptance criteria:
+- Open questions are resolved or accepted as risk:
+- Sources are traceable:
+
+## Blocking Findings
+- <none or list>
+
+## Non-Blocking Findings
+- <none or list>
+
+## Questions
+- <none or list>
+
+## Human Decision Needed
+Please decide one: Approve, Request Changes, Needs Clarification, or Reject / No Longer Needed.
+```
+
+Required decision comment:
+
+```markdown
+## Stage 7 Product Spec Review Decision
+
+**Decision:** <Approve | Request Changes | Needs Clarification | Reject / No Longer Needed>
+**Reviewer source:** <Codex | Oz | Slack | GitHub | other>
+**Spec artifact:** <comment link or PRODUCT.md path / PR link>
+**Rationale:** <short rationale>
+**Blocking findings:** <none or list>
+**Non-blocking findings:** <none or list>
+**Remaining open questions:** <none or list>
+**Next state:** <Technical Spec Needed | Spec Needed | Needs Clarification | Closed | Deferred>
+```
 
 If accepted:
 
 - Status: `Technical Spec Needed`
 - Labels: remove `needs-spec`, add `product-spec-approved` and `needs-tech-spec`
 
-If rejected:
+If changes are requested:
 
 - Status: `Spec Needed` or `Needs Clarification`
 - Agent updates the spec with review feedback.
+
+Stage 7 rules:
+
+- The agent may recommend approval, but cannot approve a product spec by itself.
+- Explicit human approval is required before moving to `Technical Spec Needed`.
+- `Request Changes` sends the issue back to Stage 6 with Status `Spec Needed`.
+- `Needs Clarification` asks targeted questions and does not move to technical specification.
+- `Reject / No Longer Needed` requires explicit human decision and routes to `Closed` or `Deferred`.
+- Do not create new GitHub labels or Project fields.
+- Do not create technical specs, implementation code, implementation PRs, source changes, or Ralph cycles.
+- Stage 8 begins only after approval moves the issue to `Technical Spec Needed`.
 
 ## Stage 8 - Technical Specification Preparation
 
@@ -780,7 +869,7 @@ The workflow should be split into focused, reusable skills rather than one large
 | `duumbi-triage` | Oz, Codex | Stage 4 convergence sweep across Inbox, Issues, and Discussions; dedupe; create/update GitHub issues and durable Atlas artifacts |
 | `duumbi-human-acceptance` | Oz, Codex | Stage 5 human acceptance gate; prepare acceptance brief, record explicit decision, and update GitHub state |
 | `duumbi-spec-draft` | Oz, Codex | Turn accepted issues into PRODUCT specs |
-| `duumbi-spec-review` | Oz, Codex | Review specs against DUUMBI checklist before build |
+| `duumbi-spec-review` | Oz, Codex | Stage 7 product spec review gate; prepare findings, record explicit decision, and route to technical spec preparation |
 | `duumbi-tech-spec-draft` | Oz, Codex | Turn approved product specs into agent-facing technical specs |
 | `duumbi-tech-spec-review` | Oz, Codex | Review technical specs for implementability, bounded cycles, and verification |
 | `duumbi-ralph-cycle` | Oz, Codex | Run one approved Ralph cycle and stop with evidence plus next-cycle recommendation |
