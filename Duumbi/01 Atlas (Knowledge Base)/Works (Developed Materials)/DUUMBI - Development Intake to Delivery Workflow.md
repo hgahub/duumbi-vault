@@ -81,11 +81,15 @@ flowchart TD
   N --> R
 
   R --> D["Deduplicate, classify, and query knowledge base"]
-  D --> E{"Execution work?"}
-  E -- "No, durable knowledge only" --> O["Create or update Dot, Map, Work, or skill"]
-  E -- "Yes" --> GH["Create or update GitHub issue in DUUMBI Project"]
+  D --> TC{"Triage classification?"}
+  TC -- "Execution work" --> GH["Create or update GitHub issue in DUUMBI Project"]
+  TC -- "Durable knowledge only" --> O["Create or update Dot, Map, Work, or skill"]
+  TC -- "Mixed" --> M["Create or update GitHub issue and Atlas artifact"]
+  TC -- "Needs clarification" --> QC["Ask targeted questions in source surface"]
+  TC -- "Duplicate / defer / reject" --> DD["Record rationale and canonical links"]
 
   GH --> HA["Set status: Needs Human Acceptance"]
+  M --> HA
   HA --> HR{"Human accepts?"}
   HR -- "No" --> X["Close, defer, mark duplicate, or request clarification"]
   HR -- "Yes" --> SN["Set status: Spec Needed"]
@@ -242,23 +246,55 @@ Trigger:
 - Manual Codex skill invocation.
 - Human request to process Inbox or GitHub Ideas.
 
+Authoritative skill:
+
+- `.agents/skills/duumbi-triage/SKILL.md`
+
 Inputs:
 
 - `Duumbi/00 Inbox (ToProcess)/`
 - open GitHub Issues in relevant intake states
 - GitHub Discussions in the Ideas category
-- optionally recent Slack captures that have not yet produced an Inbox note
+- human-selected source links, notes, issues, or discussions
 
 Triage steps:
 
 1. Read the source item and preserve the source link.
 2. Search the vault for related Dots, Maps, Works, glossary terms, PRD sections, and prior decisions.
 3. Search GitHub Issues, PRs, and Discussions for duplicates or related work.
-4. Classify the item as execution work, durable knowledge, both, duplicate, rejected, or still unclear.
+4. Classify the item as execution work, durable knowledge, mixed, duplicate, defer, reject, or needs clarification.
 5. For execution work, create or update a GitHub issue in the DUUMBI Project.
-6. For knowledge-only work, create or update the appropriate Dot, Map, Work, or skill.
+6. For knowledge-only work, create or update the appropriate Dot, Map, Work, PRD, Glossary, skill, or `AGENTS.md`.
 7. For mixed work, create a GitHub issue and link the durable Obsidian note.
 8. Set explicit open questions instead of burying uncertainty in prose.
+
+Stage 4 is the first convergence point across Slack/Codex Inbox notes, GitHub Issues, and GitHub Discussions. It may write GitHub execution artifacts and Obsidian Atlas knowledge artifacts, but it must not create product specs, technical specs, PRs, source-code changes, or implementation work.
+
+Classification outcomes:
+
+| Classification | Agent action | Next state |
+|---|---|---|
+| `execution work` | Create or update a GitHub issue, preserve source links, and add it to the DUUMBI Project when possible | `Needs Human Acceptance` |
+| `durable knowledge` | Create or update a Dot, Map, Work, PRD, Glossary, skill, or `AGENTS.md` only when reusable guidance changes | Done for triage |
+| `mixed` | Create or update both the GitHub issue and the durable Obsidian artifact, linking both directions | `Needs Human Acceptance` |
+| `duplicate` | Link the canonical item and merge useful missing context only when safe | `Duplicate` or no new artifact |
+| `needs clarification` | Ask 1-3 targeted questions in the source surface and do not move to acceptance | `Needs Clarification` |
+| `defer` | Preserve rationale, source links, and any review timing if known | `Deferred` |
+| `reject` | Preserve concise rationale and source links | `Closed` or no action |
+
+Write rules:
+
+- Execution and mixed work must end as a GitHub issue in the DUUMBI Project with Status `Needs Human Acceptance`.
+- Actionable GitHub Ideas Discussions may become GitHub Issues during Stage 4 when outcome, scope, and evaluation value are clear enough for human acceptance review.
+- Add `needs-human-review` plus source/type labels when those labels already exist.
+- Do not create new GitHub labels unless explicitly requested outside Stage 4.
+- Knowledge-only work should update Obsidian only when it changes durable reusable guidance.
+- Obsidian should not mirror live GitHub status, assignees, sprint state, PR progress, or CI state.
+- Product specs begin only in Stage 6 after Stage 5 human acceptance.
+
+Inbox disposition:
+
+After a `Duumbi/00 Inbox (ToProcess)/` note is triaged, append a `Triage result` section with the date, classification, routing, created or updated artifacts, open questions, assumptions, and links. Move successfully triaged Inbox notes to `Duumbi/05 Archive/Processed Inbox/`, preserving the filename. Do not leave successfully triaged notes in `00 Inbox (ToProcess)/`.
 
 Recommended GitHub issue body after triage:
 
@@ -307,9 +343,21 @@ Project field updates:
 - Type: `bug`, `feature`, `research`, `architecture`, `workflow`, `tech-debt`, or `knowledge`
 - Labels: `needs-human-review`, plus source/type labels
 
+Required triage report:
+
+- source item reviewed
+- classification
+- relevant DUUMBI context inspected
+- related GitHub context inspected
+- GitHub writes performed, if any
+- Obsidian writes performed, if any
+- Inbox disposition, if any
+- Stage 5 recommendation
+- open questions and assumptions
+
 ## Stage 5 - Human Acceptance Gate
 
-The triaged issue is not yet approved work. A human reviewer decides whether the team wants to spend specification effort on it.
+Stage 5 is the first human acceptance gate. The triaged issue is not yet approved work. A human reviewer decides whether the team wants to spend specification effort on it.
 
 Outcomes:
 
@@ -334,6 +382,8 @@ Acceptance should verify:
 Trigger:
 
 - GitHub issue is accepted and marked `Spec Needed`.
+
+Stage 6 is the first specification step. No product spec or technical spec should be created before the Stage 5 human acceptance decision.
 
 Agent behavior:
 
@@ -651,7 +701,7 @@ The workflow should be split into focused, reusable skills rather than one large
 | `duumbi-codex-intake` | Codex | Stage 2 Codex-to-Inbox capture with optional read-only GitHub inspection |
 | `duumbi-github-intake` | Oz, Codex | Stage 3 GitHub Issues and Discussions intake with clarification comments, existing labels, and Stage 4 routing recommendations |
 | `duumbi-idea-intake` | Oz, Codex | Future shared compatibility name for raw input capture |
-| `duumbi-triage` | Oz, Codex | Sweep Inbox, Issues, Discussions; dedupe; create/update GitHub issue |
+| `duumbi-triage` | Oz, Codex | Stage 4 convergence sweep across Inbox, Issues, and Discussions; dedupe; create/update GitHub issues and durable Atlas artifacts |
 | `duumbi-spec-draft` | Oz, Codex | Turn accepted issues into PRODUCT specs |
 | `duumbi-spec-review` | Oz, Codex | Review specs against DUUMBI checklist before build |
 | `duumbi-tech-spec-draft` | Oz, Codex | Turn approved product specs into agent-facing technical specs |
