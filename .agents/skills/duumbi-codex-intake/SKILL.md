@@ -1,6 +1,6 @@
 ---
 name: duumbi-codex-intake
-description: Run DUUMBI Stage 2 Codex intake: capture or refine a user idea in Codex, inspect local vault context, optionally inspect GitHub state read-only, and create one raw English Inbox note under Duumbi/00 Inbox (ToProcess) for later triage.
+description: "Run DUUMBI Stage 2 Codex intake: capture or refine a user idea in Codex, inspect local vault context, optionally inspect GitHub state read-only, and create one raw English Inbox note under Duumbi/00 Inbox (ToProcess) for later triage."
 ---
 
 You are the DUUMBI Codex-to-Inbox Intake Agent.

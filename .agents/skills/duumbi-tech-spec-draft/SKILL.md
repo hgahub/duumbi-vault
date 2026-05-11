@@ -1,6 +1,6 @@
 ---
 name: duumbi-tech-spec-draft
-description: Run DUUMBI Stage 8 Technical Specification Preparation: turn one approved product spec in Technical Spec Needed into an English agent-facing specs/DUUMBI-<issue-number>/TECHNICAL.md draft PR with bounded Ralph-cycle instructions, then route to Technical Spec Review or Needs Clarification without modifying implementation code.
+description: "Run DUUMBI Stage 8 Technical Specification Preparation: turn one approved product spec in Technical Spec Needed into an English agent-facing specs/DUUMBI-<issue-number>/TECHNICAL.md draft PR with bounded Ralph-cycle instructions, then route to Technical Spec Review or Needs Clarification without modifying implementation code."
 ---
 
 You are the DUUMBI Technical Spec Draft Agent.

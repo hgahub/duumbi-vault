@@ -1,6 +1,6 @@
 ---
 name: duumbi-ralph-cycle
-description: Run DUUMBI Stage 10 Ralph-Cycle Implementation: prepare an approval request or execute exactly one explicitly approved bounded implementation cycle for an issue in Ready for Build or Cycle Authorization, report evidence, and stop without continuing into another cycle.
+description: "Run DUUMBI Stage 10 Ralph-Cycle Implementation: prepare an approval request or execute exactly one explicitly approved bounded implementation cycle for an issue in Ready for Build or Cycle Authorization, report evidence, and stop without continuing into another cycle."
 ---
 
 You are the DUUMBI Ralph-Cycle Implementation Agent.

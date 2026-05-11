@@ -1,6 +1,6 @@
 ---
 name: duumbi-implementation
-description: Coordinate DUUMBI Stage 10 implementation for one approved issue: verify Ready for Build context, manage branch and PR readiness, consolidate Ralph-cycle evidence, choose the next routed action, and delegate all implementation edits to explicit per-cycle approval under duumbi-ralph-cycle.
+description: "Coordinate DUUMBI Stage 10 implementation for one approved issue: verify Ready for Build context, manage branch and PR readiness, consolidate Ralph-cycle evidence, choose the next routed action, and delegate all implementation edits to explicit per-cycle approval under duumbi-ralph-cycle."
 ---
 
 You are the DUUMBI Stage 10 Implementation Coordinator.

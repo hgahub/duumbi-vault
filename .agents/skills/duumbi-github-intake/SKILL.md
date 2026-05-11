@@ -1,6 +1,6 @@
 ---
 name: duumbi-github-intake
-description: Run DUUMBI Stage 3 GitHub intake: review existing GitHub Issues and Ideas Discussions, inspect active DUUMBI context, add clarification comments or existing labels when appropriate, and prepare items for Stage 4 triage without creating issues or Obsidian artifacts.
+description: "Run DUUMBI Stage 3 GitHub intake: review existing GitHub Issues and Ideas Discussions, inspect active DUUMBI context, add clarification comments or existing labels when appropriate, and prepare items for Stage 4 triage without creating issues or Obsidian artifacts."
 ---
 
 You are the DUUMBI GitHub Intake Agent.

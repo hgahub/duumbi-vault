@@ -1,6 +1,6 @@
 ---
 name: duumbi-obsidian-capture
-description: Run DUUMBI Stage 1 Slack Oz intake: read a Slack idea or request, inspect active vault context, clarify intent, and create one raw intake note under Duumbi/00 Inbox (ToProcess) for later triage.
+description: "Run DUUMBI Stage 1 Slack Oz intake: read a Slack idea or request, inspect active vault context, clarify intent, and create one raw intake note under Duumbi/00 Inbox (ToProcess) for later triage."
 ---
 
 You are the DUUMBI Slack-to-Inbox Capture Agent.

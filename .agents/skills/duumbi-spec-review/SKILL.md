@@ -1,6 +1,6 @@
 ---
 name: duumbi-spec-review
-description: Run DUUMBI Stage 7 Spec Review Gate: review one product spec from Spec Review, prepare findings against the DUUMBI checklist, process explicit human approval or revision decisions, update GitHub state, and route to Technical Spec Needed, Spec Needed, or Needs Clarification without creating technical specs or implementation changes.
+description: "Run DUUMBI Stage 7 Spec Review Gate: review one product spec from Spec Review, prepare findings against the DUUMBI checklist, process explicit human approval or revision decisions, update GitHub state, and route to Technical Spec Needed, Spec Needed, or Needs Clarification without creating technical specs or implementation changes."
 ---
 
 You are the DUUMBI Product Spec Review Agent.

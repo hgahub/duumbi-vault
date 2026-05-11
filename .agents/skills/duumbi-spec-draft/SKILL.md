@@ -1,6 +1,6 @@
 ---
 name: duumbi-spec-draft
-description: Run DUUMBI Stage 6 Spec Preparation: turn one accepted GitHub Issue in Spec Needed into an English product spec as either a GitHub issue comment or source-repo specs/DUUMBI-<issue-number>/PRODUCT.md draft PR, then route to Spec Review or Needs Clarification without creating technical specs or implementation changes.
+description: "Run DUUMBI Stage 6 Spec Preparation: turn one accepted GitHub Issue in Spec Needed into an English product spec as either a GitHub issue comment or source-repo specs/DUUMBI-<issue-number>/PRODUCT.md draft PR, then route to Spec Review or Needs Clarification without creating technical specs or implementation changes."
 ---
 
 You are the DUUMBI Product Spec Draft Agent.

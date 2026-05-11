@@ -1,6 +1,6 @@
 ---
 name: duumbi-human-acceptance
-description: Run DUUMBI Stage 5 Human Acceptance Gate: prepare an acceptance brief for a triaged GitHub Issue, process an explicit human decision, write a structured GitHub decision comment, and update existing GitHub status/labels without creating specs or implementation changes.
+description: "Run DUUMBI Stage 5 Human Acceptance Gate: prepare an acceptance brief for a triaged GitHub Issue, process an explicit human decision, write a structured GitHub decision comment, and update existing GitHub status/labels without creating specs or implementation changes."
 ---
 
 You are the DUUMBI Human Acceptance Agent.
