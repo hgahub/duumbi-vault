@@ -19,6 +19,7 @@ This skill covers:
 - opening a draft PR for the technical spec artifact
 - linking the technical spec draft PR back to the GitHub Issue
 - moving the issue to `Technical Spec Review`, or to `Needs Clarification` when blocked
+- keeping the execution issue open by avoiding GitHub auto-close keywords in spec-only PR titles, bodies, and commit messages
 
 This skill does not:
 
@@ -104,6 +105,14 @@ Forbidden writes:
 - implementation PRs or branches beyond the technical spec draft PR
 
 Do not create new GitHub labels or Project fields. If a desired write is unavailable, mention it in the final report.
+
+Spec-only PR rule:
+
+- the technical spec PR is a review artifact, not the implementation completion PR
+- the execution issue must remain open after the technical spec PR is merged or closed so Stage 9 and Stage 10 can continue
+- do not use GitHub auto-close keywords such as `Closes #<issue>`, `Fixes #<issue>`, `Resolves #<issue>`, `Close #<issue>`, `Fix #<issue>`, or `Resolve #<issue>` in the PR title, PR body, branch name, commit message, or technical spec text when referring to the execution issue
+- use non-closing references such as `Related to #<issue>`, `Technical spec for #<issue>`, or `Supports #<issue>` instead
+- include a short workflow note in the PR body stating that the PR is specification-only and the execution issue must remain open for Stage 9 Technical Spec Review and Stage 10 implementation
 
 ## Technical Spec Location
 
@@ -202,6 +211,7 @@ After a successful technical spec artifact exists:
 - keep or add existing `needs-tech-spec` as appropriate
 - add existing `technical-spec-review` label when available
 - do not mark the technical spec approved
+- do not close the execution issue; it must remain open until Stage 12 closure verifies merged implementation evidence
 
 When blocked:
 
@@ -236,5 +246,6 @@ Technical spec draft complete:
 - Do not modify implementation code, tests, migrations, generated outputs, or runtime assets.
 - Do not run Ralph cycles or implementation commands.
 - Do not approve your own technical spec.
+- Do not use GitHub auto-close keywords in spec-only PRs; only Stage 12 closure may close the execution issue.
 - Keep the technical spec traceable to the approved product spec and source evidence.
 - Stop and ask the user if a requested write exceeds Stage 8.

@@ -5,7 +5,7 @@ tags:
   - doc/runbook
 status: active
 created: 2026-05-13
-updated: 2026-05-13
+updated: 2026-05-14
 related_maps:
   - "[[DUUMBI Agentic Development Map]]"
 related_works:
@@ -47,6 +47,33 @@ Use Codex App when a human is at the machine and wants guided local execution. U
 | Oz agent | Slack-triggered intake, scheduled sweeps, cloud runs, team-visible orchestration, parallel or long-running agent work | Final product decisions without explicit human approval |
 | Codex CLI | Focused source work in a local checkout, quick terminal-native implementation or review runs | Durable Obsidian edits unless the operator handles vault conventions carefully |
 | Claude Code CLI | Alternative local implementation or review agent when a second coding model is useful | Project-state mutation unless GitHub writes and evidence format are controlled |
+
+## Spec-Only PR Rule
+
+Stage 6 PRODUCT spec PRs and Stage 8 TECHNICAL spec PRs are review artifacts, not completion PRs. They must not close the execution issue when merged or closed. The execution issue stays open until Stage 12 closure verifies merged implementation evidence.
+
+Do not use GitHub auto-close keywords in spec-only PR titles, bodies, branch names, commit messages, or spec text when referencing the execution issue:
+
+- `Closes #<issue>`
+- `Fixes #<issue>`
+- `Resolves #<issue>`
+- `Close #<issue>`
+- `Fix #<issue>`
+- `Resolve #<issue>`
+
+Use non-closing references instead:
+
+- `Related to #<issue>`
+- `Spec for #<issue>`
+- `Technical spec for #<issue>`
+- `Supports #<issue>`
+
+Spec-only PR bodies should include this workflow note:
+
+```markdown
+This is a specification PR only. It must not close #<issue>.
+The linked execution issue should remain open for the next workflow stages.
+```
 
 Default model guidance for Codex App:
 
@@ -197,6 +224,8 @@ Expected artifact: specs/DUUMBI-<issue-number>/PRODUCT.md in <target source repo
 
 Goal: Verify Stage 5 acceptance, inspect active DUUMBI context and relevant source context, draft the product spec in English, open a draft spec PR if file-based, link it from the issue, and move the issue to Spec Review.
 
+Spec-only PR rule: do not use GitHub auto-close keywords such as "Closes", "Fixes", or "Resolves" for the execution issue. Use "Related to #<issue>" or "Spec for #<issue>" instead. Include a workflow note that this PR must not close the execution issue.
+
 Do not create technical specs, implementation code, or Ralph cycles.
 ```
 
@@ -232,6 +261,8 @@ Product spec artifact: <PRODUCT.md PR URL or path>
 Expected artifact: specs/DUUMBI-<issue-number>/TECHNICAL.md in <target source repo>
 
 Goal: Verify product spec approval, inspect repo AGENTS.md and affected source areas, draft an agent-facing technical spec with bounded Ralph cycle instructions, open a draft PR, link it from the issue, and move the issue to Technical Spec Review.
+
+Spec-only PR rule: do not use GitHub auto-close keywords such as "Closes", "Fixes", or "Resolves" for the execution issue. Use "Related to #<issue>" or "Technical spec for #<issue>" instead. Include a workflow note that this PR must not close the execution issue.
 
 Do not modify implementation code, tests, generated artifacts, runtime assets, or product specs.
 ```
@@ -402,6 +433,7 @@ Agents may recommend decisions, but they must not invent human acceptance.
 ## Common Mistakes
 
 - Do not treat `Todo` as `Needs Human Acceptance`; they are different workflow states.
+- Do not use `Closes`, `Fixes`, or `Resolves` in Stage 6 or Stage 8 spec-only PRs. Those PRs must not close the execution issue.
 - Do not move from `Spec Review` to implementation. Stage 7 approval must be followed by Stage 8 and Stage 9.
 - Do not treat issue acceptance as Ralph cycle approval. Each implementation cycle needs its own explicit approval.
 - Do not run `duumbi-ralph-cycle` repeatedly in one prompt. One approval equals one cycle.

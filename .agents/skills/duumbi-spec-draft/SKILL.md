@@ -20,6 +20,7 @@ This skill covers:
 - creating `specs/DUUMBI-<issue-number>/PRODUCT.md` in the relevant source repository and opening a draft PR for larger, architectural, cross-module, or durable specs
 - linking the spec artifact back to the GitHub Issue
 - moving the issue to `Spec Review`, or to `Needs Clarification` when blocked
+- keeping the execution issue open by avoiding GitHub auto-close keywords in spec-only PR titles, bodies, and commit messages
 
 This skill does not:
 
@@ -107,6 +108,10 @@ For file-based specs:
 - create or update only the spec file and minimal supporting metadata if required by the source repo
 - open a draft PR
 - link the draft PR and spec path from the GitHub Issue
+- treat the PR as a spec-review artifact only; it must not close the execution issue when merged or closed
+- do not use GitHub auto-close keywords such as `Closes #<issue>`, `Fixes #<issue>`, `Resolves #<issue>`, `Close #<issue>`, `Fix #<issue>`, or `Resolve #<issue>` in the PR title, PR body, branch name, commit message, or spec text when referring to the execution issue
+- use non-closing references such as `Related to #<issue>`, `Spec for #<issue>`, or `Supports #<issue>` instead
+- include a short workflow note in the PR body stating that the PR is specification-only and the execution issue must remain open for later workflow stages
 
 ## Product Spec Contract
 
@@ -161,6 +166,7 @@ After a successful spec artifact exists:
 - keep or add existing `needs-spec` as appropriate
 - add existing `spec-review` label when available
 - do not mark the product spec approved
+- do not close the execution issue; it must remain open until Stage 12 closure verifies merged implementation evidence
 
 When blocked:
 
@@ -194,5 +200,6 @@ Product spec draft complete:
 - Do not bury blocking questions in a draft spec.
 - Do not create technical specs, implementation code, PRs for implementation, or Ralph cycles.
 - Do not approve your own product spec.
+- Do not use GitHub auto-close keywords in spec-only PRs; only Stage 12 closure may close the execution issue.
 - Keep the spec traceable to source links and decisions.
 - Stop and ask the user if a requested write exceeds Stage 6.
