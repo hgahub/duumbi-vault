@@ -59,8 +59,6 @@ Default model guidance for Codex App:
 
 ## End-To-End Run Table
 
-![[DUUMBI - Agentic Development Runbook.png]]
-
 | Stage | Skill | User or agent decision | Recommended repo | Run location | Best tool | Other viable tools | Output |
 |---|---|---|---|---|---|---|---|
 | 1 | `duumbi-obsidian-capture` | User asks Oz to capture Slack input | `duumbi-vault` | Cloud | Oz agent | Codex App if Slack context is copied in | Inbox note from Slack input |

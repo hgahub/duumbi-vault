@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1672" height="941" viewBox="0 0 1672 941">
+  <defs>
+    <style>
+      .bg { fill: #f7fafc; }
+      .title { font: 700 48px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #4b5563; }
+      .section { font: 700 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .label { font: 700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .small { font: 500 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #374151; }
+      .tiny { font: 500 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #4b5563; }
+      .white { fill: #ffffff; }
+      .muted { fill: #6b7280; }
+      .line { stroke: #64748b; stroke-width: 3; fill: none; }
+      .thin { stroke: #94a3b8; stroke-width: 2; fill: none; }
+      .dash { stroke-dasharray: 8 7; }
+      .box { fill: #ffffff; stroke-width: 2.5; rx: 14; }
+      .badge { font: 700 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #ffffff; }
+      .rule { font: 700 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #ffffff; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#64748b"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#2563eb"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1672" height="941"/>
+
+  <text class="title" x="62" y="70">DUUMBI Agentic Development Runbook</text>
+  <text class="subtitle" x="64" y="105">Parallel intake routes converge into triage, then move through human-gated specs, bounded implementation cycles, review, merge, and closure.</text>
+
+  <rect x="62" y="132" width="1548" height="232" rx="22" fill="#eef6ff" stroke="#bfdbfe" stroke-width="2"/>
+  <text class="section" x="86" y="166">Capture and Intake - choose the route matching where the input already lives</text>
+
+  <rect class="box" x="92" y="194" width="300" height="116" stroke="#2563eb"/>
+  <rect x="112" y="212" width="70" height="24" rx="12" fill="#2563eb"/>
+  <text class="badge" x="129" y="229">Stage 1</text>
+  <text class="label" x="112" y="263">Slack Intake</text>
+  <text class="small" x="112" y="287">Use when the idea starts in Slack.</text>
+  <text class="tiny" x="112" y="304">Oz / Cloud - creates Inbox note</text>
+
+  <rect class="box" x="432" y="194" width="300" height="116" stroke="#2563eb"/>
+  <rect x="452" y="212" width="70" height="24" rx="12" fill="#2563eb"/>
+  <text class="badge" x="469" y="229">Stage 2</text>
+  <text class="label" x="452" y="263">Codex Intake</text>
+  <text class="small" x="452" y="287">Use when the idea starts in Codex.</text>
+  <text class="tiny" x="452" y="304">Codex / duumbi-vault - creates Inbox note</text>
+
+  <rect class="box" x="772" y="194" width="330" height="116" stroke="#7c3aed"/>
+  <rect x="792" y="212" width="70" height="24" rx="12" fill="#7c3aed"/>
+  <text class="badge" x="809" y="229">Stage 3</text>
+  <text class="label" x="792" y="263">GitHub Intake</text>
+  <text class="small" x="792" y="287">Use when the item already exists in GitHub.</text>
+  <text class="tiny" x="792" y="304">Issues / Ideas - classify before triage</text>
+
+  <rect class="box" x="318" y="328" width="220" height="54" stroke="#0f766e" fill="#ecfdf5"/>
+  <text class="label" x="346" y="361">Obsidian Inbox</text>
+  <path class="line" d="M242 310 C242 342, 310 342, 330 342" marker-end="url(#arrow)"/>
+  <path class="line" d="M582 310 C582 342, 536 342, 518 342" marker-end="url(#arrow)"/>
+
+  <rect class="box" x="1156" y="194" width="360" height="116" stroke="#f59e0b" fill="#fffbeb"/>
+  <rect x="1176" y="212" width="70" height="24" rx="12" fill="#f59e0b"/>
+  <text class="badge" x="1193" y="229">Stage 4</text>
+  <text class="label" x="1176" y="263">Triage</text>
+  <text class="small" x="1176" y="287">First shared convergence point.</text>
+  <text class="tiny" x="1176" y="304">Route execution work to Needs Human Acceptance</text>
+
+  <path class="line" d="M538 355 C780 355, 958 350, 1156 274" marker-end="url(#arrow)"/>
+  <path class="line" d="M1102 252 C1123 252, 1137 252, 1156 252" marker-end="url(#arrow)"/>
+  <text class="tiny" x="802" y="348">Stage 1 and 2 are parallel capture routes, not sequential steps.</text>
+
+  <rect x="62" y="402" width="1548" height="332" rx="22" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+  <text class="section" x="86" y="436">Delivery Flow After Triage</text>
+
+  <rect class="box" x="92" y="468" width="205" height="86" stroke="#f59e0b" fill="#fff7ed"/>
+  <text class="label" x="112" y="500">Stage 5</text>
+  <text class="small" x="112" y="526">Human Acceptance</text>
+  <text class="tiny" x="112" y="546">Accept / Clarify / Defer</text>
+
+  <rect class="box" x="342" y="468" width="205" height="86" stroke="#2563eb"/>
+  <text class="label" x="362" y="500">Stage 6</text>
+  <text class="small" x="362" y="526">Product Spec Draft</text>
+  <text class="tiny" x="362" y="546">duumbi / new worktree</text>
+
+  <rect class="box" x="592" y="468" width="205" height="86" stroke="#7c3aed"/>
+  <text class="label" x="612" y="500">Stage 7</text>
+  <text class="small" x="612" y="526">Product Spec Review</text>
+  <text class="tiny" x="612" y="546">Human approval gate</text>
+
+  <rect class="box" x="842" y="468" width="205" height="86" stroke="#2563eb"/>
+  <text class="label" x="862" y="500">Stage 8</text>
+  <text class="small" x="862" y="526">Technical Spec Draft</text>
+  <text class="tiny" x="862" y="546">bounded Ralph protocol</text>
+
+  <rect class="box" x="1092" y="468" width="205" height="86" stroke="#7c3aed"/>
+  <text class="label" x="1112" y="500">Stage 9</text>
+  <text class="small" x="1112" y="526">Technical Spec Review</text>
+  <text class="tiny" x="1112" y="546">Ready for Build</text>
+
+  <rect class="box" x="1342" y="468" width="205" height="86" stroke="#059669" fill="#ecfdf5"/>
+  <text class="label" x="1362" y="500">Stage 10a</text>
+  <text class="small" x="1362" y="526">Implementation Coord.</text>
+  <text class="tiny" x="1362" y="546">Cycle approval request</text>
+
+  <path class="line" d="M297 511 L342 511" marker-end="url(#arrow)"/>
+  <path class="line" d="M547 511 L592 511" marker-end="url(#arrow)"/>
+  <path class="line" d="M797 511 L842 511" marker-end="url(#arrow)"/>
+  <path class="line" d="M1047 511 L1092 511" marker-end="url(#arrow)"/>
+  <path class="line" d="M1297 511 L1342 511" marker-end="url(#arrow)"/>
+
+  <polygon points="194,586 232,624 194,662 156,624" fill="#fff7ed" stroke="#f59e0b" stroke-width="2.5"/>
+  <text class="tiny" x="136" y="697">Human decision</text>
+  <polygon points="694,586 732,624 694,662 656,624" fill="#faf5ff" stroke="#7c3aed" stroke-width="2.5"/>
+  <text class="tiny" x="640" y="697">Spec approval</text>
+  <polygon points="1194,586 1232,624 1194,662 1156,624" fill="#faf5ff" stroke="#7c3aed" stroke-width="2.5"/>
+  <text class="tiny" x="1130" y="697">Tech approval</text>
+  <polygon points="1444,586 1482,624 1444,662 1406,624" fill="#ecfdf5" stroke="#059669" stroke-width="2.5"/>
+  <text class="tiny" x="1392" y="697">Cycle approval</text>
+
+  <rect x="62" y="762" width="1548" height="102" rx="22" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+  <rect class="box" x="92" y="786" width="242" height="54" stroke="#059669" fill="#ecfdf5"/>
+  <text class="small" x="112" y="809">Stage 10b Ralph Cycle</text>
+  <text class="tiny" x="112" y="831">One approval = one bounded cycle</text>
+  <path class="line" d="M334 813 L390 813" marker-end="url(#arrow)"/>
+  <rect class="box" x="390" y="786" width="242" height="54" stroke="#7c3aed"/>
+  <text class="small" x="410" y="809">Stage 11 Review Artifact</text>
+  <text class="tiny" x="410" y="831">Merge decision support</text>
+  <path class="line" d="M632 813 L688 813" marker-end="url(#arrow)"/>
+  <polygon points="754,779 788,813 754,847 720,813" fill="#faf5ff" stroke="#7c3aed" stroke-width="2.5"/>
+  <text class="small" x="812" y="810">Human Merge</text>
+  <path class="line" d="M914 813 L970 813" marker-end="url(#arrow)"/>
+  <rect class="box" x="970" y="786" width="242" height="54" stroke="#111827"/>
+  <text class="small" x="990" y="809">Stage 12 Closure</text>
+  <text class="tiny" x="990" y="831">Done + learning decision</text>
+  <path class="line dash" d="M1212 813 L1268 813" marker-end="url(#arrow)"/>
+  <rect class="box" x="1268" y="786" width="282" height="54" stroke="#0f766e" fill="#ecfdf5"/>
+  <text class="small" x="1288" y="809">Optional Knowledge Sync</text>
+  <text class="tiny" x="1288" y="831">Only reusable durable guidance</text>
+
+  <rect x="62" y="886" width="1548" height="36" rx="18" fill="#111827"/>
+  <text class="rule" x="108" y="910" fill="#ffffff">GitHub = execution source of truth</text>
+  <text class="rule" x="610" y="910" fill="#ffffff">Obsidian = durable knowledge, not live status</text>
+  <text class="rule" x="1180" y="910" fill="#ffffff">One Ralph approval = one bounded cycle</text>
+</svg>
