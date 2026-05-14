@@ -140,19 +140,20 @@ If no target: Inbox note, issue or discussion:
 ```text
 Run DUUMBI Stage 4 triage with duumbi-triage.
 
-Target: bounded next-issue discovery sweep across recent PRs, the hgahub/duumbi codebase, open GitHub issues, milestones, and active DUUMBI Obsidian documentation.
+Target: bounded next-issue discovery sweep across Inbox notes, GitHub Issues, GitHub Ideas Discussions, and active DUUMBI Obsidian documentation.
 
 Goal: Propose exactly one next best engineering issue.
 
 Prioritize work that solves a concrete user, product, reliability, or developer-experience problem and is likely to deliver meaningful business value. Prefer work that fits current roadmap sequencing and avoids starting lower-priority phases before active kill-criterion work is closed.
 
 Inspect:
-- recent merged PRs and open PRs in hgahub/duumbi
-- open issues and relevant milestones in hgahub/duumbi
+- Inbox notes under `Duumbi/00 Inbox (ToProcess)/`
+- GitHub Issues in intake, clarification, or `Todo` Project states
+- GitHub Ideas Discussions
 - active DUUMBI docs in duumbi-vault, especially PRD, Glossary, Agentic Development Map, Development Intake to Delivery Workflow, and current roadmap notes
-- directly relevant source files only when needed to verify feasibility or duplicate risk
+- recent PRs, milestones, and directly relevant source files only as supporting evidence for duplicate risk, sequencing, feasibility, or whether work has already started
 
-If a suitable issue already exists, recommend or update that canonical issue. If it does not exist, create one GitHub issue in hgahub/duumbi with full description, clear scope, evidence, acceptance criteria, risks, and relevant links. Connect it to the relevant milestone if one is clearly applicable.
+If a suitable issue already exists and its DUUMBI Project Status is `Todo`, recommend or update that canonical issue. Do not select issues that have already moved beyond `Todo`, including `Needs Human Acceptance`, `Spec Needed`, `Ready for Build`, `Cycle Authorization`, `In Progress`, or `In Review`; record them only as related context. If suitable work is not already represented by an eligible `Todo` issue, create one GitHub issue in hgahub/duumbi with full description, clear scope, evidence, acceptance criteria, risks, and relevant links. Connect it to the relevant milestone if one is clearly applicable.
 
 Route the selected issue to Needs Human Acceptance.
 

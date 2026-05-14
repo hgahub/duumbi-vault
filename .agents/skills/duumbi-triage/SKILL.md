@@ -67,11 +67,26 @@ Load specific Dots, Maps, Works, source files, or GitHub items only when the sou
 Accept one item or a bounded sweep:
 
 - Inbox notes under `Duumbi/00 Inbox (ToProcess)/`
-- open GitHub Issues in intake or clarification states
+- open GitHub Issues in intake, clarification, or `Todo` Project states
 - GitHub Discussions in the Ideas category
 - a human-selected source link, note, issue, or discussion
 
 For sweeps, process items one by one. If the sweep is large, summarize the queue and ask the user which bounded batch to process first.
+
+## Next-Issue Discovery Sweeps
+
+When the user asks for the next best engineering issue rather than naming one source item, treat the sweep as a discovery and selection task over raw and durable planning surfaces:
+
+- Inbox notes
+- GitHub Issues
+- GitHub Ideas Discussions
+- active Obsidian Atlas and roadmap notes
+
+Recent PRs, source files, milestones, and codebase inspection are supporting evidence only. Use them to verify duplicate risk, sequencing, feasibility, or whether work has already started. Do not define the sweep target as "recent PRs, the codebase, and open issues" because that biases triage toward already-active implementation work.
+
+If the recommendation should reuse an existing GitHub Issue as the next implementation candidate, only select issues whose DUUMBI Project Status is `Todo`. Do not select issues already in `Needs Human Acceptance`, `Spec Needed`, `Spec Review`, `Technical Spec Needed`, `Technical Spec Review`, `Ready for Build`, `Cycle Authorization`, `In Progress`, `In Review`, `Blocked`, `Done`, or any equivalent post-triage/post-acceptance state. If the strongest related issue has already moved beyond `Todo`, treat it as ineligible for next-issue discovery, record it as related context, and choose the best eligible `Todo` issue or create a new issue only when the work is not already represented.
+
+For an eligible existing `Todo` issue, update the canonical issue when useful, preserve source links, and route it to `Needs Human Acceptance`. For a new execution issue, create it with the GitHub Issue Contract and route it to `Needs Human Acceptance`.
 
 ## Triage Classification
 
