@@ -372,35 +372,27 @@ Do not request a Ralph cycle or start implementation.
 
 ### Stage 10a - Implementation Coordination
 
-Use first when the issue reaches `Ready for Build`.
+Use only when branch, PR, blocker, or evidence coordination is needed before or after Ralph Cycle execution.
 
 ```text
 Run DUUMBI Stage 10 Implementation Coordination with duumbi-implementation.
 
 Target issue: <GitHub issue URL>
-Mode: prepare Stage 10 implementation route
-
-Goal: Verify approved product and technical specs, inspect branch and PR state, identify the next bounded implementation goal, and either run a low-budget resource-permitted Ralph Cycle, prepare a resource approval request, or report a blocker.
-
-Do not modify implementation files unless the next cycle is within the approved technical spec and below the resource approval thresholds.
+Mode: coordinate Stage 10 branch, PR, blocker, or evidence state
 ```
 
-Use the same skill later for evidence consolidation:
+### Stage 10b - Ralph Cycle Execution
+
+Use when the issue reaches `Ready for Build` and should proceed through resource-permitted Ralph cycles.
 
 ```text
-Run DUUMBI Stage 10 Implementation Coordination with duumbi-implementation.
+Run DUUMBI Stage 10 Ralph Cycle with duumbi-ralph-cycle.
 
 Target issue: <GitHub issue URL>
-Mode: consolidate PR evidence and move to In Review if completion criteria are met
-
-Goal: Verify cycle evidence, branch, PR, product spec checks, and technical completion criteria. Update PR evidence or issue comments as needed, then move to In Review only if evidence is complete.
-
-Do not edit implementation files and do not merge.
+Mode: execute resource-permitted Ralph cycles
 ```
 
-### Stage 10b - Ralph Cycle Resource Approval
-
-Human approval is required only when the resource gate triggers. The approval comment should be explicit.
+Human approval is required only after the agent has stopped and produced a resource approval request for a specific next cycle. In that case, post an explicit approval comment:
 
 ```markdown
 ## Ralph Cycle <N> Resource Approval
@@ -416,18 +408,20 @@ Scope approved:
 Reviewer source: GitHub
 ```
 
-Then run the resource-approved cycle:
+Then resume Stage 10b with the same execution prompt:
 
 ```text
 Run DUUMBI Stage 10 Ralph Cycle with duumbi-ralph-cycle.
 
 Target issue: <GitHub issue URL>
-Mode: execute Ralph Cycle <N>
+Mode: execute resource-permitted Ralph cycles
 
-Goal: Execute the bounded Cycle <N> scope when it is approved or below the resource approval thresholds, set status to In Progress when available, make only the permitted implementation changes, run the planned checks, write the evidence report, and route the next state.
+Goal: Resume from the approved resource-gated cycle, execute only the permitted scope, then continue through later low-budget cycles only while they remain below the resource thresholds and inside the autonomous batch cap.
 
 If work remains, continue only when the next cycle is still inside the technical spec, below resource thresholds, and within the autonomous batch cap. Otherwise prepare the next resource approval request or blocker report and return the issue to Cycle Authorization or Blocked.
 ```
+
+`Ralph Cycle <N>` is only an identifier for the specific cycle that triggered the resource gate. Do not provide a cycle number for the normal execution prompt.
 
 ### Stage 11 - Review Artifact
 
