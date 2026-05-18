@@ -3,14 +3,20 @@ tags:
   - project/duumbi
   - doc/agent-workflow
   - doc/development-process
-status: active
+status: deprecated
 created: 2026-05-09
-updated: 2026-05-10
+updated: 2026-05-18
 related_maps:
   - "[[DUUMBI Agentic Development Map]]"
+superseded_by:
+  - "[[DUUMBI - Agentic Development Runbook]]"
 ---
 
 # DUUMBI - Development Intake to Delivery Workflow
+
+> Deprecated on 2026-05-18. The active canonical workflow is [[DUUMBI - Agentic Development Runbook]].
+>
+> Keep this document as historical reference only. It contains older Stage 10 wording that required approval before every Ralph Cycle; current DUUMBI guidance uses the runbook's resource-gated Ralph Cycle policy.
 
 ## Summary
 

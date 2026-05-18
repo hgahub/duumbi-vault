@@ -4,7 +4,7 @@ tags:
   - map/agentic-development
 status: active
 created: 2026-05-07
-updated: 2026-05-09
+updated: 2026-05-18
 ---
 
 # DUUMBI Agentic Development Map
@@ -37,8 +37,8 @@ This is the hub for DUUMBI's agentic development operating model. It follows the
 ## Spec And Review
 
 - [[DUUMBI - Service and Research Direction]]
-- [[DUUMBI - Development Intake to Delivery Workflow]]
 - [[DUUMBI - Agentic Development Runbook]]
+- [[DUUMBI - Development Intake to Delivery Workflow]] -- deprecated historical reference
 - [[Spec-First Agentic Development]]
 - [[Structured Agent Review Artifacts]]
 - [[AI Agent Development Workflow]]

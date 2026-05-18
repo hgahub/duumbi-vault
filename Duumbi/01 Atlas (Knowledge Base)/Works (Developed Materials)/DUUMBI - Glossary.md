@@ -4,7 +4,7 @@ tags:
   - doc/glossary
 status: active
 created: 2026-02-08
-updated: 2026-05-09
+updated: 2026-05-18
 ---
 
 # DUUMBI - Glossary
@@ -99,7 +99,9 @@ A review artifact produced by an agent that records findings, severity, evidence
 
 ## Ralph Cycle
 
-A permission-gated AI implementation loop used after product and technical specs are approved. Each cycle proposes one bounded implementation goal, asks for explicit approval, executes only the approved scope, runs checks, reports evidence and remaining gaps, then stops or requests approval for the next cycle.
+A bounded AI implementation-and-evidence loop used after product and technical specs are approved. Each cycle has one implementation goal, planned file/module scope, planned checks, resource estimate, evidence report, and stop condition.
+
+Ralph Cycles are resource-gated, not automatically approval-gated. Human approval is required when planned external LLM usage exceeds USD 2 or 10 calls, when scope or risk exceeds the approved technical spec, when risky dependencies or irreversible operations are introduced, or when a blocker or product/architecture decision appears. Low-budget cycles may continue autonomously within the technical spec and its batch cap.
 
 ## Knowledge Packaging
 

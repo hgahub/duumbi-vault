@@ -16,6 +16,7 @@ This skill covers:
 - reading the Stage 5 decision comment, Stage 4 triage context, source links, related Discussions, PRD, Glossary, Agentic Development Map, relevant Dots, Maps, Works, and source code when implementation-facing
 - checking for existing related product specs before drafting a new one
 - drafting an English product spec
+- adding English Gherkin-style BDD scenarios that express observable behavior
 - writing the product spec as a GitHub issue comment for small issues
 - creating `specs/DUUMBI-<issue-number>/PRODUCT.md` in the relevant source repository and opening a draft PR for larger, architectural, cross-module, or durable specs
 - linking the spec artifact back to the GitHub Issue
@@ -142,12 +143,18 @@ What decisions are already made, by whom, and where is the evidence?
 Defaults, inputs, outputs, visible states, empty states, error states, cancellation,
 offline/retry behavior, race conditions, accessibility/focus rules, and invariants.
 
+## BDD Scenarios
+Use English Gherkin-style `Feature`, optional `Rule`, `Scenario`, `Given`, `When`,
+`Then`, `And`, and `But`. Scenarios should express initial context, user/system
+action, and observable outcome. Do not make `Then` steps depend on hidden
+implementation details unless that internal behavior is the user-visible contract.
+
 ## Tasks
 How should the work be broken down? Which parts can run independently?
 
 ## Checks
 What proves the work is correct? Include tests, CI, manual checks, review evidence,
-and expected artifacts.
+BDD scenario coverage, live E2E expectations when relevant, and expected artifacts.
 
 ## Open Questions
 
@@ -155,7 +162,7 @@ and expected artifacts.
 Links to issues, discussions, Slack captures, Obsidian notes, code, docs, or external references.
 ```
 
-The minimum six-question format is required but not sufficient by itself. Include `Problem`, `Behavior`, `Open Questions`, and `Sources` for DUUMBI specs.
+The minimum six-question format is required but not sufficient by itself. Include `Problem`, `Behavior`, `BDD Scenarios`, `Open Questions`, and `Sources` for DUUMBI specs.
 
 ## GitHub Outcome Rules
 
@@ -189,6 +196,7 @@ Product spec draft complete:
 **Placement:** <GitHub issue comment | source repo draft PR | blocked>
 **GitHub status:** <Spec Review | Needs Clarification | unchanged>
 **Context checked:** <issue, decision comment, DUUMBI notes, related GitHub/source context>
+**BDD scenarios:** <summary or none>
 **Open questions:** <none or list>
 **Unavailable writes:** <labels/project fields unavailable, or none>
 **Next stage:** <Stage 7 Spec Review | Needs Clarification>
