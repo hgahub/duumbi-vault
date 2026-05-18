@@ -54,4 +54,5 @@ flowchart TB
 - [[DUUMBI Repository Map]]
 - [[Static Website and Docs Publishing]]
 - [[DUUMBI Registry Architecture]]
+- [[DUUMBI Infrastructure Infographic]]
 - [[Visual Documentation in Obsidian]]

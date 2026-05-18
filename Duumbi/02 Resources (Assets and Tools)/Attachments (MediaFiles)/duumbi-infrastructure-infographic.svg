@@ -1,0 +1,280 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100" role="img" aria-labelledby="title desc">
+  <title id="title">Duumbi Infrastructure Infographic</title>
+  <desc id="desc">Pulumi-managed Azure infrastructure for Duumbi, showing persistent, platform, and registry stacks with DNS, static sites, registry container app, storage, secrets, logging, and budget controls.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f6f8fb; }
+      .ink { fill: #152033; }
+      .muted { fill: #5b6678; }
+      .tiny { font: 400 18px Arial, Helvetica, sans-serif; }
+      .small { font: 400 21px Arial, Helvetica, sans-serif; }
+      .body { font: 400 24px Arial, Helvetica, sans-serif; }
+      .label { font: 700 23px Arial, Helvetica, sans-serif; }
+      .stack-title { font: 800 31px Arial, Helvetica, sans-serif; }
+      .title { font: 800 56px Arial, Helvetica, sans-serif; }
+      .subtitle { font: 400 25px Arial, Helvetica, sans-serif; }
+      .pill-text { font: 700 18px Arial, Helvetica, sans-serif; }
+      .section { stroke-width: 2.2; rx: 22; }
+      .card { fill: #ffffff; stroke: #c9d2df; stroke-width: 1.7; rx: 14; }
+      .card-strong { fill: #ffffff; stroke: #8091a8; stroke-width: 2.2; rx: 14; }
+      .azure { fill: #e7f0ff; stroke: #7da2d6; }
+      .platform { fill: #dceaff; stroke: #6d94cf; }
+      .registry { fill: #ddf3e8; stroke: #6aa982; }
+      .persistent { fill: #fff0dc; stroke: #d99a4b; }
+      .ops { fill: #f0e7ff; stroke: #9b7bd5; }
+      .external { fill: #eef2f7; stroke: #a6b2c1; }
+      .accent-blue { fill: #1e6fbd; }
+      .accent-green { fill: #24835a; }
+      .accent-orange { fill: #bd6a1e; }
+      .accent-purple { fill: #7650b8; }
+      .accent-slate { fill: #52647a; }
+      .line { fill: none; stroke: #415168; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
+      .line-blue { fill: none; stroke: #1e6fbd; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+      .line-green { fill: none; stroke: #24835a; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+      .line-orange { fill: none; stroke: #bd6a1e; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+      .line-purple { fill: none; stroke: #7650b8; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+      .dash { stroke-dasharray: 10 10; }
+      .shadow { filter: drop-shadow(0 8px 18px rgba(21, 32, 51, 0.13)); }
+    </style>
+    <marker id="arrow" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto">
+      <path d="M1,1 L12,6.5 L1,12 Z" fill="#415168"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto">
+      <path d="M1,1 L12,6.5 L1,12 Z" fill="#1e6fbd"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto">
+      <path d="M1,1 L12,6.5 L1,12 Z" fill="#24835a"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto">
+      <path d="M1,1 L12,6.5 L1,12 Z" fill="#bd6a1e"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto">
+      <path d="M1,1 L12,6.5 L1,12 Z" fill="#7650b8"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1600" height="1100"/>
+
+  <g transform="translate(68,52)">
+    <text class="title ink" x="0" y="0" dominant-baseline="hanging">Duumbi Infrastructure</text>
+    <text class="subtitle muted" x="2" y="74">Pulumi TypeScript on Azure, organized into persistent, platform, and registry stacks</text>
+
+    <g transform="translate(1105,3)">
+      <rect class="azure" x="0" y="0" width="355" height="82" rx="18"/>
+      <text class="label ink" x="24" y="27">Region</text>
+      <text class="body muted" x="118" y="28">West Europe</text>
+      <text class="tiny muted" x="24" y="60">Tags: Project=Duumbi, ManagedBy=Pulumi</text>
+    </g>
+  </g>
+
+  <g transform="translate(68,160)">
+    <rect class="section external shadow" x="0" y="0" width="270" height="760"/>
+    <text class="stack-title ink" x="28" y="36">External</text>
+    <text class="small muted" x="28" y="72">Traffic and deploy inputs</text>
+
+    <g transform="translate(28,115)">
+      <rect class="card-strong" x="0" y="0" width="214" height="120"/>
+      <circle class="accent-slate" cx="35" cy="42" r="17"/>
+      <text class="label ink" x="65" y="36">Users</text>
+      <text class="small muted" x="24" y="76">Visit Duumbi public</text>
+      <text class="small muted" x="24" y="102">web endpoints</text>
+    </g>
+
+    <g transform="translate(28,280)">
+      <rect class="card" x="0" y="0" width="214" height="132"/>
+      <rect class="accent-slate" x="23" y="25" width="32" height="32" rx="6"/>
+      <text class="label ink" x="65" y="35">GitHub</text>
+      <text class="small muted" x="24" y="77">duumbi-web feeds</text>
+      <text class="small muted" x="24" y="103">Static Web Apps</text>
+    </g>
+
+    <g transform="translate(28,457)">
+      <rect class="card" x="0" y="0" width="214" height="145"/>
+      <path class="accent-slate" d="M28 28h22v10h-22zM28 46h22v10h-22zM28 64h22v10h-22z"/>
+      <text class="label ink" x="65" y="37">Doppler</text>
+      <text class="small muted" x="24" y="82">service principal</text>
+      <text class="small muted" x="24" y="108">syncs secrets into</text>
+      <text class="small muted" x="24" y="134">Azure Key Vault</text>
+    </g>
+
+    <g transform="translate(28,648)">
+      <rect class="card" x="0" y="0" width="214" height="82"/>
+      <text class="label ink" x="24" y="32">BetterStack</text>
+      <text class="small muted" x="24" y="61">status page target</text>
+    </g>
+  </g>
+
+  <g transform="translate(388,160)">
+    <rect class="section platform shadow" x="0" y="0" width="524" height="530"/>
+    <text class="stack-title ink" x="30" y="37">Platform Stack</text>
+    <text class="small muted" x="30" y="73">rg-duumbi-platform</text>
+
+    <g transform="translate(30,112)">
+      <rect class="card-strong" x="0" y="0" width="464" height="105"/>
+      <circle class="accent-blue" cx="38" cy="42" r="17"/>
+      <text class="label ink" x="72" y="34">Azure DNS Zone</text>
+      <text class="body ink" x="72" y="69">duumbi.dev</text>
+      <text class="tiny muted" x="72" y="94">A, CNAME, TXT records managed by Pulumi</text>
+    </g>
+
+    <g transform="translate(30,253)">
+      <rect class="card" x="0" y="0" width="222" height="115"/>
+      <text class="label ink" x="22" y="33">Landing SWA</text>
+      <text class="small muted" x="22" y="68">swa-duumbi-web</text>
+      <text class="small muted" x="22" y="94">duumbi.dev, www</text>
+    </g>
+
+    <g transform="translate(272,253)">
+      <rect class="card" x="0" y="0" width="222" height="115"/>
+      <text class="label ink" x="22" y="33">Docs SWA</text>
+      <text class="small muted" x="22" y="68">swa-duumbi-docs</text>
+      <text class="small muted" x="22" y="94">docs.duumbi.dev</text>
+    </g>
+
+    <g transform="translate(30,404)">
+      <rect class="card" x="0" y="0" width="222" height="82"/>
+      <text class="label ink" x="22" y="33">Status CNAME</text>
+      <text class="small muted" x="22" y="63">status.duumbi.dev</text>
+    </g>
+
+    <g transform="translate(272,404)">
+      <rect class="card" x="0" y="0" width="222" height="82"/>
+      <text class="label ink" x="22" y="33">Registry DNS</text>
+      <text class="small muted" x="22" y="63">registry.duumbi.dev</text>
+    </g>
+  </g>
+
+  <g transform="translate(962,160)">
+    <rect class="section registry shadow" x="0" y="0" width="570" height="530"/>
+    <text class="stack-title ink" x="30" y="37">Registry Stack</text>
+    <text class="small muted" x="30" y="73">rg-duumbi-registry</text>
+
+    <g transform="translate(30,112)">
+      <rect class="card-strong" x="0" y="0" width="510" height="105"/>
+      <circle class="accent-green" cx="38" cy="42" r="17"/>
+      <text class="label ink" x="72" y="34">Container Apps Environment</text>
+      <text class="small muted" x="72" y="68">cae-duumbi-registry</text>
+      <text class="tiny muted" x="72" y="94">Log destination: shared Log Analytics workspace</text>
+    </g>
+
+    <g transform="translate(30,253)">
+      <rect class="card" x="0" y="0" width="250" height="154"/>
+      <text class="label ink" x="22" y="33">Container App</text>
+      <text class="small muted" x="22" y="68">ca-duumbi-registry</text>
+      <text class="small muted" x="22" y="96">image: ghcr.io/hgahub/</text>
+      <text class="small muted" x="22" y="122">duumbi-registry:latest</text>
+      <text class="tiny muted" x="22" y="145">0-1 replicas, port 8080</text>
+    </g>
+
+    <g transform="translate(306,253)">
+      <rect class="card" x="0" y="0" width="234" height="154"/>
+      <text class="label ink" x="22" y="33">Managed TLS</text>
+      <text class="small muted" x="22" y="68">cert-registry</text>
+      <text class="small muted" x="22" y="96">registry.duumbi.dev</text>
+      <text class="tiny muted" x="22" y="127">CNAME validation</text>
+    </g>
+
+    <g transform="translate(30,443)">
+      <rect class="card" x="0" y="0" width="250" height="65"/>
+      <text class="label ink" x="22" y="29">Secrets</text>
+      <text class="tiny muted" x="112" y="29">JWT + GitHub OAuth</text>
+    </g>
+
+    <g transform="translate(306,443)">
+      <rect class="card" x="0" y="0" width="234" height="65"/>
+      <text class="label ink" x="22" y="29">Action Group</text>
+      <text class="tiny muted" x="22" y="54">email alerts configured</text>
+    </g>
+  </g>
+
+  <g transform="translate(388,735)">
+    <rect class="section persistent shadow" x="0" y="0" width="1144" height="255"/>
+    <text class="stack-title ink" x="30" y="37">Persistent Stack</text>
+    <text class="small muted" x="30" y="73">rg-duumbi-persistent, protected shared resources</text>
+
+    <g transform="translate(30,112)">
+      <rect class="card" x="0" y="0" width="270" height="100"/>
+      <text class="label ink" x="22" y="34">Key Vault</text>
+      <text class="small muted" x="22" y="68">kv-duumbi-persistent</text>
+      <text class="tiny muted" x="22" y="92">90-day soft delete</text>
+    </g>
+
+    <g transform="translate(327,112)">
+      <rect class="card" x="0" y="0" width="285" height="100"/>
+      <text class="label ink" x="22" y="34">Log Analytics</text>
+      <text class="small muted" x="22" y="68">law-duumbi-mvp</text>
+      <text class="tiny muted" x="22" y="92">30 days, 0.5 GB/day cap</text>
+    </g>
+
+    <g transform="translate(640,112)">
+      <rect class="card" x="0" y="0" width="240" height="100"/>
+      <text class="label ink" x="22" y="34">Budget Guardrail</text>
+      <text class="small muted" x="22" y="68">$20 monthly cap</text>
+      <text class="tiny muted" x="22" y="92">80% and 100% alerts</text>
+    </g>
+
+    <g transform="translate(908,112)">
+      <rect class="card" x="0" y="0" width="206" height="100"/>
+      <text class="label ink" x="22" y="34">Stack Outputs</text>
+      <text class="small muted" x="22" y="68">workspace keys</text>
+      <text class="tiny muted" x="22" y="92">used by registry stack</text>
+    </g>
+  </g>
+
+  <g transform="translate(962,735)">
+    <g transform="translate(0,-160)">
+      <rect class="section ops shadow" x="0" y="0" width="570" height="112"/>
+      <text class="label ink" x="30" y="35">Registry Persistence</text>
+      <text class="small muted" x="30" y="70">Storage account stduumbiregistry + Azure File Share registry-data</text>
+      <text class="tiny muted" x="30" y="96">Mounted read-write at /data for SQLite and modules, quota 1 GiB</text>
+    </g>
+  </g>
+
+  <g>
+    <path class="line-blue" marker-end="url(#arrow-blue)" d="M310 336 C350 336 352 324 388 324"/>
+    <text class="tiny accent-blue" x="318" y="312">DNS lookup</text>
+
+    <path class="line-blue" marker-end="url(#arrow-blue)" d="M650 377 C650 405 530 407 530 413"/>
+    <path class="line-blue" marker-end="url(#arrow-blue)" d="M650 377 C650 405 773 407 773 413"/>
+    <path class="line-blue" marker-end="url(#arrow-blue)" d="M650 377 C650 566 530 566 530 564"/>
+    <path class="line-blue" marker-end="url(#arrow-blue)" d="M650 377 C650 565 773 565 773 564"/>
+
+    <path class="line" marker-end="url(#arrow)" d="M310 502 C348 502 348 475 418 475"/>
+    <text class="tiny muted" x="316" y="477">deploy source</text>
+
+    <path class="line-green" marker-end="url(#arrow-green)" d="M882 564 C929 564 913 490 992 490"/>
+    <text class="tiny accent-green" x="886" y="535">CNAME to app FQDN</text>
+
+    <path class="line-green" marker-end="url(#arrow-green)" d="M1242 567 L1242 629"/>
+    <text class="tiny accent-green" x="1260" y="606">/data mount</text>
+
+    <path class="line-orange" marker-end="url(#arrow-orange)" d="M310 684 C480 684 482 847 418 847"/>
+    <text class="tiny accent-orange" x="316" y="722">secret sync access</text>
+
+    <path class="line-purple" marker-end="url(#arrow-purple)" d="M1244 272 C1205 718 878 738 858 847"/>
+    <text class="tiny accent-purple" x="1030" y="729">container logs</text>
+
+    <path class="line-purple dash" marker-end="url(#arrow-purple)" d="M1244 272 C1117 712 1275 760 1282 847"/>
+    <text class="tiny accent-purple" x="1288" y="726">StackReference</text>
+
+    <path class="line-orange dash" marker-end="url(#arrow-orange)" d="M1266 897 C1160 1014 840 1014 796 947"/>
+    <text class="tiny accent-orange" x="870" y="1022">budget filters Project=Duumbi</text>
+  </g>
+
+  <g transform="translate(68,970)">
+    <rect class="external" x="0" y="0" width="270" height="74" rx="16"/>
+    <text class="label ink" x="24" y="30">Source of Truth</text>
+    <text class="tiny muted" x="24" y="56">stack-*.ts and lib/tags.ts</text>
+  </g>
+
+  <g transform="translate(388,1018)">
+    <rect class="accent-blue" x="0" y="-14" width="22" height="8" rx="4"/>
+    <text class="pill-text muted" x="32" y="-6">public routing</text>
+    <rect class="accent-green" x="178" y="-14" width="22" height="8" rx="4"/>
+    <text class="pill-text muted" x="210" y="-6">runtime workload</text>
+    <rect class="accent-orange" x="405" y="-14" width="22" height="8" rx="4"/>
+    <text class="pill-text muted" x="437" y="-6">secrets and cost</text>
+    <rect class="accent-purple" x="638" y="-14" width="22" height="8" rx="4"/>
+    <text class="pill-text muted" x="670" y="-6">logs and stack outputs</text>
+  </g>
+</svg>

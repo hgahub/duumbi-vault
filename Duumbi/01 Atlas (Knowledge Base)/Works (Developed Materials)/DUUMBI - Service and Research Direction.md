@@ -5,7 +5,7 @@ tags:
   - doc/research-direction
 status: active
 created: 2026-05-08
-updated: 2026-05-08
+updated: 2026-05-18
 related_maps:
   - "[[DUUMBI Core Concepts Map]]"
   - "[[DUUMBI Technical Architecture Map]]"
@@ -57,7 +57,7 @@ related_maps:
 | Context and knowledge foundation | Delivered | Fact | PRD, context pack docs, vault maps, source repo context assembly | Use as evidence for lower-token operation and answerability. |
 | Deterministic behavior | Partial | Interpretation | Compiler/validator/cache evidence plus probabilistic agent layer | State the boundary clearly: deterministic substrate, not fully deterministic AI behavior. |
 | Studio E2E workflow | Partial | Fact | Phase 15/15i archive docs and current PRD | Finish evidence before making strong public claims. |
-| Query mode and public docs alignment | Partial | Fact | `docs/modes/query-mode-spec.md`, source query code, README/public docs gap | Promote query to a first-class service surface. |
+| Query mode and public docs alignment | Delivered | Fact | Merged PR #565, `docs/modes/query-mode-spec.md`, README, sites docs source, CLI/Studio copy | Query is now exposed as a first-class read-only surface; future answer-schema hardening remains separate. |
 | Cross-platform support | Partial | Fact | Phase 16 archive docs and repo status | Do not claim Windows support as mature until CI and docs prove it. |
 | Large-system `init` bootstrapping | Partial | Interpretation | `init` project scaffolding exists; architecture-scale specification evidence is incomplete | Define a separate service capability for large-system specification packages. |
 | Telemetry and self-healing | Planned | Fact | Phase 13 archive material and roadmap | Specify as traceId/nodeId -> repair patch -> tests -> human-reviewable diff. |
@@ -111,10 +111,10 @@ related_maps:
 
 ## Decision Question 5 - What Should Be Built Next?
 
-- Interpretation: Near-term product work should make read-only question answering a first-class service surface.
-- Fact: The source repo already contains query-mode specification work, while public-facing docs and README material still emphasize compiler, mutation, and intent more than ask/answer behavior.
+- Fact: Near-term product work has made read-only question answering visible as a first-class service surface in README, repo docs, public docs source, CLI/TUI copy, and Studio copy via merged PR #565.
+- Fact: PR #565 updated README, repo docs, sites docs source, CLI/TUI copy, and Studio copy so Query appears before write-capable Agent/Intent workflows. It also removed stale `duumbi viz` documentation because that command is not a supported or planned surface.
 - Interpretation: The immediate build order should be:
-  1. Make `query` visible in CLI help, Studio, README, and public docs.
+  1. Keep Query-first exposure accurate across CLI help, Studio, README, and public docs as surfaces evolve.
   2. Define the standard answer schema: claim label, source, nodeId/symbol, evidence, dependency impact, risk, and next action.
   3. Finish Phase 15/15i evidence so the end-to-end Studio workflow can be shown without relying on archive prose.
   4. Complete Phase 16 Windows CI, setup docs, and platform compatibility checks.
