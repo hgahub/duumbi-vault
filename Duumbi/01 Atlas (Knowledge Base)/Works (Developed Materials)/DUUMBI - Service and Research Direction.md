@@ -5,7 +5,7 @@ tags:
   - doc/research-direction
 status: active
 created: 2026-05-08
-updated: 2026-05-18
+updated: 2026-05-21
 related_maps:
   - "[[DUUMBI Core Concepts Map]]"
   - "[[DUUMBI Technical Architecture Map]]"
@@ -19,6 +19,8 @@ related_maps:
 - Fact: This is an internal decision memo, not public marketing copy.
 - Interpretation: DUUMBI should be framed as an intent-to-validated-software system, not only as a compiler.
 - Interpretation: The strongest current framing is: DUUMBI is a semantic execution substrate for coding agents where semantic graphs make AI-generated behavior inspectable, reusable, testable, and eventually formally verifiable.
+- Interpretation: The first credible Phase 13 self-healing story is local developer/test runtime failure feedback: traced runs produce crash evidence, graph back-mapping, repair-ready context, validation, and a human-reviewable patch proposal.
+- Assumption: Production customer crash ingestion, DUUMBI account-based telemetry, automatic repair delivery, and silent application updates are later product tracks, not the first Phase 13 slice.
 - Assumption: "Current" means the vault, public docs, and source repo state reviewed on 2026-05-08.
 - Assumption: When local archive prose and source repo behavior disagree, source repo behavior and GitHub execution state should be treated as the stronger evidence.
 
@@ -60,7 +62,8 @@ related_maps:
 | Query mode and public docs alignment | Delivered | Fact | Merged PR #565, `docs/modes/query-mode-spec.md`, README, sites docs source, CLI/Studio copy | Query is now exposed as a first-class read-only surface; future answer-schema hardening remains separate. |
 | Cross-platform support | Partial | Fact | Phase 16 archive docs and repo status | Do not claim Windows support as mature until CI and docs prove it. |
 | Large-system `init` bootstrapping | Partial | Interpretation | `init` project scaffolding exists; architecture-scale specification evidence is incomplete | Define a separate service capability for large-system specification packages. |
-| Telemetry and self-healing | Planned | Fact | Phase 13 archive material and roadmap | Specify as traceId/nodeId -> repair patch -> tests -> human-reviewable diff. |
+| Runtime failure feedback | Planned | Interpretation | Phase 13 archive material, roadmap, PRD, #580 decomposition | First promise: local traced developer/test run -> crash evidence -> graph back-mapping -> repair context -> validation -> human-reviewable diff. |
+| Production customer self-healing | Research | Assumption | Phase 13 archive ambition plus missing account/cloud/update/privacy design | Do not plan as first slice; requires consent, telemetry ingestion, account identity, release delivery, rollback, and operational safety. |
 | Windows CI and docs | Planned | Fact | Phase 16 roadmap/archive direction | Prioritize reproducible developer onboarding across operating systems. |
 | Shared session and event architecture | Planned | Interpretation | PRD and Studio/agent/session direction | Needed for query, telemetry, and human-reviewable replay. |
 | Dijkstra-style formal verification | Research | Research hypothesis | Local formal-verification ambition plus Dafny/verification literature | Test direct VCGen from DUUMBI graphs before claiming formal verification. |
@@ -92,6 +95,7 @@ related_maps:
 | How much context will this use? | Interpretation | Estimate token budget, selected context packs, graph summaries, omitted files, and fallback expansion steps. |
 | Can this run on this platform? | Fact or Interpretation | Return supported build targets, missing Windows or OS-specific evidence, CI results, and setup docs. |
 | Can `init` specify a large system? | Interpretation | Return supported scaffolding today, missing architecture-spec inputs, and the next validation path. |
+| Can DUUMBI help diagnose this runtime crash? | Interpretation | For planned Phase 13 flows, return local trace/crash artifacts, mapped graph function/block or node context, repair readiness, validation gates, and missing evidence. |
 
 ## Decision Question 4 - Where Is DUUMBI Compared With The Market?
 
@@ -118,12 +122,13 @@ related_maps:
   2. Define the standard answer schema: claim label, source, nodeId/symbol, evidence, dependency impact, risk, and next action.
   3. Finish Phase 15/15i evidence so the end-to-end Studio workflow can be shown without relying on archive prose.
   4. Complete Phase 16 Windows CI, setup docs, and platform compatibility checks.
-  5. Specify Phase 13 telemetry/self-healing as traceId/nodeId -> repair patch -> tests -> human-reviewable diff.
+  5. Specify Phase 13 runtime failure feedback as traced developer/test run -> crash evidence -> graph back-mapping -> repair context -> validation -> human-reviewable diff.
   6. Add a shared session/event architecture that can support query replay, agent execution, telemetry, and review.
   7. Extend `init` from project scaffolding to large-system specification packages: architecture intent, domain model, module boundaries, policy constraints, test plan, build targets, and deployment assumptions.
   8. Turn semantic graph repository reuse into a queryable recommendation surface: existing module, semantic hash, compatibility reason, confidence, and risk.
 - Assumption: The first public service promise should be conservative: "ask DUUMBI what exists, why it exists, where it lives, what proves it, and what change risk exists."
 - Assumption: Write-capable repair and generation should remain behind validation and human-reviewable diffs until telemetry evidence is strong.
+- Assumption: Customer-production self-healing should remain out of scope until local developer/test failure feedback is proven and product specs cover privacy, account identity, upload, delivery, rollback, and user consent.
 
 ## Decision Question 6 - What Should Be Researched?
 
@@ -175,12 +180,17 @@ related_maps:
 - Cross-platform builds:
   - Fact: Cross-platform support is not mature until Windows CI, setup docs, and target-specific validation are complete.
   - Interpretation: Cross-platform should be treated as a Phase 16 delivery track, not a completed service promise.
+- Runtime failure feedback and self-healing:
+  - Fact: Phase 13 archive material defines telemetry and self-healing around runtime errors, trace back-mapping, repair patches, tests, and human-reviewable diffs.
+  - Interpretation: The first productized use case should be local developer/test failure diagnosis and repair evidence, because it avoids cloud ingestion, customer privacy, release delivery, and auto-update risk while proving the core technical loop.
+  - Assumption: Production customer crash collection and automatic repair delivery should be specified separately after the local/CI flow works.
 
 ## Source Set
 
 - Fact: Local sources reviewed or targeted:
 
 - Fact: [[DUUMBI - PRD]]
+- Fact: [[Runtime Failure Feedback Loop]]
 - Fact: [[DUUMBI Roadmap Map]]
 - Fact: `docs/modes/query-mode-spec.md` in the source repository.
 - Fact: `README.md` in the source repository.

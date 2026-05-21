@@ -4,9 +4,9 @@ tags:
   - map/core-concepts
 status: active
 created: 2026-02-08
-updated: 2026-05-08
+updated: 2026-05-21
 ---
-í# DUUMBI Core Concepts Map
+# DUUMBI Core Concepts Map
 
 Use this map to navigate the stable ideas behind DUUMBI. For execution state, go to GitHub Project. For the active product definition, start with [[DUUMBI - PRD]].
 
@@ -14,6 +14,7 @@ Use this map to navigate the stable ideas behind DUUMBI. For execution state, go
 
 - [[Intent-Driven Development]] -- turns user goals into explicit system changes.
 - [[Semantic Fixed Point]] -- the target state where intent, graph, behavior, and evidence converge.
+- [[Runtime Failure Feedback Loop]] -- planned Phase 13 capability for local traced runtime failures, graph back-mapping, repair-ready context, validation, and human review.
 - [[DUUMBI - Service and Research Direction]] -- frames DUUMBI as an intent-to-validated-software service with read-only question answering.
 - [[Original Vision Document (FixPoint)]] -- historical thesis distilled into current product language.
 - [[Open Source Monetization Model B]] -- durable commercial model for open-source product growth.
@@ -39,6 +40,7 @@ Use this map to navigate the stable ideas behind DUUMBI. For execution state, go
 ## Surfaces And Execution
 
 - Query mode -- read-only service surface for answering what exists, why it exists, where behavior lives, what depends on it, what proves it, and what change risk exists.
+- Runtime failure feedback -- planned local developer/test surface where traced runs produce crash evidence, graph back-mapping, repair context, validation output, and a human-reviewable repair diff.
 - [[DUUMBI Repository Map]] -- how vault, infra, registry, and web repositories relate.
 - [[DUUMBI Repository Responsibility Model]] -- routing rules for repo ownership.
 - [[GitHub Project as Execution Source of Truth]] -- current work state belongs in GitHub.

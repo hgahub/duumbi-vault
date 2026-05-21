@@ -4,7 +4,7 @@ tags:
   - doc/product-requirements
 status: active
 created: 2026-02-08
-updated: 2026-05-08
+updated: 2026-05-21
 related_maps:
   - "[[DUUMBI Core Concepts Map]]"
   - "[[DUUMBI Technical Architecture Map]]"
@@ -50,6 +50,7 @@ The product wins when a user can answer:
 - Ask read-only questions over source, graph, intents, sessions, knowledge, and evidence before choosing a write-capable workflow.
 - Convert ambiguous intent into a concise product/spec artifact with defaults, states, edge cases, and verification criteria.
 - Produce a technical plan that identifies affected areas, risks, tests, and review evidence.
+- In a controlled developer/test environment, run DUUMBI-built applications with tracing enabled so runtime failures can be mapped back to semantic graph context and turned into repair-ready evidence.
 - Use Codex for local/vault/repo work and Warp Oz for cloud, parallel, scheduled, or long-running work.
 - Require structured agent review before human review.
 - Use GitHub Project, issues, PRs, and CI as the execution state.
@@ -68,6 +69,23 @@ The service should start with conservative answers:
 - what proves it through tests, CI, benchmark output, archive evidence, telemetry, or review artifacts
 - what risk a change carries through affected graph regions, ownership/type boundaries, missing tests, and human-review checkpoints
 
+## Runtime Failure Feedback
+
+DUUMBI should eventually help developers diagnose and repair runtime failures in DUUMBI-built applications by connecting crash evidence back to semantic graph context.
+
+The first product promise is local developer/test feedback, not automatic production self-repair. A developer should be able to build or run with tracing enabled, reproduce a runtime failure, inspect locally recorded crash evidence, see the graph function/block or node context associated with the failure, and receive repair-ready context or a constrained patch proposal. Any repair must pass graph validation, rebuild, tests, and human review before it is accepted.
+
+The intended first flow is:
+
+1. traced build or traced run in a developer or CI environment
+2. runtime failure captured as local trace/crash evidence
+3. back-mapping from trace identifiers to semantic graph context
+4. repair-agent input contract derived from that evidence
+5. graph/code patch proposal
+6. validation, rebuild, tests, and human-reviewable diff
+
+The first slice explicitly excludes cloud ingestion of customer crashes, DUUMBI account-based production telemetry, silent auto-update of deployed applications, hot-swap of running binaries, and autonomous repair acceptance. Those can become later product tracks only after privacy, consent, artifact upload, release delivery, rollback, and operational safety are specified.
+
 ## Architecture Principles
 
 - **Intent-first:** natural-language intent should become explicit product behavior and graph changes before implementation begins.
@@ -76,6 +94,7 @@ The service should start with conservative answers:
 - **Compiled where useful:** executable output should be generated from validated structure rather than hidden transformation steps.
 - **Evidence-oriented:** every agent run should produce reviewable artifacts: summary, diff, tests, risks, and follow-up items.
 - **Human-verifiable:** the system should make product behavior easy to inspect, not just easy to generate.
+- **Runtime-evidence-backed:** runtime feedback should be captured as structured evidence that can be mapped to graph context before repair automation is trusted.
 - **Knowledge-backed:** agent context should come from concise, source-backed notes rather than stale long documents.
 - **Tool-agnostic core:** Warp Oz, Codex, Slack, GitHub, and Obsidian are workflow tools; DUUMBI's durable model should not depend on one vendor surface.
 
@@ -107,6 +126,7 @@ The vault should train humans and agents without flooding them with execution hi
 - Agent output is not accepted without tests, review, or explicit human verification.
 - The vault does not duplicate source-code documentation that belongs in the DUUMBI repo.
 - Long historical planning documents should not be recreated as active guidance.
+- Runtime failure feedback does not initially mean production customer telemetry, automatic account-based crash ingestion, silent end-user updates, or autonomous repair acceptance.
 
 ## Success Criteria
 
@@ -126,6 +146,7 @@ The vault should train humans and agents without flooding them with execution hi
 - [[DUUMBI Technical Architecture Map]]
 - [[DUUMBI Agentic Development Map]]
 - [[Spec-First Agentic Development]]
+- [[Runtime Failure Feedback Loop]]
 - [[Warp Oz and Codex Development Toolchain]]
 - [[GitHub Project as Execution Source of Truth]]
 - [[Obsidian Vault as Agent Knowledge Substrate]]
