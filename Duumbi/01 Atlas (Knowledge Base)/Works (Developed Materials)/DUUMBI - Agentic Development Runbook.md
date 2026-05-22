@@ -5,7 +5,7 @@ tags:
   - doc/runbook
 status: active
 created: 2026-05-13
-updated: 2026-05-18
+updated: 2026-05-22
 related_maps:
   - "[[DUUMBI Agentic Development Map]]"
 related_works:
@@ -190,7 +190,7 @@ Default model guidance for Codex App:
 
 ## Stage Prompts
 
-Replace the issue, PR, and repository names before running. Keep prompts explicit about the stage boundary, because the skills intentionally refuse to cross gates.
+For Stage 5, Stage 7, and Stage 9 approval handoffs, prefer the generated next-stage prompt from the Stage Approval decision comment, workflow summary, or Slack approval summary. Use the manual templates below when the generated prompt is unavailable or needs correction. Replace the issue, PR, and repository names before running. Keep prompts explicit about the stage boundary, because the skills intentionally refuse to cross gates.
 
 ### Stage 1 - Slack Intake
 
@@ -508,6 +508,37 @@ Agents may recommend decisions, but they must not invent human acceptance.
 | Closure | `duumbi-vault` | Work locally | Verifies GitHub completion and decides durable knowledge sync |
 | Durable knowledge sync | `duumbi-vault` for Obsidian, target source repo for `AGENTS.md` | New worktree when editing files | Keeps durable knowledge and repo-local agent rules versioned |
 
+## Approval Handoff Prompt Surfaces
+
+Facts:
+
+- Stage Approval approval paths for Stage 5, Stage 7, and Stage 9 produce copy-ready next-stage Codex prompts.
+- Generated prompts are emitted to the GitHub decision comment and workflow summary as durable GitHub-linked fallback surfaces.
+- When Slack approval-result delivery is configured, the same prompt is also included in the Slack approval summary.
+- Prompt generation is limited to approval decisions. Non-approval decisions must not emit next-stage launch prompts.
+- Missing product or technical spec artifacts must be shown with explicit placeholders instead of being omitted or guessed.
+
+Decision:
+
+- After Stage 5, Stage 7, or Stage 9 approval, agents should prefer the generated next-stage prompt from the approval result surfaces over manually reconstructing the runbook prompt.
+- The manual prompts below remain fallback templates for cases where the generated prompt is unavailable, incomplete, or needs human correction.
+- Stage 9 approval routes to Stage 10 Implementation Coordination with `duumbi-implementation`; it does not directly authorize an unbounded Ralph cycle.
+
+Assumptions:
+
+- GitHub remains the durable fallback even when Slack is the fastest human-facing surface.
+- Generated prompts are launch assistance, not execution state and not automatic authorization to skip the next stage boundary.
+
+Recommendations:
+
+- Before running the generated prompt, check that its issue URL, spec artifact links, skill name, and boundary warnings match the approved stage.
+- If a generated prompt contains a `<missing: ...>` artifact placeholder, resolve the missing artifact from GitHub evidence before starting the next stage, or explicitly carry the placeholder as a blocker.
+- Do not copy generated prompts into Obsidian as status artifacts; update durable knowledge only when the prompt behavior changes reusable workflow guidance.
+
+Open questions:
+
+- None for the current workflow rule.
+
 ## Common Mistakes
 
 - Do not treat `Todo` as `Needs Human Acceptance`; they are different workflow states.
@@ -525,5 +556,11 @@ Agents may recommend decisions, but they must not invent human acceptance.
 - [[Warp Oz and Codex Development Toolchain]]
 - [[Agent Skills as Operational Playbooks]]
 - [[How to use]]
+- https://github.com/hgahub/duumbi/issues/593
+- https://github.com/hgahub/duumbi/pull/599
+- https://github.com/hgahub/duumbi/pull/601
+- https://github.com/hgahub/duumbi/pull/603
+- https://github.com/hgahub/duumbi/pull/603#issuecomment-4522484830
+- https://github.com/hgahub/duumbi/issues/593#issuecomment-4522548997
 - https://medium.com/@wasowski.jarek/sdd-writing-specifications-for-ai-bdd-as-the-missing-link-spec-driven-development-ad1b540b7f75
 - https://cucumber.io/docs/gherkin/reference/
