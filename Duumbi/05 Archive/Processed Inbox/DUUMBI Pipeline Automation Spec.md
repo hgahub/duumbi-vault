@@ -343,3 +343,25 @@ prompt_supplement: ""  # optional additional context
 - [[DUUMBI Agentic Development Map]] — workflow visualization
 - Existing workflows: `ci.yml`, `coverage.yml`, `stage-approval.yml`, `human-acceptance-request.yml`, `spec-review-request.yml`, `technical-spec-review-request.yml`
 - Slack bridge: `scripts/slack-approval-bridge/src/functions/slackApproval.js`
+
+## Triage result
+- Date: 2026-05-22
+- Classification: execution work
+- Routing: split into four GitHub execution issues and routed to Needs Human Acceptance.
+- GitHub artifacts:
+  - https://github.com/hgahub/duumbi/issues/593
+  - https://github.com/hgahub/duumbi/issues/594
+  - https://github.com/hgahub/duumbi/issues/595
+  - https://github.com/hgahub/duumbi/issues/596
+- Obsidian artifacts: none created; this note was sufficient source material and GitHub now owns execution state.
+- Canonical duplicate: none found during GitHub duplicate search.
+- Open questions:
+  - Should generated next-stage prompts be Slack-only or also appended to GitHub decision comments?
+  - Should missing workflow labels such as `needs-cycle-approval`, `needs-review`, and `done` be created as first-class labels?
+  - Should Stage 10 resource decisions live in `stage-approval.yml` or a dedicated Stage 10 authorization workflow?
+  - Is the Oz API/CLI contract stable enough for GitHub Actions, and which Azure deployment credential path should be used?
+- Assumptions:
+  - Heavy generative stages should remain Codex-prompted rather than Oz-dispatched by default.
+  - Post-merge closure must conservatively skip ambiguous issue links and spec-only PRs.
+  - Optional cloud/deployment work should follow the core approval-prompt and closure automation rather than block it.
+- Next stage: Stage 5 Human Acceptance for issues #593, #594, #595, and #596.
