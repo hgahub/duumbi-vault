@@ -365,3 +365,14 @@ prompt_supplement: ""  # optional additional context
   - Post-merge closure must conservatively skip ambiguous issue links and spec-only PRs.
   - Optional cloud/deployment work should follow the core approval-prompt and closure automation rather than block it.
 - Next stage: Stage 5 Human Acceptance for issues #593, #594, #595, and #596.
+
+## Closure disposition for issue #593
+
+- Date: 2026-05-22
+- Outcome: issue #593 completed by merged implementation PR #603.
+- Issue: https://github.com/hgahub/duumbi/issues/593
+- Implementation PR: https://github.com/hgahub/duumbi/pull/603
+- Product spec: https://github.com/hgahub/duumbi/pull/599
+- Technical spec: https://github.com/hgahub/duumbi/pull/601
+- Review artifact: https://github.com/hgahub/duumbi/pull/603#issuecomment-4522484830
+- Disposition: source note remains in Processed Inbox; GitHub holds execution state.
