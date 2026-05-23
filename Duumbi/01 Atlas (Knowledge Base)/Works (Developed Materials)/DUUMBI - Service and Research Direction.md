@@ -184,6 +184,7 @@ related_maps:
 - Runtime failure feedback and self-healing:
   - Fact: Phase 13 archive material defines telemetry and self-healing around runtime errors, trace back-mapping, repair patches, tests, and human-reviewable diffs.
   - Fact: Issue #580 and implementation PR #604 delivered the first local foundation: opt-in traced builds, trace/crash artifacts, graph function/block back-mapping, telemetry inspection, repair crash context, and repair validation evidence contracts.
+  - Fact: Issue #583 and implementation PR #614 narrowed the local trace surface by validating traced-build telemetry configuration for sampling, sample rate, artifact directories, environment overrides, and value-capture boundaries while preserving default-off build behavior.
   - Interpretation: The first productized use case should be local developer/test failure diagnosis and repair evidence, because it avoids cloud ingestion, customer privacy, release delivery, and auto-update risk while proving the core technical loop.
   - Assumption: Production customer crash collection and automatic repair delivery should be specified separately after the local/CI flow works.
 
@@ -202,6 +203,7 @@ related_maps:
 - Fact: Phase 12 archive docs on registry, validation, and package reuse.
 - Fact: Phase 13 archive docs on telemetry and repair direction.
 - Fact: Issue #580, product spec PR #600, technical spec PR #602, implementation PR #604, and Stage 12 closure evidence for the local telemetry/back-mapping foundation.
+- Fact: Issue #583, product spec PR #609, technical spec PR #611, implementation PR #614, Stage 11 review artifact, and Stage 12 closure evidence for traced-build telemetry configuration validation.
 - Fact: Phase 15 and 15i archive docs on Studio E2E and end-to-end evidence.
 - Fact: Phase 16 archive docs on Windows and platform support.
 - Fact: Public DUUMBI docs in the source repository.

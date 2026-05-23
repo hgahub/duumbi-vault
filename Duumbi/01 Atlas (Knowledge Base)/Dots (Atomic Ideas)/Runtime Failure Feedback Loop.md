@@ -23,23 +23,27 @@ Facts:
 
 - The first implemented foundation is local and opt-in: a developer can build with trace instrumentation, run the compiled program, record local trace/crash artifacts, and inspect graph function/block back-mapping evidence.
 - The source implementation for the first foundation is linked from issue #580, implementation PR #604, product spec PR #600, technical spec PR #602, and the Stage 12 closure evidence.
+- Issue #583 added the narrow traced-build telemetry configuration boundary: sampling mode, sample rate, artifact directory resolution, environment override behavior, and value-capture rejection are validated for traced builds without making default builds depend on trace-only telemetry semantics.
 - The first foundation preserves default uninstrumented builds and does not add production telemetry ingestion, remote collectors, Studio dashboards, hot-swap, or autonomous repair acceptance.
 
 Decision:
 
 - Treat runtime failure feedback as a local developer/test evidence loop first, not as production self-healing.
 - Treat function/block-level graph back-mapping as the first reliable mapping level. Exact node-level mapping remains future work unless a later spec proves enough error context.
+- Validate telemetry configuration at the traced-build boundary before compilation, but do not block the normal uninstrumented build path on trace-only telemetry configuration errors.
 - Keep repair acceptance behind graph validation, rebuild, relevant tests, and explicit human review.
 
 Assumptions:
 
 - Local trace/crash artifacts may contain sensitive runtime context, so value capture and upload behavior must remain conservative until separately specified.
+- Telemetry artifact directories and environment overrides are local developer controls, not upload or account-ingestion semantics.
 - The right product sequence is telemetry/back-mapping evidence first, repair-agent context second, automated proposal generation later, and production repair last.
 
 Open questions:
 
 - What additional graph or runtime context is required before exact node-level mapping is dependable?
 - Should a future traced run surface exist in addition to traced build, or is `duumbi build --trace` plus normal run enough?
+- When, if ever, should runtime value capture be enabled, and what privacy, consent, redaction, and storage controls must exist first?
 
 ## Why It Matters
 
@@ -60,6 +64,7 @@ Agents and developers should use this guidance when working on telemetry, runtim
 
 - Default builds must remain uninstrumented.
 - Traced behavior must be explicit and local by default.
+- Trace-only telemetry config validation must fail fast for unsafe sampling, artifact-path, environment override, or value-capture settings without changing default-build behavior.
 - Trace maps should preserve graph identity; they must not depend on unstable traversal order.
 - Crash evidence should preserve the original runtime failure signal instead of hiding it behind telemetry handling.
 - Repair context must be derived from mapped crash evidence, not invented from a generic failure prompt.
@@ -85,6 +90,12 @@ These can become later product tracks only after privacy, consent, account ident
 - Technical spec PR #602: https://github.com/hgahub/duumbi/pull/602
 - Implementation PR #604: https://github.com/hgahub/duumbi/pull/604
 - Stage 12 closure evidence: https://github.com/hgahub/duumbi/issues/580#issuecomment-4525647674
+- Issue #583: https://github.com/hgahub/duumbi/issues/583
+- Product spec PR #609: https://github.com/hgahub/duumbi/pull/609
+- Technical spec PR #611: https://github.com/hgahub/duumbi/pull/611
+- Implementation PR #614: https://github.com/hgahub/duumbi/pull/614
+- Stage 11 review artifact for #614: https://github.com/hgahub/duumbi/pull/614#issuecomment-4525775062
+- Stage 12 closure evidence for #583: https://github.com/hgahub/duumbi/issues/583#issuecomment-4525938095
 
 ## Related
 
