@@ -155,6 +155,42 @@ Human approval is required before a cycle when any of these are true:
 
 External LLM usage means DUUMBI live provider calls and external model or agent CLI calls. Codex internal reasoning turns are reported as estimates only and are not enforceable as exact budget counters.
 
+### Workflow Metrics And Usage Evidence
+
+Facts:
+
+- Issue #610, product spec PR #612, technical spec PR #613, implementation PR #615, Stage 11 review evidence, and Stage 12 closure evidence established the first selected GitHub Actions and `scripts/eval_intent.sh` metrics slice.
+- The accepted metrics pattern is metadata-only: identifiers, counts, timestamps, durations, conclusions, artifact availability, privacy flags, and provider-usage availability.
+- Metrics artifacts must not store secrets, credentials, raw prompts, raw completions, Slack message bodies, issue bodies, comment bodies, provider payloads, or broad log dumps.
+
+Decision:
+
+- Future DUUMBI workflow or evaluation metrics work must distinguish measured provider usage from unavailable usage. Missing token, request, cost, or latency data must be marked unavailable or `null`, not inferred from task count, run duration, or Codex internal estimates.
+- Metrics collection and artifact upload must be warning-only or otherwise non-masking: they must not convert a successful primary workflow into a failed run or hide the original failure.
+
+Assumptions:
+
+- GitHub Actions artifacts and summaries are the default v1 metrics surface until a later issue approves durable storage, dashboards, budget gates, or provider accounting integration.
+- Provider usage remains optional structured evidence unless DUUMBI exposes a verified provider usage contract.
+
+Recommendations:
+
+- When adding metrics to another workflow, start from the metadata-only boundary and add safe numeric/string outputs instead of copying payloads.
+- If live workflow smoke would mutate real issues, Project state, or Slack messages, prefer local simulation and static validation unless the human explicitly approves the mutation.
+
+Open questions:
+
+- Whether workflow metrics should later feed a durable metrics store, budget gate, or cross-run approval-turnaround analysis remains a separate product decision.
+
+Sources:
+
+- GitHub issue: https://github.com/hgahub/duumbi/issues/610
+- Product spec: https://github.com/hgahub/duumbi/pull/612
+- Technical spec: https://github.com/hgahub/duumbi/pull/613
+- Implementation PR: https://github.com/hgahub/duumbi/pull/615
+- Stage 11 review artifact: https://github.com/hgahub/duumbi/pull/615#issuecomment-4525766432
+- Stage 12 closure evidence: https://github.com/hgahub/duumbi/issues/610#issuecomment-4525907203
+
 For low-budget cycles below the approval thresholds, the agent may continue autonomously until completion, blocker, threshold breach, scope change, or the technical spec's autonomous batch cap. If the technical spec does not define a cap, use a default cap of three consecutive low-budget Ralph cycles in one Stage 10 run.
 
 Each cycle still needs a concise evidence report with changed files/modules, checks run, resource use, failures, remaining requirements, and next recommendation.
