@@ -5,7 +5,7 @@ tags:
   - doc/runbook
 status: active
 created: 2026-05-13
-updated: 2026-05-22
+updated: 2026-05-23
 related_maps:
   - "[[DUUMBI Agentic Development Map]]"
 related_works:
@@ -194,6 +194,47 @@ Sources:
 For low-budget cycles below the approval thresholds, the agent may continue autonomously until completion, blocker, threshold breach, scope change, or the technical spec's autonomous batch cap. If the technical spec does not define a cap, use a default cap of three consecutive low-budget Ralph cycles in one Stage 10 run.
 
 Each cycle still needs a concise evidence report with changed files/modules, checks run, resource use, failures, remaining requirements, and next recommendation.
+
+### Stage 10 And Stage 11 Handoff Notifications
+
+Facts:
+
+- Issue #595, product spec PR #616, technical spec PR #618, implementation PR #619, Stage 11 review evidence, and Stage 12 closure evidence established deterministic notification handoffs for Stage 10 resource authorization and Stage 11 implementation review readiness.
+- Stage 10 resource approval requests use machine-parseable `## Ralph Cycle <N> Resource Approval Request` comments so GitHub Actions can identify the exact cycle and request comment.
+- Stage 10 authorization decisions are separate from Stage 5, Stage 7, and Stage 9 approval semantics. Slack interactions for Stage 10 use dedicated `stage_10_authorization` routing and produce structured `## Stage 10 Resource Authorization Decision` comments.
+- Stage 11 review handoffs may leave notification marker comments such as `<!-- duumbi-implementation-review-slack-notified:v1 issue=<N> pr=<PR> -->`. These markers prove that a review notification was requested; they do not replace the Stage 11 review artifact or human merge decision.
+- The Stage 10 and Stage 11 notification paths must support manual or repository-dispatch fallback when optional trigger labels are unavailable.
+
+Decision:
+
+- Agents should use the deterministic Stage 10/11 handoff workflows when available instead of relying on a developer to watch Codex output.
+- Agents may use `needs-cycle-approval` or `needs-review` only when the labels already exist. They must not create labels as part of Stage 10 or Stage 11 handoff work unless a separate approved issue authorizes label management.
+- Stage 10 approval authorizes only the named resource-gated cycle. It is not approval to run unrelated work, skip checks, merge, close, or continue beyond the approved boundary.
+- Stage 11 notification evidence is a communication handoff only. The review still needs linked issue, PR, product spec, technical spec, checks, Ralph cycle evidence, and explicit findings or recommendation.
+
+Assumptions:
+
+- Slack is the fastest human-facing surface, but GitHub comments, PRs, workflows, checks, and Project state remain the execution record.
+- Local helper tests and static validation are acceptable substitutes for live Slack/GitHub Actions smoke tests when live workflow execution would post Slack messages, mutate issues, change labels, or update Project state without explicit human approval.
+
+Recommendations:
+
+- When a Ralph cycle hits the resource gate, write the structured request, trigger the Stage 10 notification path when available, and stop until the exact cycle is authorized.
+- When implementation evidence is ready, trigger or report the Stage 11 handoff path and then run the Stage 11 review artifact; do not treat the Slack notification marker as review completion.
+- Keep workflow metrics metadata-only: identifiers, counts, durations, conclusions, artifact availability, and privacy flags; do not store raw Slack payloads, issue bodies, comment bodies, prompts, completions, credentials, or broad logs.
+
+Open questions:
+
+- Whether controlled live Slack/GitHub Actions smoke tests should become a standard release-confidence gate remains a separate approval decision.
+
+Sources:
+
+- Issue #595: https://github.com/hgahub/duumbi/issues/595
+- Product spec PR #616: https://github.com/hgahub/duumbi/pull/616
+- Technical spec PR #618: https://github.com/hgahub/duumbi/pull/618
+- Implementation PR #619: https://github.com/hgahub/duumbi/pull/619
+- Stage 11 review artifact: https://github.com/hgahub/duumbi/pull/619#issuecomment-4526515398
+- Stage 12 closure evidence: https://github.com/hgahub/duumbi/issues/595#issuecomment-4526537062
 
 Default model guidance for Codex App:
 
@@ -430,6 +471,8 @@ Mode: execute resource-permitted Ralph cycles
 
 Human approval is required only after the agent has stopped and produced a resource approval request for a specific next cycle. In that case, post an explicit approval comment:
 
+When the deterministic Stage 10 handoff path is available, prefer the structured Stage 10 authorization workflow/comment contract over a free-form approval comment. The fallback approval comment remains valid when workflow dispatch or Slack routing is unavailable.
+
 ```markdown
 ## Ralph Cycle <N> Resource Approval
 
@@ -475,6 +518,8 @@ Goal: Review the PR against the approved product spec, technical spec, CI/checks
 
 Do not merge, close the issue, move the Project item to Done, perform closure, or edit implementation code.
 ```
+
+When a Stage 11 handoff notification marker exists, verify that its issue and PR numbers match the target artifacts. Treat the marker as notification evidence only, not as review evidence.
 
 ### Human Merge Decision
 
@@ -553,12 +598,14 @@ Facts:
 - When Slack approval-result delivery is configured, the same prompt is also included in the Slack approval summary.
 - Prompt generation is limited to approval decisions. Non-approval decisions must not emit next-stage launch prompts.
 - Missing product or technical spec artifacts must be shown with explicit placeholders instead of being omitted or guessed.
+- Stage 10 and Stage 11 have separate notification handoff paths; they are not Stage Approval prompt generation paths.
 
 Decision:
 
 - After Stage 5, Stage 7, or Stage 9 approval, agents should prefer the generated next-stage prompt from the approval result surfaces over manually reconstructing the runbook prompt.
 - The manual prompts below remain fallback templates for cases where the generated prompt is unavailable, incomplete, or needs human correction.
 - Stage 9 approval routes to Stage 10 Implementation Coordination with `duumbi-implementation`; it does not directly authorize an unbounded Ralph cycle.
+- Stage 10 resource authorization must use Stage 10 decision semantics, and Stage 11 review handoff must lead to review artifact generation rather than merge or closure.
 
 Assumptions:
 
@@ -582,6 +629,8 @@ Open questions:
 - Do not move from `Spec Review` to implementation. Stage 7 approval must be followed by Stage 8 and Stage 9.
 - Do not treat issue acceptance as permission to exceed the Ralph Cycle resource gate.
 - Do not run unbounded Ralph cycles. Low-budget autonomous cycles must stay within the technical spec, resource thresholds, and batch cap.
+- Do not route Stage 10 resource decisions through Stage 5, Stage 7, or Stage 9 approval semantics.
+- Do not treat Stage 11 Slack handoff notification as review completion.
 - Do not merge or close from Stage 11. Stage 11 supports the human merge decision; Stage 12 closes after merge.
 - Do not sync every PR summary into Obsidian. Sync only reusable durable knowledge.
 
@@ -598,5 +647,10 @@ Open questions:
 - https://github.com/hgahub/duumbi/pull/603
 - https://github.com/hgahub/duumbi/pull/603#issuecomment-4522484830
 - https://github.com/hgahub/duumbi/issues/593#issuecomment-4522548997
+- https://github.com/hgahub/duumbi/issues/595
+- https://github.com/hgahub/duumbi/pull/616
+- https://github.com/hgahub/duumbi/pull/618
+- https://github.com/hgahub/duumbi/pull/619
+- https://github.com/hgahub/duumbi/issues/595#issuecomment-4526537062
 - https://medium.com/@wasowski.jarek/sdd-writing-specifications-for-ai-bdd-as-the-missing-link-spec-driven-development-ad1b540b7f75
 - https://cucumber.io/docs/gherkin/reference/
