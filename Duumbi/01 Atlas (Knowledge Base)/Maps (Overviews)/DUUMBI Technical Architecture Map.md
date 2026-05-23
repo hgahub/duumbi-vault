@@ -4,7 +4,7 @@ tags:
   - map/technical-architecture
 status: active
 created: 2026-02-08
-updated: 2026-05-08
+updated: 2026-05-23
 ---
 
 # DUUMBI Technical Architecture Map
@@ -19,6 +19,7 @@ This map points to the durable architecture concepts agents and developers need 
 - [[Graph Repository Architecture]] -- storage, module identity, namespace, and resolution principles.
 - [[JSON-LD Graph Representation]] -- linked-data substrate for semantic graph documents.
 - [[Compilation Pipeline]] -- validated graph to executable output.
+- [[Runtime Failure Feedback Loop]] -- opt-in traced local execution, trace/crash artifacts, graph back-mapping, and repair evidence boundaries.
 - [[AI Agent Architecture]] -- product agent layer, runtime context, and review evidence.
 - [[DUUMBI Registry Architecture]] -- module registry API, auth, storage, and UI boundaries.
 - [[DUUMBI Azure Infrastructure Model]] -- DNS, static sites, registry hosting, secrets, logging, and persistence.
@@ -40,6 +41,7 @@ Before assigning architecture work to an agent, provide:
 - expected read-only answers: what exists, why it exists, where it lives, what depends on it, what proves it, and what risk a change carries
 - affected graph concepts and source modules
 - invariants that must not change
+- telemetry, trace, crash, or repair-evidence boundaries when runtime behavior is affected
 - compatibility and migration expectations
 - expected tests, screenshots, logs, or structured evidence
 - required updates to Dots, Maps, skills, or repo `AGENTS.md`

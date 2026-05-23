@@ -4,7 +4,7 @@ tags:
   - doc/product-requirements
 status: active
 created: 2026-02-08
-updated: 2026-05-21
+updated: 2026-05-23
 related_maps:
   - "[[DUUMBI Core Concepts Map]]"
   - "[[DUUMBI Technical Architecture Map]]"
@@ -71,9 +71,19 @@ The service should start with conservative answers:
 
 ## Runtime Failure Feedback
 
-DUUMBI should eventually help developers diagnose and repair runtime failures in DUUMBI-built applications by connecting crash evidence back to semantic graph context.
+DUUMBI should help developers diagnose and eventually repair runtime failures in DUUMBI-built applications by connecting crash evidence back to semantic graph context.
 
 The first product promise is local developer/test feedback, not automatic production self-repair. A developer should be able to build or run with tracing enabled, reproduce a runtime failure, inspect locally recorded crash evidence, see the graph function/block or node context associated with the failure, and receive repair-ready context or a constrained patch proposal. Any repair must pass graph validation, rebuild, tests, and human review before it is accepted.
+
+Facts:
+
+- The local telemetry/back-mapping foundation exists as opt-in traced builds with local trace/crash artifacts, trace-map generation, telemetry inspection, repair crash context, and repair validation evidence contracts.
+- The foundation maps controlled runtime failures to graph function/block context. Exact node-level mapping remains future work unless a later spec proves sufficient evidence.
+- Repair validation evidence can describe local gates, but repair acceptance remains explicitly human-gated.
+
+Assumptions:
+
+- Local developer/test telemetry is the safe first product surface because it avoids cloud ingestion, account identity, privacy, update delivery, rollback, and production operations risk.
 
 The intended first flow is:
 

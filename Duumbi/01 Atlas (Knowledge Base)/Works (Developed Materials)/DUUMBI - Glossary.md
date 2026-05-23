@@ -4,7 +4,7 @@ tags:
   - doc/glossary
 status: active
 created: 2026-02-08
-updated: 2026-05-18
+updated: 2026-05-23
 ---
 
 # DUUMBI - Glossary
@@ -32,6 +32,18 @@ A stable identifier for a semantic graph node. Node IDs should let humans, agent
 ## Compilation Pipeline
 
 The transformation path from validated graph representation to executable output. The pipeline should be inspectable and testable at each boundary.
+
+## Trace Map
+
+A local telemetry artifact that maps runtime trace identifiers back to semantic graph function or block identifiers. Trace maps support runtime failure diagnosis without requiring production telemetry ingestion.
+
+## Runtime Failure Feedback
+
+The local developer/test loop where a traced DUUMBI-built application records trace and crash evidence, maps failure context back to the semantic graph, and produces repair-ready evidence under validation and human-review gates.
+
+## Repair Validation Evidence
+
+A structured record of the gates a proposed repair has passed, such as GraphPatch parsing, atomic patch application, graph parsing, graph validation, rebuild, and relevant tests. Evidence can support review, but it must not silently accept or apply a repair.
 
 ## Cranelift
 
