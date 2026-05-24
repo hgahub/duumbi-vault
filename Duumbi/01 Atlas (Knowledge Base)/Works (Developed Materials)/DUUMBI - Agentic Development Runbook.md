@@ -5,7 +5,7 @@ tags:
   - doc/runbook
 status: active
 created: 2026-05-13
-updated: 2026-05-23
+updated: 2026-05-24
 related_maps:
   - "[[DUUMBI Agentic Development Map]]"
 related_works:
@@ -16,347 +16,249 @@ related_works:
 
 ## Summary
 
-This runbook is the canonical operating guide for running the DUUMBI intake-to-delivery workflow with agents. It defines the active stage model, source-of-truth rules, artifact contracts, resource gates, skill responsibilities, and practical run prompts.
+This runbook is the canonical operating guide for the redesigned DUUMBI intake-to-delivery workflow. It keeps the 12-stage DUUMBI model, but adds deterministic orchestration around intake, Inbox enrichment, triage queue refill, AI-assisted spec gates, Delivery Autopilot, resource-gated Ralph cycles, human-authorized implementation merge, and closure.
 
-[[DUUMBI - Development Intake to Delivery Workflow]] is retained only as a deprecated historical reference while any remaining useful detail is folded into this runbook and the DUUMBI skills. Do not treat that older workflow document as current operating guidance.
+GitHub remains the execution source of truth. Obsidian stores raw intake and durable knowledge. Slack is the fast human surface for capture, clarification, notification, and approval. GitHub Actions coordinate scheduled checks and deterministic dispatches, but they do not call model APIs directly. AI execution should run in Oz, Codex Cloud, Codex App, Codex CLI, or a reviewed local agent environment.
 
-The core rule is that GitHub is the execution source of truth. Obsidian stores durable workflow knowledge, but current issue status, PR state, checks, approvals, and closure evidence belong in GitHub Issues, GitHub Project, PRs, and CI.
+[[DUUMBI - Development Intake to Delivery Workflow]] is retained as a deprecated historical reference while useful detail is folded into this runbook and checked-in DUUMBI skills. Do not treat the older workflow document as current operating guidance.
 
 ## Visual Guide
 
 ![[DUUMBI - Agentic Development Runbook.png]]
 
-## Pre-Flight Setup
+## Current Architecture In One Sentence
 
-Before running a delivery workflow, verify these conditions:
-
-| Check | Required state | Where to verify |
-|---|---|---|
-| GitHub CLI auth | `repo`, `project`, and `read:org` scopes are available when using local `gh` | Codex local terminal with `gh auth status` |
-| GitHub Project Status field | DUUMBI workflow statuses exist | GitHub Project `Duumbi project` |
-| Workflow labels | `needs-human-review`, `accepted`, `needs-spec`, `product-spec-approved`, `needs-tech-spec`, `tech-spec-approved`, and review labels exist | `hgahub/duumbi` labels |
-| Active workflow context | PRD, Glossary, Agentic Development Map, and Agentic Development Runbook are available | `duumbi-vault` |
-| Source repo instructions | Repository `AGENTS.md` is available before source changes | target source repo, usually `duumbi` |
-| Specs | Product and technical specs are linked before implementation | GitHub issue and spec PRs |
-
-Use Codex App when a human is at the machine and wants guided local execution. Use Oz for cloud, scheduled, Slack-triggered, parallel, or long-running orchestration. Use Codex CLI or Claude Code CLI mainly when working directly in a terminal checkout and the operator is comfortable managing branches, commands, and evidence manually.
-
-## Operating Principles
-
-- One workflow, multiple front doors. Slack, Codex, GitHub Issues, GitHub Discussions, and manual Inbox notes converge into the same GitHub-backed execution path.
-- Read-only context gathering comes before mutation. Agents inspect what exists, why it exists, where behavior lives, what proves it, and what risk a change carries before creating execution work.
-- Human review gates product and architecture decisions. Agents may prepare, deduplicate, summarize, recommend, draft, review, and implement within approved boundaries, but they must not invent human acceptance or approval.
-- Each handoff must leave a traceable artifact linked to its source material.
-- Slack and Codex are communication and capture surfaces, not durable execution state.
-- Durable Obsidian documentation is English. Slack and user-facing replies follow the language initiated by the user when practical.
+Slack, Codex, Obsidian Inbox, GitHub Issues, and GitHub Discussions feed a single GitHub-backed execution workflow; spec PRs may pass bounded AI gates when Copilot and Codex reviews are clean, but implementation merge requires explicit human authorization after Stage 11 evidence.
 
 ## Source Of Truth
 
 | Surface | Owns | Does not own |
 |---|---|---|
-| Slack | Capture, clarifying discussion, approvals, Oz run updates | Durable memory or execution tracking |
-| Codex | Local repo/vault work, source inspection, skill maintenance, spec drafting, implementation, review support | Canonical project state by chat history alone |
-| GitHub Issues | Execution work unit, discussion record, stage decisions | Broad untriaged brainstorming forever |
-| GitHub Project | Status, priority, sequencing, ownership, review gates | Durable architecture rationale by itself |
-| GitHub PRs and CI | Code/spec review, automated proof, merge gate | Undocumented product decisions after merge |
-| Obsidian Inbox | Raw captured material waiting for triage | Permanent backlog |
-| Obsidian Atlas | Durable product, architecture, workflow, glossary, and source-backed knowledge | Live delivery status mirrors |
-| Agent skills | Repeatable operating behavior | Product decisions that belong in GitHub or Obsidian |
-| Source repo `AGENTS.md` | Repository-local agent constraints | General product roadmap content |
+| Slack | Idea capture, clarification loops, review notifications, approval buttons, mobile-friendly control | Durable memory, raw secret storage, long-term execution state |
+| Codex App | Human-controlled local execution, mobile-supervised delivery autopilot, specs, implementation, review handling, vault maintenance | Silent unattended project-state mutation without evidence |
+| Codex Cloud / Oz | Scheduled, cloud, Slack-triggered, parallel, or long-running agent runs | Human product decisions or final implementation merge approval |
+| GitHub Issues | Execution work unit, acceptance, clarification, stage decisions, linked evidence | Broad untriaged brainstorming forever |
+| GitHub Project | Status, Todo queue, priority, sequencing, review gates | Durable architecture rationale by itself |
+| GitHub PRs and CI | Spec review, implementation review, checks, merge evidence | Product decisions not linked back to issues |
+| GitHub Actions | Deterministic dispatch, queue inspection, notification, marker comments, metadata-only metrics | Direct model calls, raw prompt storage, raw Slack payload storage |
+| Obsidian Inbox | Raw ideas and unprocessed notes | Permanent backlog or live status mirror |
+| Obsidian Atlas | Durable product, architecture, workflow, glossary, and source-backed knowledge | Current delivery tracking |
+| Agent skills | Repeatable stage behavior and boundaries | Product decisions that belong in GitHub or Obsidian |
+| Source repo `AGENTS.md` | Repository-local agent constraints | General roadmap or durable vault knowledge |
+
+## Operating Principles
+
+- One workflow, multiple front doors. Slack, Codex, GitHub, and manual Obsidian notes converge into the same GitHub-backed execution path.
+- GitHub is the durable execution record. Slack and Codex chats are control surfaces unless their outcomes are written back to GitHub or Obsidian.
+- Read-only context gathering comes before mutation. Agents inspect active Inbox, Processed Inbox, Atlas notes, GitHub Issues, GitHub Discussions, existing PRs, and relevant source before creating new work.
+- Agents may prepare, deduplicate, summarize, recommend, draft, review, and implement inside approved boundaries. They must not invent human acceptance, broaden scope, or bypass gates.
+- Stage 7 and Stage 9 may use bounded AI gate approval only when Copilot and Codex review evidence is clean, checks are green or inapplicable, and the spec-only PR remains inside accepted issue scope.
+- Implementation merge is not an AI gate. Stage 11 requires explicit human merge authorization.
+- Every scheduled or Slack-triggered workflow must fail closed when required GitHub Project, Slack, or evidence context is unavailable.
+- Workflow metrics are metadata-only. Do not store raw Slack bodies, prompt text, issue bodies, model completions, provider payloads, credentials, or capability URLs.
+
+## Pre-Flight Setup
+
+| Check | Required state | Where to verify |
+|---|---|---|
+| GitHub auth | Repo, issue, PR, actions, and Project V2 operations work for the chosen tool | GitHub app, `gh auth status`, or Actions token scope |
+| GitHub Project Status field | DUUMBI statuses exist and Project V2 can be read by `GH_PROJECT_PAT` | GitHub Project `Duumbi project` |
+| Repository variables | `DUUMBI_PROJECT_NUMBER` is set; `DUUMBI_PROJECT_OWNER` is set when different from repo owner | `hgahub/duumbi` repo variables |
+| Slack config | `SLACK_BOT_TOKEN`, `SLACK_REVIEW_CHANNEL_ID`, and optional `DUUMBI_AGENT_DISPATCH_CHANNEL_ID` are configured | repo secrets and Slack app config |
+| Slack idea route | Dedicated `#duumbi-ideas` channel or Slack shortcut routes to Stage 1 intake | Slack app interactivity and shortcut settings |
+| Slack bridge | `func-duumbi-slack-bridge` points to `/api/slack-approval` and verifies Slack signatures | Azure Function App and Slack Request URL |
+| Workflow labels | Required labels such as `needs-cycle-approval` and `needs-review` exist before agents use label routing | `hgahub/duumbi` labels |
+| Active workflow context | PRD, Glossary, Agentic Development Map, and this runbook are available | `duumbi-vault` |
+| Source repo instructions | Repository `AGENTS.md` is available before source changes | target source repo, usually `duumbi` |
+| Spec artifacts | Product and technical specs are linked before implementation | GitHub issue and spec PRs |
 
 ## Stage Status Model
 
 | Status | Meaning | Allowed next states |
 |---|---|---|
 | `Inbox Capture` | Raw idea exists but has not been triaged | `Needs Human Acceptance`, `Needs Clarification`, `Closed`, `Deferred` |
-| `Needs Clarification` | Agent or human needs more information | `Needs Human Acceptance`, `Closed`, `Deferred` |
+| `Needs Clarification` | Agent or human needs more information | `Needs Human Acceptance`, `Spec Needed`, `Technical Spec Needed`, `In Progress`, `Blocked`, `Closed`, `Deferred` |
+| `Todo` | Accepted backlog candidate waiting for queue selection | `Needs Human Acceptance`, `Spec Needed`, `Closed`, `Deferred`, `Duplicate` |
 | `Needs Human Acceptance` | Triage is complete enough for a human decision | `Spec Needed`, `Needs Clarification`, `Closed`, `Deferred`, `Duplicate` |
 | `Spec Needed` | Accepted work needs a product spec artifact | `Spec Review`, `Needs Clarification` |
-| `Spec Review` | Product spec exists and needs review | `Technical Spec Needed`, `Spec Needed`, `Needs Clarification` |
+| `Spec Review` | Product spec exists and needs human or bounded AI-gate review | `Technical Spec Needed`, `Spec Needed`, `Needs Clarification` |
 | `Technical Spec Needed` | Approved product spec needs an agent-facing technical spec | `Technical Spec Review`, `Needs Clarification` |
-| `Technical Spec Review` | Technical spec exists and needs review | `Ready for Build`, `Technical Spec Needed`, `Needs Clarification` |
+| `Technical Spec Review` | Technical spec exists and needs human or bounded AI-gate review | `Ready for Build`, `Technical Spec Needed`, `Needs Clarification` |
 | `Ready for Build` | Product and technical specs are approved | `In Progress`, `Cycle Authorization`, `Blocked` |
 | `Cycle Authorization` | Human/resource authorization is needed before the next Ralph cycle | `In Progress`, `Blocked`, `Deferred` |
 | `In Progress` | Approved or resource-permitted Ralph cycle work is running | `In Progress`, `Cycle Authorization`, `In Review`, `Blocked` |
-| `In Review` | PR or equivalent artifact is under review | `In Progress`, `Done`, `Blocked` |
+| `In Review` | Implementation PR or equivalent artifact is under review | `In Progress`, `Needs Clarification`, `Done`, `Blocked` |
 | `Blocked` | Work cannot proceed without external decision or dependency | previous active state, `Deferred`, `Closed` |
 | `Done` | Merged or otherwise completed with evidence | none |
 | `Deferred` | Valuable but intentionally postponed | `Needs Human Acceptance`, `Closed` |
 | `Duplicate` | Superseded by another issue | none |
 | `Closed` | Rejected or no longer relevant | none |
 
-## Tool Selection Rules
+## End-To-End Stage Table
 
-| Tool | Best use | Avoid using it for |
-|---|---|---|
-| Codex App | Local vault work, GitHub workflow gates, spec drafting, implementation in new worktrees, PR review artifacts, closure coordination | Silent long-running unattended sweeps unless configured as an automation |
-| Oz agent | Slack-triggered intake, scheduled sweeps, cloud runs, team-visible orchestration, parallel or long-running agent work | Final product decisions without explicit human approval |
-| Codex CLI | Focused source work in a local checkout, quick terminal-native implementation or review runs | Durable Obsidian edits unless the operator handles vault conventions carefully |
-| Claude Code CLI | Alternative local implementation or review agent when a second coding model is useful | Project-state mutation unless GitHub writes and evidence format are controlled |
+| Stage | Skill or workflow | Trigger | Source | Output |
+|---|---|---|---|---|
+| 1 | `duumbi-obsidian-capture` via Slack bridge / Oz | Dedicated idea channel or Slack shortcut | Slack message/thread | English Inbox note or duplicate report |
+| 2 | `duumbi-codex-intake` | Developer uses Codex App, Codex Cloud, or Codex CLI on `duumbi-vault` | User idea in Codex | English Inbox note or duplicate report |
+| 3 | Manual Obsidian Inbox entry | Human directly edits Markdown | `00 Inbox (ToProcess)` | Raw note, possibly untagged and unnormalized |
+| 3b | `duumbi-inbox-enrichment` | Scheduled every 3 hours or manual dispatch | Raw Inbox notes | Normalized, classified, duplicate-marked Inbox notes; no GitHub issue |
+| 4 | `duumbi-triage` plus `triage-queue-refill.yml` | Scheduled every 3 hours when Todo count is below 3, or manual | Inbox, GitHub Issues, Ideas Discussions, existing Project state | GitHub issue in `Needs Human Acceptance` or updated duplicate/clarification state |
+| 5 | `duumbi-human-acceptance` or `stage-approval.yml` | Human decision in GitHub or Slack | Triaged issue | Structured Stage 5 decision and `Spec Needed` when accepted |
+| 6 | `duumbi-spec-draft` | Accepted issue reaches `Spec Needed` | GitHub issue and vault/source context | Product spec PR or issue-comment spec |
+| 7 | `duumbi-spec-review` or `spec-ai-gate.yml` | Human review or clean AI gate | Product spec artifact | Stage 7 decision; `Technical Spec Needed` when approved |
+| 8 | `duumbi-tech-spec-draft` | Product spec approved | Product spec and source context | Technical spec PR |
+| 9 | `duumbi-tech-spec-review` or `spec-ai-gate.yml` | Human review or clean AI gate | Technical spec artifact | Stage 9 decision; `Ready for Build` when approved |
+| 10 | `duumbi-delivery-autopilot`, `duumbi-implementation`, `duumbi-ralph-cycle` | Codex App selected `Spec Needed` issue, or manual Stage 10 run | Approved specs and source repo | Implementation PR, Ralph evidence, resource request, blocker, or review handoff |
+| 10 gate | `stage-10-authorization.yml` or `stage10-authorization-request.yml` | Resource gate exceeds threshold or risky change | Ralph Cycle request comment | One-cycle authorization, narrower scope, clarification, block, or defer |
+| 11 | `duumbi-review-artifact` and `stage11-review-request.yml` | Implementation evidence ready | Implementation PR, specs, CI, Ralph evidence | Stage 11 review artifact and merge-readiness recommendation |
+| 11 decision | `duumbi-merge-decision` or `stage11-merge-decision.yml` | Explicit human merge decision | Stage 11 artifact and PR | Squash merge, request changes, clarification, or abandon |
+| 12 | `duumbi-closure` | Verified merge or equivalent completion evidence | Merged PR, issue, specs, review artifact | Closure evidence, Project `Done`, issue closure, Inbox disposition, knowledge-sync decision |
+| 12 optional | durable knowledge sync | Stage 12 says reusable learning exists | Vault or source repo docs | Updated Dot, Map, Work, skill, PRD, Glossary, or `AGENTS.md` |
 
-## Spec-Only PR Rule
-
-Stage 6 PRODUCT spec PRs and Stage 8 TECHNICAL spec PRs are review artifacts, not completion PRs. They must not close the execution issue when merged or closed. The execution issue stays open until Stage 12 closure verifies merged implementation evidence.
-
-Do not use GitHub auto-close keywords in spec-only PR titles, bodies, branch names, commit messages, or spec text when referencing the execution issue:
-
-- `Closes #<issue>`
-- `Fixes #<issue>`
-- `Resolves #<issue>`
-- `Close #<issue>`
-- `Fix #<issue>`
-- `Resolve #<issue>`
-
-Use non-closing references instead:
-
-- `Related to #<issue>`
-- `Spec for #<issue>`
-- `Technical spec for #<issue>`
-- `Supports #<issue>`
-
-Spec-only PR bodies should include this workflow note:
-
-```markdown
-This is a specification PR only. It must not close #<issue>.
-The linked execution issue should remain open for the next workflow stages.
-```
-
-## Specification Artifact Requirements
-
-Stage 6 PRODUCT specs and Stage 8 TECHNICAL specs are execution contracts for agents, not archival prose.
-
-PRODUCT specs must include:
-
-- `## BDD Scenarios` in English Gherkin-style language: `Feature`, optional `Rule`, `Scenario`, `Given`, `When`, `Then`, `And`, and `But`.
-- observable outcomes, not hidden implementation checks, in `Then` steps.
-- scenarios that map to product checks and can become automated, manual, or live E2E evidence.
-
-TECHNICAL specs must include:
-
-- `## BDD-To-Test Mapping` mapping every BDD scenario to unit, integration, E2E, manual, or review evidence.
-- `## Live E2E Plan` with the canonical interface, provider credentials or environment variables, expected external LLM calls, estimated cost, command(s), artifacts, and pass/fail criteria.
-- `## Ralph Cycle Resource Policy` defining cycle budget, autonomous batch cap, approval thresholds, and stop conditions.
-
-Default canonical E2E interface is CLI. TUI or Studio require full E2E only when UI-specific behavior changes. Otherwise, add thin parity or smoke checks proving the alternate interface calls the same backend behavior.
-
-BDD is required as specification language; this does not require adding Cucumber or a Gherkin runner unless the technical spec chooses that as the best test implementation. Syntax guidance comes from the Cucumber Gherkin reference: https://cucumber.io/docs/gherkin/reference/
-
-## Ralph Cycle Resource Policy
-
-A Ralph Cycle is a bounded implementation-and-evidence unit. It is not automatically a human approval unit.
-
-Human approval is required before a cycle when any of these are true:
-
-- planned external LLM usage is estimated above USD 2
-- planned external LLM usage is estimated above 10 calls
-- scope, affected modules, dependencies, or checks exceed the approved technical spec
-- the cycle adds risky dependencies, migrations, security-sensitive behavior, irreversible operations, or broad refactors
-- the agent hits a blocker, conflicting requirement, failing check it cannot resolve inside scope, or a product/architecture trade-off
-
-External LLM usage means DUUMBI live provider calls and external model or agent CLI calls. Codex internal reasoning turns are reported as estimates only and are not enforceable as exact budget counters.
-
-### Workflow Metrics And Usage Evidence
-
-Facts:
-
-- Issue #610, product spec PR #612, technical spec PR #613, implementation PR #615, Stage 11 review evidence, and Stage 12 closure evidence established the first selected GitHub Actions and `scripts/eval_intent.sh` metrics slice.
-- The accepted metrics pattern is metadata-only: identifiers, counts, timestamps, durations, conclusions, artifact availability, privacy flags, and provider-usage availability.
-- Metrics artifacts must not store secrets, credentials, raw prompts, raw completions, Slack message bodies, issue bodies, comment bodies, provider payloads, or broad log dumps.
-
-Decision:
-
-- Future DUUMBI workflow or evaluation metrics work must distinguish measured provider usage from unavailable usage. Missing token, request, cost, or latency data must be marked unavailable or `null`, not inferred from task count, run duration, or Codex internal estimates.
-- Metrics collection and artifact upload must be warning-only or otherwise non-masking: they must not convert a successful primary workflow into a failed run or hide the original failure.
-
-Assumptions:
-
-- GitHub Actions artifacts and summaries are the default v1 metrics surface until a later issue approves durable storage, dashboards, budget gates, or provider accounting integration.
-- Provider usage remains optional structured evidence unless DUUMBI exposes a verified provider usage contract.
-
-Recommendations:
-
-- When adding metrics to another workflow, start from the metadata-only boundary and add safe numeric/string outputs instead of copying payloads.
-- If live workflow smoke would mutate real issues, Project state, or Slack messages, prefer local simulation and static validation unless the human explicitly approves the mutation.
-
-Open questions:
-
-- Whether workflow metrics should later feed a durable metrics store, budget gate, or cross-run approval-turnaround analysis remains a separate product decision.
-
-Sources:
-
-- GitHub issue: https://github.com/hgahub/duumbi/issues/610
-- Product spec: https://github.com/hgahub/duumbi/pull/612
-- Technical spec: https://github.com/hgahub/duumbi/pull/613
-- Implementation PR: https://github.com/hgahub/duumbi/pull/615
-- Stage 11 review artifact: https://github.com/hgahub/duumbi/pull/615#issuecomment-4525766432
-- Stage 12 closure evidence: https://github.com/hgahub/duumbi/issues/610#issuecomment-4525907203
-
-For low-budget cycles below the approval thresholds, the agent may continue autonomously until completion, blocker, threshold breach, scope change, or the technical spec's autonomous batch cap. If the technical spec does not define a cap, use a default cap of three consecutive low-budget Ralph cycles in one Stage 10 run.
-
-Each cycle still needs a concise evidence report with changed files/modules, checks run, resource use, failures, remaining requirements, and next recommendation.
-
-### Stage 10 And Stage 11 Handoff Notifications
-
-Facts:
-
-- Issue #595, product spec PR #616, technical spec PR #618, implementation PR #619, Stage 11 review evidence, and Stage 12 closure evidence established deterministic notification handoffs for Stage 10 resource authorization and Stage 11 implementation review readiness.
-- Stage 10 resource approval requests use machine-parseable `## Ralph Cycle <N> Resource Approval Request` comments so GitHub Actions can identify the exact cycle and request comment.
-- Stage 10 authorization decisions are separate from Stage 5, Stage 7, and Stage 9 approval semantics. Slack interactions for Stage 10 use dedicated `stage_10_authorization` routing and produce structured `## Stage 10 Resource Authorization Decision` comments.
-- Stage 11 review handoffs may leave notification marker comments such as `<!-- duumbi-implementation-review-slack-notified:v1 issue=<N> pr=<PR> -->`. These markers prove that a review notification was requested; they do not replace the Stage 11 review artifact or human merge decision.
-- The Stage 10 and Stage 11 notification paths must support manual or repository-dispatch fallback when optional trigger labels are unavailable.
-
-Decision:
-
-- Agents should use the deterministic Stage 10/11 handoff workflows when available instead of relying on a developer to watch Codex output.
-- Agents may use `needs-cycle-approval` or `needs-review` only when the labels already exist. They must not create labels as part of Stage 10 or Stage 11 handoff work unless a separate approved issue authorizes label management.
-- Stage 10 approval authorizes only the named resource-gated cycle. It is not approval to run unrelated work, skip checks, merge, close, or continue beyond the approved boundary.
-- Stage 11 notification evidence is a communication handoff only. The review still needs linked issue, PR, product spec, technical spec, checks, Ralph cycle evidence, and explicit findings or recommendation.
-
-Assumptions:
-
-- Slack is the fastest human-facing surface, but GitHub comments, PRs, workflows, checks, and Project state remain the execution record.
-- Local helper tests and static validation are acceptable substitutes for live Slack/GitHub Actions smoke tests when live workflow execution would post Slack messages, mutate issues, change labels, or update Project state without explicit human approval.
-
-Recommendations:
-
-- When a Ralph cycle hits the resource gate, write the structured request, trigger the Stage 10 notification path when available, and stop until the exact cycle is authorized.
-- When implementation evidence is ready, trigger or report the Stage 11 handoff path and then run the Stage 11 review artifact; do not treat the Slack notification marker as review completion.
-- Keep workflow metrics metadata-only: identifiers, counts, durations, conclusions, artifact availability, and privacy flags; do not store raw Slack payloads, issue bodies, comment bodies, prompts, completions, credentials, or broad logs.
-
-Open questions:
-
-- Whether controlled live Slack/GitHub Actions smoke tests should become a standard release-confidence gate remains a separate approval decision.
-
-Sources:
-
-- Issue #595: https://github.com/hgahub/duumbi/issues/595
-- Product spec PR #616: https://github.com/hgahub/duumbi/pull/616
-- Technical spec PR #618: https://github.com/hgahub/duumbi/pull/618
-- Implementation PR #619: https://github.com/hgahub/duumbi/pull/619
-- Stage 11 review artifact: https://github.com/hgahub/duumbi/pull/619#issuecomment-4526515398
-- Stage 12 closure evidence: https://github.com/hgahub/duumbi/issues/595#issuecomment-4526537062
-
-Default model guidance for Codex App:
-
-| Work type | Recommended reasoning |
-|---|---|
-| Intake, triage, acceptance brief, closure with clear evidence | GPT-5.5, medium |
-| Product spec, technical spec, implementation coordination, review artifact | GPT-5.5, high |
-| Cross-repo architecture or ambiguous technical planning | GPT-5.5, xhigh |
-| Simple status updates or label/status-only routing | GPT-5.5, low or medium |
-
-## End-To-End Run Table
-
-| Stage | Skill | User or agent decision | Recommended repo | Run location | Best tool | Other viable tools | Output |
-|---|---|---|---|---|---|---|---|
-| 1 | `duumbi-obsidian-capture` | User asks Oz to capture Slack input | `duumbi-vault` | Cloud | Oz agent | Codex App if Slack context is copied in | Inbox note from Slack input |
-| 2 | `duumbi-codex-intake` | User asks Codex to capture or refine an idea | `duumbi-vault` | Work locally | Codex App | Codex CLI | Inbox note from Codex input |
-| 3 | `duumbi-github-intake` | Agent classifies existing GitHub item | `duumbi-vault` | Work locally | Codex App | Oz agent, Codex CLI | Stage 3 intake summary and Stage 4 recommendation |
-| 4 | `duumbi-triage` | Agent routes item; human has not accepted yet | `duumbi-vault` | Work locally | Codex App | Oz agent | GitHub issue routed to `Needs Human Acceptance` |
-| 5 | `duumbi-human-acceptance` | Human decides `Accept`, `Needs Clarification`, `Duplicate`, `Defer`, or `Reject` | `duumbi-vault` | Work locally | Codex App | Oz agent for Slack-carried approvals | Structured Stage 5 decision comment and next status |
-| 6 | `duumbi-spec-draft` | Agent drafts product spec after acceptance | target source repo, usually `duumbi` | New worktree | Codex App | Codex CLI, Oz for cloud drafting | `specs/DUUMBI-<issue>/PRODUCT.md` draft PR or issue-comment spec |
-| 7 | `duumbi-spec-review` | Human explicitly approves or requests changes | `duumbi-vault` | Work locally | Codex App | Oz agent | Stage 7 decision, status `Technical Spec Needed` when approved |
-| 8 | `duumbi-tech-spec-draft` | Agent drafts implementation-facing technical spec | target source repo, usually `duumbi` | New worktree | Codex App | Codex CLI, Claude Code CLI for source analysis | `specs/DUUMBI-<issue>/TECHNICAL.md` draft PR |
-| 9 | `duumbi-tech-spec-review` | Human explicitly approves or requests changes | `duumbi-vault` | Work locally | Codex App | Oz agent | Stage 9 decision, status `Ready for Build` when approved |
-| 10a | `duumbi-implementation` | Agent prepares next implementation action | target source repo, usually `duumbi` | New worktree | Codex App | Codex CLI | Ralph Cycle run, resource approval request, blocker, or PR evidence consolidation |
-| 10b | `duumbi-ralph-cycle` | Agent executes bounded resource-permitted cycle work, or requests approval when thresholds are exceeded | target source repo, usually `duumbi` | New worktree | Codex App | Codex CLI, Claude Code CLI for one bounded patch | Ralph cycle evidence report and next routing |
-| 11 | `duumbi-review-artifact` | Agent supports human merge decision | target source repo, usually `duumbi` | New worktree or Work locally | Codex App | Codex CLI, Claude Code CLI for independent review | Structured review artifact and merge-readiness recommendation |
-| Human merge | none | Human merges or rejects PR | GitHub PR | GitHub UI or local git | Human | Codex CLI for merge commands if explicitly requested | Merged PR or returned-to-Stage-10 work |
-| 12 | `duumbi-closure` | Agent verifies merged completion and closes loop | `duumbi-vault` | Work locally | Codex App | Oz agent for source-surface updates | Closure evidence, issue closure, Project `Done`, durable sync decision |
-| 12 optional | `duumbi-knowledge-sync` when available, or `duumbi-closure` v1 sync path | Agent updates durable knowledge only if needed | `duumbi-vault` or target source repo | New worktree when editing files | Codex App | Codex CLI | Dot, Map, Work, skill, PRD, Glossary, or `AGENTS.md` update |
-
-## Stage Prompts
-
-For Stage 5, Stage 7, and Stage 9 approval handoffs, prefer the generated next-stage prompt from the Stage Approval decision comment, workflow summary, or Slack approval summary. Use the manual templates below when the generated prompt is unavailable or needs correction. Replace the issue, PR, and repository names before running. Keep prompts explicit about the stage boundary, because the skills intentionally refuse to cross gates.
+## Intake And Enrichment
 
 ### Stage 1 - Slack Intake
 
-Use when the input starts in Slack.
+Use a dedicated Slack idea channel such as `#duumbi-ideas` when possible. Channel-based routing lets users submit ideas without naming a skill. If channel routing is unavailable, use a Slack shortcut wired to the same `slack-intake` repository dispatch contract.
+
+The Slack bridge sends only Slack source identifiers to GitHub workflows. It must not forward raw Slack message bodies or Slack `response_url` capability URLs through `repository_dispatch`. The Stage 1 agent should inspect Slack context through the approved Slack integration, deduplicate against active Inbox, Processed Inbox, Atlas notes, GitHub Issues, and GitHub Discussions, then create one English Inbox note only when the idea is not already represented.
+
+### Stage 2 - Codex Intake
+
+Use this when the idea starts in Codex App, Codex Cloud, or Codex CLI. Run on `duumbi-vault` with the selected intake skill. The output is one English Inbox note in `00 Inbox (ToProcess)` unless duplicate detection finds an existing canonical item.
+
+### Stage 3 - Manual Obsidian Inbox Entry
+
+A developer may directly edit Markdown in `00 Inbox (ToProcess)`. These notes are allowed to be raw, untagged, and unnormalized. They are not execution work until enrichment and triage process them.
+
+### Stage 3b - Scheduled Inbox Enrichment
+
+`duumbi-inbox-enrichment` runs on a 3-hour cadence or manually. It normalizes manually edited raw notes, classifies them, and marks likely duplicates. It does not create GitHub issues, specs, PRs, or source changes.
+
+## Triage Queue Refill
+
+`triage-queue-refill.yml` runs every 3 hours. It reads GitHub Project V2 through GraphQL and counts open issues with Status `Todo`. If Todo contains fewer than 3 items, it dispatches a bounded Stage 4 triage request until the queue reaches 3 items or no suitable source remains.
+
+Failure policy is fail-closed. If `GH_PROJECT_PAT`, `DUUMBI_PROJECT_NUMBER`, Project V2 access, or status data is unavailable, the workflow must stop rather than guessing queue state.
+
+## Delivery Autopilot
+
+`duumbi-delivery-autopilot` is a Codex App skill for a selected `Spec Needed` issue. It coordinates the high-cost delivery path while keeping the developer in mobile-controllable Codex App context.
+
+Autopilot sequence:
+
+1. Draft PRODUCT spec and open a spec-only PR.
+2. Wait for Copilot review evidence.
+3. Run Codex product-spec review.
+4. If clean, write Stage 7 AI Gate Decision, merge the spec-only PR, and route to Stage 8.
+5. Draft TECHNICAL spec and open a spec-only PR.
+6. Wait for Copilot review evidence.
+7. Run Codex implementability review.
+8. If clean, write Stage 9 AI Gate Decision, merge the technical spec PR, and route to Stage 10.
+9. Enter Stage 10 Ralph-cycle implementation without bypassing resource gates.
+
+AI gates may proceed only when all of these are true:
+
+- Copilot review exists.
+- Codex review has no blocking finding.
+- CI/checks are passing, neutral, skipped, or explicitly not applicable.
+- The PR is spec-only.
+- There are no open scope, product, architecture, security, migration, cost, or verification questions.
+- The PR stays inside the accepted issue scope.
+
+## Ralph Cycle Resource Gate
+
+A Ralph Cycle is a bounded implementation-and-evidence unit. Low-budget cycles may continue autonomously inside the approved technical spec and autonomous batch cap. Human authorization is required before continuing when any of these are true:
+
+- estimated external LLM cost exceeds USD 2
+- expected external LLM calls exceed 10
+- scope expands beyond the approved issue or technical spec
+- risky dependency, migration, security-sensitive behavior, irreversible operation, or broad refactor is introduced
+- a blocker or product/architecture decision is encountered
+- checks fail in a way the agent cannot resolve within approved scope
+
+Stage 10 approval authorizes only the named next cycle. It is not permission to merge, close, skip checks, broaden scope, or continue past the approved boundary.
+
+## Stage 11 Review And Merge Decision
+
+`duumbi-review-artifact` remains the Stage 11 evidence-producing skill. It reviews one implementation PR against the approved product spec, technical spec, CI/checks, changed files, Copilot review state, and Ralph-cycle evidence. It recommends a human merge decision but does not merge.
+
+`duumbi-merge-decision` or `stage11-merge-decision.yml` handles the explicit human decision:
+
+| Decision | Required behavior |
+|---|---|
+| `Approve Merge` | Requires explicit human authorization, open non-draft PR, Stage 11 artifact, linked product and technical specs, green checks, clean or handled Copilot review, and no blocking finding. Then Codex or workflow may squash merge and trigger Stage 12 closure. |
+| `Request Changes` | Findings go back to the issue/PR, and work returns to Stage 10 `In Progress`. |
+| `Needs Clarification` | Targeted questions are written to the issue/PR, no merge occurs, and status becomes `Needs Clarification` or `Blocked`. |
+| `Reject / Abandon` | Requires explicit human rationale. Implementation PR is closed only by explicit decision, and the issue becomes `Technical Spec Needed`, `Deferred`, or `Closed` as appropriate. |
+
+Stage 12 closure may run only after verified merge or equivalent completion evidence.
+
+## Workflow Privacy And Metrics
+
+Workflow metrics must remain metadata-only. Allowed fields include identifiers, counts, timestamps, durations, conclusions, check status summaries, artifact availability, project status names, and provider-usage availability flags.
+
+Do not store:
+
+- raw Slack payloads or Slack message bodies
+- Slack `response_url` or other capability URLs
+- raw user prompts
+- issue bodies, comment bodies, or broad conversation dumps
+- model completions or provider payloads
+- credentials or secrets
+- broad command logs that include private content
+
+GitHub workflow summaries should omit generated prompts when those prompts could contain user-provided Slack text. Slack source identifiers are acceptable when they are needed for an agent to fetch context through Slack.
+
+## Stage Prompts
+
+Prefer generated next-stage prompts from workflow comments, workflow summaries, or Slack summaries when available. Use the manual templates below only when generated prompts are unavailable or need correction.
+
+### Stage 1 - Slack Intake
 
 ```text
 Run DUUMBI Stage 1 Slack intake with duumbi-obsidian-capture.
 
-Source: <Slack thread URL or copied Slack context>
-Goal: Capture the raw input into the DUUMBI Inbox, classify it, inspect active DUUMBI context, detect obvious duplicates, and report the next processing step.
+Source: <Slack channel/thread URL or channel_id/message_ts/thread_ts>
+Goal: Capture the raw input into the DUUMBI Inbox, classify it, inspect active DUUMBI context, detect duplicates across active Inbox, Processed Inbox, Atlas, GitHub Issues, and GitHub Discussions, and report the next processing step.
 
-Do not create GitHub issues, specs, or implementation changes.
+Do not create GitHub issues, specs, PRs, source changes, or implementation work.
 ```
 
 ### Stage 2 - Codex Intake
-
-Use when the idea starts in Codex rather than Slack or GitHub.
 
 ```text
 Run DUUMBI Stage 2 Codex intake with duumbi-codex-intake.
 
 Input: <idea, bug, question, or source material>
-Goal: Capture this into the DUUMBI Inbox in English, classify it, inspect relevant vault and GitHub context read-only, and recommend routing.
+Goal: Capture this into the DUUMBI Inbox in English, classify it, inspect relevant vault and GitHub context read-only, detect duplicates, and recommend routing.
 
-Do not create specs or implementation changes.
+Do not create specs, GitHub issues, PRs, source changes, or implementation work.
 ```
 
-### Stage 3 - GitHub Intake
-
-Use for an existing GitHub Issue or Ideas Discussion.
+### Stage 3b - Inbox Enrichment
 
 ```text
-Run DUUMBI Stage 3 GitHub intake with duumbi-github-intake.
+Run DUUMBI scheduled Inbox enrichment with duumbi-inbox-enrichment.
 
-Target: <GitHub issue or discussion URL>
-Goal: Review the GitHub item, inspect active DUUMBI context, classify it, identify duplicates or clarification needs, and recommend Stage 4 routing.
+Target: unnormalized manually edited notes under Duumbi/00 Inbox (ToProcess)/
+Goal: Normalize format, classify, detect duplicates across Inbox, Processed Inbox, Atlas, GitHub Issues, and GitHub Discussions, and leave notes ready for Stage 4 triage.
 
-Do not create issues, specs, Obsidian artifacts, PRs, source-code changes, or Project status changes.
+Do not create GitHub issues, specs, PRs, source changes, or implementation work.
 ```
 
-### Stage 4 - Triage
-
-Use when an item is ready to converge into the workflow.
-
-```text
-Run DUUMBI Stage 4 triage with duumbi-triage.
-
-Target: <Inbox note path, GitHub issue URL, GitHub Discussion URL, or bounded source list>
-Goal: Classify the source item, inspect relevant DUUMBI and GitHub context, update or create the execution artifact when appropriate, and route execution work to Needs Human Acceptance.
-
-Do not create product specs, technical specs, PRs, source-code changes, or implementation branches.
-```
-
-If no target: Inbox note, issue or discussion:
+### Stage 4 - Triage Queue Refill
 
 ```text
 Run DUUMBI Stage 4 triage with duumbi-triage.
 
 Target: bounded next-issue discovery sweep across Inbox notes, GitHub Issues, GitHub Ideas Discussions, and active DUUMBI Obsidian documentation.
+Goal: Refill the GitHub Project Todo queue to 3 items. Create or route up to <N> issue(s), stopping when Todo reaches 3 or no actionable source remains.
 
-Goal: Propose exactly one next best engineering issue.
-
-Prioritize work that solves a concrete user, product, reliability, or developer-experience problem and is likely to deliver meaningful business value. Prefer work that fits current roadmap sequencing and avoids starting lower-priority phases before active kill-criterion work is closed.
-
-Inspect:
-- Inbox notes under `Duumbi/00 Inbox (ToProcess)/`
-- GitHub Issues in intake, clarification, or `Todo` Project states
-- GitHub Ideas Discussions
-- active DUUMBI docs in duumbi-vault, especially PRD, Glossary, Agentic Development Map, Agentic Development Runbook, and current roadmap notes
-- recent PRs, milestones, and directly relevant source files only as supporting evidence for duplicate risk, sequencing, feasibility, or whether work has already started
-
-If a suitable issue already exists and its DUUMBI Project Status is `Todo`, recommend or update that canonical issue. Do not select issues that have already moved beyond `Todo`, including `Needs Human Acceptance`, `Spec Needed`, `Ready for Build`, `Cycle Authorization`, `In Progress`, or `In Review`; record them only as related context. If suitable work is not already represented by an eligible `Todo` issue, create one GitHub issue in hgahub/duumbi with full description, clear scope, evidence, acceptance criteria, risks, and relevant links. Connect it to the relevant milestone if one is clearly applicable.
-
-Route the selected issue to Needs Human Acceptance.
-
-Do not mark it accepted, do not create product specs, do not create technical specs, do not create PRs, do not modify source code, and do not start implementation.
-
-Return:
-- exactly one recommended issue number
-- issue URL
-- why this is the next best engineering issue
-- evidence inspected
-- assumptions and open questions
-- GitHub writes performed
-
+For each selected item, inspect duplicates and route execution work to Needs Human Acceptance. Do not mark work accepted, create specs, create PRs, modify source code, or start implementation.
 ```
-### Stage 5 - Human Acceptance
 
-Use after triage, when a human has made an explicit decision.
+### Stage 5 - Human Acceptance
 
 ```text
 Run DUUMBI Stage 5 Human Acceptance with duumbi-human-acceptance.
@@ -366,16 +268,25 @@ Human decision: Accept
 Reviewer source: <Codex | Oz | Slack | GitHub | other>
 Rationale: <short human rationale>
 
-Goal: Record the structured Stage 5 decision, set the issue to Spec Needed, add accepted and needs-spec labels, and remove needs-human-review when available.
+Goal: Record the structured Stage 5 decision and route accepted work to Spec Needed.
 
 Do not create product specs, technical specs, PRs, source-code changes, or implementation branches.
 ```
 
-For non-acceptance decisions, replace `Accept` with `Needs Clarification`, `Duplicate`, `Defer`, or `Reject`, and include the rationale.
+For non-acceptance decisions, replace `Accept` with `Needs Clarification`, `Duplicate`, `Defer`, or `Reject` and include the rationale.
+
+### Delivery Autopilot From Spec Needed
+
+```text
+Run DUUMBI delivery autopilot with duumbi-delivery-autopilot.
+
+Target issue: <Spec Needed GitHub issue URL>
+Goal: Draft and gate the product spec, draft and gate the technical spec, merge clean spec-only PRs when Stage 7 and Stage 9 AI gates pass, then enter Stage 10 Ralph-cycle implementation without bypassing resource gates.
+
+Stop for human approval when a Ralph resource gate triggers, scope expands, risky dependency/migration/security work appears, checks expose a blocker, or a product/architecture decision is needed.
+```
 
 ### Stage 6 - Product Spec Draft
-
-Use after Stage 5 acceptance.
 
 ```text
 Run DUUMBI Stage 6 Product Spec Draft with duumbi-spec-draft.
@@ -385,34 +296,28 @@ Expected artifact: specs/DUUMBI-<issue-number>/PRODUCT.md in <target source repo
 
 Goal: Verify Stage 5 acceptance, inspect active DUUMBI context and relevant source context, draft the product spec in English with BDD Scenarios, open a draft spec PR if file-based, link it from the issue, and move the issue to Spec Review.
 
-Spec-only PR rule: do not use GitHub auto-close keywords such as "Closes", "Fixes", or "Resolves" for the execution issue. Use "Related to #<issue>" or "Spec for #<issue>" instead. Include a workflow note that this PR must not close the execution issue.
+Spec-only PR rule: do not use GitHub auto-close keywords such as "Closes", "Fixes", or "Resolves" for the execution issue. Use "Related to #<issue>" or "Spec for #<issue>" instead.
 
 Do not create technical specs, implementation code, or Ralph cycles.
 ```
 
-### Stage 7 - Product Spec Review
-
-Use after the product spec artifact exists and the human has reviewed it.
+### Stage 7 - Product Spec Review Or AI Gate
 
 ```text
 Run DUUMBI Stage 7 Product Spec Review with duumbi-spec-review.
 
 Target issue: <GitHub issue URL>
 Product spec artifact: <PRODUCT.md PR URL or issue comment link>
-Human decision: Approve
-Reviewer source: <Codex | Oz | Slack | GitHub | other>
-Rationale: Reviewed and approved the PRODUCT spec; it is clear enough to proceed to technical specification.
+Decision mode: <human-review | ai-gate>
+Reviewer source: <Codex | Copilot | Slack | GitHub | other>
+Rationale: <review rationale and blocking findings, if any>
 
-Goal: Review the product spec including BDD scenario clarity/testability, record the structured Stage 7 decision, set the issue to Technical Spec Needed, remove needs-spec, and add product-spec-approved and needs-tech-spec.
+Goal: Review the product spec including BDD clarity, scope, product behavior, and testability. If approved, record Stage 7 decision and route to Technical Spec Needed.
 
 Do not create a technical spec or implementation changes.
 ```
 
-For changes, use `Human decision: Request Changes` and include blocking findings.
-
 ### Stage 8 - Technical Spec Draft
-
-Use after product spec approval.
 
 ```text
 Run DUUMBI Stage 8 Technical Spec Draft with duumbi-tech-spec-draft.
@@ -423,55 +328,38 @@ Expected artifact: specs/DUUMBI-<issue-number>/TECHNICAL.md in <target source re
 
 Goal: Verify product spec approval, inspect repo AGENTS.md and affected source areas, draft an agent-facing technical spec with BDD-to-test mapping, live E2E plan, and Ralph Cycle resource policy, open a draft PR, link it from the issue, and move the issue to Technical Spec Review.
 
-Spec-only PR rule: do not use GitHub auto-close keywords such as "Closes", "Fixes", or "Resolves" for the execution issue. Use "Related to #<issue>" or "Technical spec for #<issue>" instead. Include a workflow note that this PR must not close the execution issue.
-
 Do not modify implementation code, tests, generated artifacts, runtime assets, or product specs.
 ```
 
-### Stage 9 - Technical Spec Review
-
-Use after the technical spec artifact exists and the human has reviewed it.
+### Stage 9 - Technical Spec Review Or AI Gate
 
 ```text
-Run DUUMBI Stage 9 Technical Spec Review with duumbi-tech-spec-review.
+Run DUUMBI Stage 9 Technical Specification Review with duumbi-tech-spec-review.
 
 Target issue: <GitHub issue URL>
 Technical spec artifact: <TECHNICAL.md PR URL or path>
 Product spec artifact: <PRODUCT.md PR URL or path>
-Human decision: Approve
-Reviewer source: <Codex | Oz | Slack | GitHub | other>
-Rationale: Reviewed and approved the technical specification; it is sufficiently bounded for Stage 10 Ralph-cycle implementation.
+Decision mode: <human-review | ai-gate>
+Reviewer source: <Codex | Copilot | Slack | GitHub | other>
+Rationale: <review rationale and blocking findings, if any>
 
-Goal: Review BDD-to-test mapping, live E2E feasibility, and Ralph Cycle resource policy; record the structured Stage 9 decision, set the issue to Ready for Build, remove needs-tech-spec, and add tech-spec-approved.
+Goal: Review implementability, BDD-to-test mapping, live E2E feasibility, risk, and Ralph Cycle resource policy. If approved, record Stage 9 decision and route to Ready for Build.
 
 Do not request a Ralph cycle or start implementation.
 ```
 
-### Stage 10a - Implementation Coordination
-
-Use only when branch, PR, blocker, or evidence coordination is needed before or after Ralph Cycle execution.
-
-```text
-Run DUUMBI Stage 10 Implementation Coordination with duumbi-implementation.
-
-Target issue: <GitHub issue URL>
-Mode: coordinate Stage 10 branch, PR, blocker, or evidence state
-```
-
-### Stage 10b - Ralph Cycle Execution
-
-Use when the issue reaches `Ready for Build` and should proceed through resource-permitted Ralph cycles.
+### Stage 10 - Implementation And Ralph Cycles
 
 ```text
 Run DUUMBI Stage 10 Ralph Cycle with duumbi-ralph-cycle.
 
 Target issue: <GitHub issue URL>
 Mode: execute resource-permitted Ralph cycles
+
+Goal: Implement only the approved technical spec scope, gather evidence, and stop at completion, blocker, threshold breach, scope change, risky dependency/migration/security change, or autonomous batch cap.
 ```
 
-Human approval is required only after the agent has stopped and produced a resource approval request for a specific next cycle. In that case, post an explicit approval comment:
-
-When the deterministic Stage 10 handoff path is available, prefer the structured Stage 10 authorization workflow/comment contract over a free-form approval comment. The fallback approval comment remains valid when workflow dispatch or Slack routing is unavailable.
+When a resource gate triggers, prefer the deterministic Stage 10 authorization workflow. Fallback approval comment:
 
 ```markdown
 ## Ralph Cycle <N> Resource Approval
@@ -487,24 +375,7 @@ Scope approved:
 Reviewer source: GitHub
 ```
 
-Then resume Stage 10b with the same execution prompt:
-
-```text
-Run DUUMBI Stage 10 Ralph Cycle with duumbi-ralph-cycle.
-
-Target issue: <GitHub issue URL>
-Mode: execute resource-permitted Ralph cycles
-
-Goal: Resume from the approved resource-gated cycle, execute only the permitted scope, then continue through later low-budget cycles only while they remain below the resource thresholds and inside the autonomous batch cap.
-
-If work remains, continue only when the next cycle is still inside the technical spec, below resource thresholds, and within the autonomous batch cap. Otherwise prepare the next resource approval request or blocker report and return the issue to Cycle Authorization or Blocked.
-```
-
-`Ralph Cycle <N>` is only an identifier for the specific cycle that triggered the resource gate. Do not provide a cycle number for the normal execution prompt.
-
 ### Stage 11 - Review Artifact
-
-Use when implementation evidence is ready and the PR is in review.
 
 ```text
 Run DUUMBI Stage 11 Review Artifact with duumbi-review-artifact.
@@ -514,26 +385,25 @@ Linked issue: <GitHub issue URL>
 Product spec: <PRODUCT.md artifact>
 Technical spec: <TECHNICAL.md artifact>
 
-Goal: Review the PR against the approved product spec, technical spec, CI/checks, changed files, and Ralph cycle evidence. Write a structured review artifact and recommend whether it is ready for a human merge decision.
+Goal: Review the PR against the approved product spec, technical spec, CI/checks, changed files, Copilot review state, and Ralph cycle evidence. Write a structured review artifact and recommend whether it is ready for a human merge decision.
 
 Do not merge, close the issue, move the Project item to Done, perform closure, or edit implementation code.
 ```
 
-When a Stage 11 handoff notification marker exists, verify that its issue and PR numbers match the target artifacts. Treat the marker as notification evidence only, not as review evidence.
-
-### Human Merge Decision
-
-After Stage 11 recommends readiness, the human reviewer merges or sends the PR back to Stage 10.
+### Stage 11 - Merge Decision
 
 ```text
-Human action: Merge <PR URL> after reviewing Stage 11 evidence, CI/checks, and remaining risks.
+Run DUUMBI Stage 11 merge decision handling with duumbi-merge-decision.
 
-If merge is not acceptable, comment with required changes and route the issue back to Stage 10.
+Target PR: <implementation PR URL>
+Linked issue: <GitHub issue URL>
+Human decision: <Approve Merge | Request Changes | Needs Clarification | Reject / Abandon>
+Rationale: <explicit human rationale>
+
+Goal: Process the human decision without bypassing CI, Copilot, Stage 11 review evidence, linked specs, or Stage 12 closure.
 ```
 
 ### Stage 12 - Closure
-
-Use only after merge or equivalent completion evidence exists.
 
 ```text
 Run DUUMBI Stage 12 Closure with duumbi-closure.
@@ -546,92 +416,48 @@ Goal: Verify merge evidence, Stage 11 review artifact, approved product spec, ap
 Do not merge PRs, start implementation, rewrite specs, or copy PR summaries into Obsidian unless there is durable reusable learning.
 ```
 
-### Optional Durable Knowledge Sync
-
-Run this only when Stage 12 says durable learning is needed or blocked.
-
-```text
-Run DUUMBI durable knowledge sync for the completed work.
-
-Completion evidence: <merged PR URL>
-Linked issue: <GitHub issue URL>
-Closure evidence: <Stage 12 closure comment or report>
-Target knowledge area: <Dot | Map | Work | skill | PRD | Glossary | source repo AGENTS.md>
-
-Goal: Update only reusable durable guidance that changes future behavior, architecture, product understanding, workflow, vocabulary, or agent instructions. Keep facts, decisions, assumptions, recommendations, and open questions separate, and link back to the issue, PR, specs, and review evidence.
-
-Do not mirror live GitHub status and do not copy the PR summary into Obsidian.
-```
-
 ## Human Decision Points
 
 | Decision point | Human must decide | Valid decisions |
 |---|---|---|
 | Stage 5 | Whether triaged work deserves specification effort | `Accept`, `Needs Clarification`, `Duplicate`, `Defer`, `Reject` |
-| Stage 7 | Whether PRODUCT spec is approved | `Approve`, `Request Changes`, `Needs Clarification`, `Reject / No Longer Needed` |
-| Stage 9 | Whether TECHNICAL spec is approved for implementation | `Approve`, `Request Changes`, `Needs Clarification`, `Reject / No Longer Needed` |
-| Stage 10 | Whether a resource-gated Ralph cycle may proceed when thresholds are exceeded | approve the resource request, request narrower cycle, clarify, defer, or block |
-| Stage 11 | Whether PR can merge | merge, request changes, block, or clarify |
+| Stage 7 | Whether PRODUCT spec is approved when AI gate is unavailable or blocked | `Approve`, `Request Changes`, `Needs Clarification`, `Reject / No Longer Needed` |
+| Stage 9 | Whether TECHNICAL spec is approved when AI gate is unavailable or blocked | `Approve`, `Request Changes`, `Needs Clarification`, `Reject / No Longer Needed` |
+| Stage 10 | Whether a resource-gated Ralph cycle may proceed | approve the exact cycle, request narrower scope, clarify, defer, or block |
+| Stage 11 | Whether the implementation PR can merge | approve merge, request changes, needs clarification, reject/abandon |
 | Stage 12 | Whether durable knowledge sync is needed | sync performed, sync not needed, or sync blocked |
 
-Agents may recommend decisions, but they must not invent human acceptance.
+Agents may recommend decisions, but they must not invent human acceptance or implementation merge approval.
 
 ## Repository And Location Defaults
 
 | Work type | Default repo | Default location | Reason |
 |---|---|---|---|
-| Intake, triage, acceptance, review gates, closure | `duumbi-vault` | Work locally | Needs active vault context and GitHub state, usually no source edits |
-| Product spec draft | target source repo, usually `duumbi` | New worktree | Creates `specs/DUUMBI-<issue>/PRODUCT.md` and a draft PR |
-| Technical spec draft | target source repo, usually `duumbi` | New worktree | Creates `specs/DUUMBI-<issue>/TECHNICAL.md` and a draft PR |
-| Implementation coordination | target source repo, usually `duumbi` | New worktree | Needs branch and PR context but should not edit files before cycle approval |
+| Slack intake and Codex intake | `duumbi-vault` | Vault-capable agent environment | Creates Inbox notes and needs active vault context |
+| Manual Inbox enrichment | `duumbi-vault` | Vault-capable agent environment | Normalizes raw Inbox notes only |
+| Triage, acceptance, clarification, review gates, closure | `duumbi-vault` plus GitHub | Work locally or cloud with GitHub access | Needs active vault context and GitHub state |
+| Product spec draft | target source repo, usually `duumbi` | New worktree | Creates `specs/DUUMBI-<issue>/PRODUCT.md` and a spec-only PR |
+| Technical spec draft | target source repo, usually `duumbi` | New worktree | Creates `specs/DUUMBI-<issue>/TECHNICAL.md` and a spec-only PR |
+| Delivery Autopilot | target source repo, usually `duumbi` | Codex App worktree | Developer can supervise high-cost flow from mobile |
 | Ralph cycle implementation | target source repo, usually `duumbi` | New worktree | Makes bounded implementation edits and runs checks |
-| Review artifact | target source repo, usually `duumbi` | New worktree or Work locally | Needs PR diff, checks, specs, and cycle evidence |
-| Closure | `duumbi-vault` | Work locally | Verifies GitHub completion and decides durable knowledge sync |
-| Durable knowledge sync | `duumbi-vault` for Obsidian, target source repo for `AGENTS.md` | New worktree when editing files | Keeps durable knowledge and repo-local agent rules versioned |
-
-## Approval Handoff Prompt Surfaces
-
-Facts:
-
-- Stage Approval approval paths for Stage 5, Stage 7, and Stage 9 produce copy-ready next-stage Codex prompts.
-- Generated prompts are emitted to the GitHub decision comment and workflow summary as durable GitHub-linked fallback surfaces.
-- When Slack approval-result delivery is configured, the same prompt is also included in the Slack approval summary.
-- Prompt generation is limited to approval decisions. Non-approval decisions must not emit next-stage launch prompts.
-- Missing product or technical spec artifacts must be shown with explicit placeholders instead of being omitted or guessed.
-- Stage 10 and Stage 11 have separate notification handoff paths; they are not Stage Approval prompt generation paths.
-
-Decision:
-
-- After Stage 5, Stage 7, or Stage 9 approval, agents should prefer the generated next-stage prompt from the approval result surfaces over manually reconstructing the runbook prompt.
-- The manual prompts below remain fallback templates for cases where the generated prompt is unavailable, incomplete, or needs human correction.
-- Stage 9 approval routes to Stage 10 Implementation Coordination with `duumbi-implementation`; it does not directly authorize an unbounded Ralph cycle.
-- Stage 10 resource authorization must use Stage 10 decision semantics, and Stage 11 review handoff must lead to review artifact generation rather than merge or closure.
-
-Assumptions:
-
-- GitHub remains the durable fallback even when Slack is the fastest human-facing surface.
-- Generated prompts are launch assistance, not execution state and not automatic authorization to skip the next stage boundary.
-
-Recommendations:
-
-- Before running the generated prompt, check that its issue URL, spec artifact links, skill name, and boundary warnings match the approved stage.
-- If a generated prompt contains a `<missing: ...>` artifact placeholder, resolve the missing artifact from GitHub evidence before starting the next stage, or explicitly carry the placeholder as a blocker.
-- Do not copy generated prompts into Obsidian as status artifacts; update durable knowledge only when the prompt behavior changes reusable workflow guidance.
-
-Open questions:
-
-- None for the current workflow rule.
+| Review artifact and merge decision | target source repo, usually `duumbi` | New worktree or GitHub workflow | Needs PR diff, checks, specs, and cycle evidence |
+| Durable knowledge sync | `duumbi-vault` for Obsidian, target source repo for `AGENTS.md` | New worktree when editing source files | Keeps durable knowledge and repo-local agent rules versioned |
 
 ## Common Mistakes
 
 - Do not treat `Todo` as `Needs Human Acceptance`; they are different workflow states.
-- Do not use `Closes`, `Fixes`, or `Resolves` in Stage 6 or Stage 8 spec-only PRs. Those PRs must not close the execution issue.
+- Do not create GitHub issues from Inbox enrichment. Enrichment prepares notes for triage only.
+- Do not use GitHub Actions for direct model calls. Actions should dispatch or record, not run the model.
+- Do not forward Slack `response_url` or raw Slack text through GitHub `repository_dispatch`.
+- Do not store raw prompts or Slack bodies in workflow summaries or artifacts.
+- Do not use `Closes`, `Fixes`, or `Resolves` in Stage 6 or Stage 8 spec-only PRs.
 - Do not move from `Spec Review` to implementation. Stage 7 approval must be followed by Stage 8 and Stage 9.
+- Do not treat a clean Stage 7 or Stage 9 AI gate as permission to merge implementation code.
 - Do not treat issue acceptance as permission to exceed the Ralph Cycle resource gate.
-- Do not run unbounded Ralph cycles. Low-budget autonomous cycles must stay within the technical spec, resource thresholds, and batch cap.
+- Do not run unbounded Ralph cycles.
 - Do not route Stage 10 resource decisions through Stage 5, Stage 7, or Stage 9 approval semantics.
 - Do not treat Stage 11 Slack handoff notification as review completion.
-- Do not merge or close from Stage 11. Stage 11 supports the human merge decision; Stage 12 closes after merge.
+- Do not merge implementation PRs without explicit human Stage 11 merge authorization.
 - Do not sync every PR summary into Obsidian. Sync only reusable durable knowledge.
 
 ## Sources
@@ -641,16 +467,14 @@ Open questions:
 - [[Warp Oz and Codex Development Toolchain]]
 - [[Agent Skills as Operational Playbooks]]
 - [[How to use]]
-- https://github.com/hgahub/duumbi/issues/593
-- https://github.com/hgahub/duumbi/pull/599
-- https://github.com/hgahub/duumbi/pull/601
-- https://github.com/hgahub/duumbi/pull/603
-- https://github.com/hgahub/duumbi/pull/603#issuecomment-4522484830
-- https://github.com/hgahub/duumbi/issues/593#issuecomment-4522548997
+- https://github.com/hgahub/duumbi/pull/621
+- https://github.com/hgahub/duumbi/issues/610
+- https://github.com/hgahub/duumbi/pull/612
+- https://github.com/hgahub/duumbi/pull/613
+- https://github.com/hgahub/duumbi/pull/615
 - https://github.com/hgahub/duumbi/issues/595
 - https://github.com/hgahub/duumbi/pull/616
 - https://github.com/hgahub/duumbi/pull/618
 - https://github.com/hgahub/duumbi/pull/619
-- https://github.com/hgahub/duumbi/issues/595#issuecomment-4526537062
 - https://medium.com/@wasowski.jarek/sdd-writing-specifications-for-ai-bdd-as-the-missing-link-spec-driven-development-ad1b540b7f75
 - https://cucumber.io/docs/gherkin/reference/
