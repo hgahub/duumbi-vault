@@ -30,7 +30,7 @@ Use this map to navigate the stable ideas behind DUUMBI. For execution state, go
 ## Agentic Development
 
 - [[DUUMBI Agentic Development Map]] -- hub for the operating model.
-- [[Warp Oz and Codex Development Toolchain]] -- tool responsibilities.
+- [[Codex Development Toolchain]] -- tool responsibilities.
 - [[Spec-First Agentic Development]] -- spec quality bar before implementation.
 - [[Structured Agent Review Artifacts]] -- evidence expected from agents.
 - [[AGENTS.md as Agent Contract]] -- repo-local instruction layer.

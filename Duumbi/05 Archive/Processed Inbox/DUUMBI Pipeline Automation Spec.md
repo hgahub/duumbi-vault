@@ -21,7 +21,7 @@ related_works:
 
 ## Summary
 
-Reduce developer touchpoints to decisions + one-click Codex launches. All heavy generative work (spec drafting, implementation, review) runs in Codex on the flat-rate OpenAI Pro subscription. All deterministic routing, labeling, project updates, and Slack notifications run in GitHub Actions at near-zero cost. Oz is used only for light cloud work (intake capture, triage sweep).
+Reduce developer touchpoints to decisions + one-click Codex launches. All heavy generative work (spec drafting, implementation, review) runs in Codex on the flat-rate OpenAI Pro subscription. All deterministic routing, labeling, project updates, and Slack notifications run in GitHub Actions at near-zero cost. Codex Cloud is used only for light cloud work (intake capture, triage sweep).
 
 ## Problem statement
 
@@ -30,7 +30,7 @@ The DUUMBI 12-stage workflow currently requires the developer to:
 2. Open Codex, locate the right skill prompt in the runbook, find issue/spec URLs, paste and execute
 3. Monitor Codex for completion and manually advance to the next stage
 
-This makes the developer the orchestration layer, creating friction at every handoff and burning Warp credits for expensive generative work that Codex could handle for free.
+This made the developer the orchestration layer, creating friction at every handoff and burning external cloud-agent credits for expensive generative work that Codex can handle under the current process.
 
 ## Cost model
 
@@ -39,15 +39,15 @@ This makes the developer the orchestration layer, creating friction at every han
 | GitHub Actions | ~$0 (free tier) | Deterministic: routing, labels, project updates, Slack notifications |
 | Slack bridge (Azure Function) | ~$0/month (consumption) | Button → dispatch |
 | Codex (OpenAI Pro) | $0 marginal (flat-rate) | Heavy generative: spec drafting, implementation, review artifact |
-| Oz (Warp credits) | ~5–200 credits/turn | Light cloud work: intake, triage, closure decisions |
+| Codex Cloud | metered external usage | Light cloud work: intake, triage, closure decisions |
 
-**Target:** ~20–65 Oz credits per ticket vs. ~400–1100+ for an all-Oz approach.
+**Target:** ~20–65 Codex Cloud credits per ticket vs. ~400–1100+ for an all-cloud-agent approach.
 
 ## Architecture decisions
 
 1. **Codex-first for heavy stages** — Spec drafting (S6, S8), implementation (S10), and review artifact (S11) run in Codex. GitHub Actions provide ready-to-run prompts.
 2. **GitHub Actions for deterministic routing** — Label changes trigger Slack cards; `stage-approval.yml` posts ready-to-run prompts to Slack.
-3. **Oz only for light work** — Slack-triggered intake (S1), triage sweep (S4), and closure sync decision (S12 partial).
+3. **Codex Cloud only for light work** — Slack-triggered intake (S1), triage sweep (S4), and closure sync decision (S12 partial).
 4. **No auto-chain for Codex stages** — After approval, Slack shows a pre-filled Codex prompt. Developer clicks to launch. One-click, not copy-paste.
 5. **No auto-merge** — Human merge gate is preserved as the last safety net.
 
@@ -140,7 +140,7 @@ Do not create technical specs, implementation code, or Ralph cycles.
    Knowledge sync needed? (Sync durable learning to vault/AGENTS.md)
    [ Yes — Run Codex ]  [ No — Done ]
    ```
-   The "Yes" button dispatches `stage-launch` (see #5 below) with `{ stage: "12-sync", issue_number: N }`.
+   The "Yes" button dispatches `codex-handoff` (see #5 below) with `{ stage: "12-sync", issue_number: N }`.
 
 **Files changed:** `.github/workflows/post-merge-closure.yml`
 
@@ -179,20 +179,20 @@ Do not create technical specs, implementation code, or Ralph cycles.
 
 ---
 
-### 4. `slack-approval-bridge` — Extend for `stage-launch` dispatch (MODIFY)
+### 4. `slack-approval-bridge` — Extend for `codex-handoff` dispatch (MODIFY)
 
-**What:** Extend the Azure Function to handle a new action type: `stage_launch`.
+**What:** Extend the Azure Function to handle a new action type: `codex_handoff`.
 
-**Why:** The "Yes — Run Codex" button in the post-merge closure Slack card needs to route somewhere. Instead of spawning an Oz agent, it should post the ready-to-run Codex prompt to the Slack thread so the developer can launch Codex with one click.
+**Why:** The "Yes — Run Codex" button in the post-merge closure Slack card needs to route somewhere. Instead of spawning an Codex Cloud run, it should post the ready-to-run Codex prompt to the Slack thread so the developer can launch Codex with one click.
 
 **New action type in `slackApproval.js`:**
 
 ```javascript
 // In the handler, after parsing actionData:
-const actionType = actionData.action_type; // "stage_approval" | "stage_launch"
+const actionType = actionData.action_type; // "stage_approval" | "codex_handoff"
 
 // Route to appropriate handler
-if (actionType === 'stage_launch') {
+if (actionType === 'codex_handoff') {
   await handleStageLaunch(actionData, responseUrl, context);
 }
 ```
@@ -203,24 +203,24 @@ if (actionType === 'stage_launch') {
 3. Fetch spec artifact URLs from existing comments on the issue (Stage 6/8 comment → product/tech spec URL).
 4. Build the ready-to-run Codex prompt (same template used in `stage-approval.yml`).
 5. Post to Slack: `🚀 Ready to run Stage <N> — click below to launch in Codex` with the full prompt block.
-6. Do NOT dispatch to Oz (that would burn credits for Codex-eligible work).
+6. Do NOT dispatch to Codex Cloud (that would burn credits for Codex-eligible work).
 
-**Alternative (if "Yes" should trigger Oz directly):** Call the Oz API to start a cloud agent with the skill spec. But given the cost model, Slack → developer → Codex is preferred.
+**Alternative (if "Yes" should trigger Codex Cloud directly):** Call the Codex Cloud dispatch API to start a cloud agent with the skill spec. But given the cost model, Slack → developer → Codex is preferred.
 
 **Files changed:** `scripts/slack-approval-bridge/src/functions/slackApproval.js`
 
 ---
 
-### 5. `stage-launch.yml` — Optional Oz dispatch for light stages (NEW)
+### 5. `codex-handoff.yml` — Optional Codex Cloud dispatch for light stages (NEW)
 
-**What:** GitHub Action triggered by `repository_dispatch: stage-launch`. Calls the Oz API to start a cloud agent with a specified skill.
+**What:** GitHub Action triggered by `repository_dispatch: codex-handoff`. Calls the Codex Cloud dispatch API to start a cloud agent with a specified skill.
 
-**Why:** For light stages (S1 intake, S4 triage sweep, S12 knowledge sync), an Oz cloud agent is appropriate. This workflow provides the Oz API integration point.
+**Why:** For light stages (S1 intake, S4 triage sweep, S12 knowledge sync), an Codex Cloud cloud agent is appropriate. This workflow provides the Codex Cloud dispatch API integration point.
 
-**Note:** This workflow is **optional** — most stages launch Codex prompts instead of Oz agents. This exists for the light stages where cloud execution is genuinely better than Codex.
+**Note:** This workflow is **optional** — most stages launch Codex prompts instead of Codex Cloud runs. This exists for the light stages where cloud execution is genuinely better than Codex.
 
 **Triggers:**
-- `repository_dispatch: stage-launch`
+- `repository_dispatch: codex-handoff`
 - `workflow_dispatch` (for testing)
 
 **Inputs:**
@@ -233,7 +233,7 @@ prompt_supplement: ""  # optional additional context
 
 **Jobs:**
 
-1. `dispatch_oz` — Uses Warp Oz API (via `oz agent run-cloud` CLI or SDK) to start a cloud agent:
+1. `dispatch_oz` — Uses Codex Cloud API (via `oz agent run-cloud` CLI or SDK) to start a cloud agent:
    - `environment_id`: `eKLEWjD4PNqFC6j0EcDEYA` (existing duumbi-vault-knowledge-env)
    - `skill_spec`: `{owner}/duumbi:.agents/skills/{skill}/SKILL.md` or `hgahub/duumbi:.agents/skills/{skill}/SKILL.md`
    - `prompt`: constructed from stage prompt template + issue context + `prompt_supplement`
@@ -241,14 +241,14 @@ prompt_supplement: ""  # optional additional context
 
 2. `notify_slack` — After dispatch, post confirmation:
    ```
-   🚀 Oz agent launched for Stage <N> ({skill})
+   🚀 Codex Cloud run launched for Stage <N> ({skill})
    Issue: #<M>
    Run: <session_link>
    ```
 
-**Secrets required:** `OZ_API_KEY` (Warp API key)
+**Secrets required:** approved Codex Cloud dispatch credential
 
-**Files changed:** `.github/workflows/stage-launch.yml`
+**Files changed:** `.github/workflows/codex-handoff.yml`
 
 ---
 
@@ -319,10 +319,10 @@ prompt_supplement: ""  # optional additional context
 |---|---|---|---|---|
 | 1 | `stage-approval.yml` — ready-to-run prompt block | Modify | Free (GHA) | High — eliminates daily lookup friction |
 | 2 | `post-merge-closure.yml` | New | Free (GHA) | High — closes the biggest manual gap |
-| 3 | `slack-approval-bridge` — extend for `stage_launch` | Modify | Free (Azure) | Medium — enables Slack → Codex flow |
+| 3 | `slack-approval-bridge` — extend for `codex_handoff` | Modify | Free (Azure) | Medium — enables Slack → Codex flow |
 | 4 | `ralph-cycle-approval-request.yml` | New | Free (GHA) | Medium — fills the last missing gate |
 | 5 | Skill label auto-addition enforcement | Modify | Free | Medium — ensures notification workflows fire |
-| 6 | `stage-launch.yml` (Oz dispatch for light stages) | New | Low (Oz credits) | Low — S1/S4/S12 only |
+| 6 | `codex-handoff.yml` (Codex Cloud dispatch for light stages) | New | Low (Codex Cloud credits) | Low — S1/S4/S12 only |
 | 7 | `slack-approval-bridge-deploy.yml` | New | Free (GHA) | Low — operational hygiene |
 | 8 | `duumbi-knowledge-sync` skill | New | Free (Codex) | Low — nice-to-have |
 
@@ -332,7 +332,7 @@ prompt_supplement: ""  # optional additional context
 
 - **Periodic triage sweep** — developer manages Inbox directly; no auto-trigger
 - **Auto-merge** — human merge gate is intentional
-- **Stage 11 review artifact auto-trigger via Oz** — Slack notification with Codex prompt preferred over Oz for this stage
+- **Stage 11 review artifact auto-trigger via Codex Cloud** — Slack notification with Codex prompt preferred over Codex Cloud for this stage
 - **Auto-chain from spec completion to next stage** — ready-to-run prompt is human-triggered, not auto-run
 
 ---
@@ -359,9 +359,9 @@ prompt_supplement: ""  # optional additional context
   - Should generated next-stage prompts be Slack-only or also appended to GitHub decision comments?
   - Should missing workflow labels such as `needs-cycle-approval`, `needs-review`, and `done` be created as first-class labels?
   - Should Stage 10 resource decisions live in `stage-approval.yml` or a dedicated Stage 10 authorization workflow?
-  - Is the Oz API/CLI contract stable enough for GitHub Actions, and which Azure deployment credential path should be used?
+  - Is the Codex Cloud dispatch interface contract stable enough for GitHub Actions, and which Azure deployment credential path should be used?
 - Assumptions:
-  - Heavy generative stages should remain Codex-prompted rather than Oz-dispatched by default.
+  - Heavy generative stages should remain Codex-prompted rather than Codex Cloud-dispatched by default.
   - Post-merge closure must conservatively skip ambiguous issue links and spec-only PRs.
   - Optional cloud/deployment work should follow the core approval-prompt and closure automation rather than block it.
 - Next stage: Stage 5 Human Acceptance for issues #593, #594, #595, and #596.

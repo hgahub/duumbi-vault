@@ -18,7 +18,7 @@ related_works:
 
 This runbook is the canonical operating guide for the redesigned DUUMBI intake-to-delivery workflow. It keeps the 12-stage DUUMBI model, but adds deterministic orchestration around intake, Inbox enrichment, triage queue refill, AI-assisted spec gates, Delivery Autopilot, resource-gated Ralph cycles, human-authorized implementation merge, and closure.
 
-GitHub remains the execution source of truth. Obsidian stores raw intake and durable knowledge. Slack is the fast human surface for capture, clarification, notification, and approval. GitHub Actions coordinate scheduled checks and deterministic dispatches, but they do not call model APIs directly. AI execution should run in Oz, Codex Cloud, Codex App, Codex CLI, or a reviewed local agent environment.
+GitHub remains the execution source of truth. Obsidian stores raw intake and durable knowledge. Slack is the fast human surface for capture, clarification, notification, and approval. GitHub Actions coordinate scheduled checks and deterministic dispatches, but they do not call model APIs directly. AI execution should run in Codex Cloud, Codex App, Codex CLI, or a reviewed local agent environment.
 
 [[DUUMBI - Development Intake to Delivery Workflow]] is retained as a deprecated historical reference while useful detail is folded into this runbook and checked-in DUUMBI skills. Do not treat the older workflow document as current operating guidance.
 
@@ -36,7 +36,7 @@ Slack, Codex, Obsidian Inbox, GitHub Issues, and GitHub Discussions feed a singl
 |---|---|---|
 | Slack | Idea capture, clarification loops, review notifications, approval buttons, mobile-friendly control | Durable memory, raw secret storage, long-term execution state |
 | Codex App | Human-controlled local execution, mobile-supervised delivery autopilot, specs, implementation, review handling, vault maintenance | Silent unattended project-state mutation without evidence |
-| Codex Cloud / Oz | Scheduled, cloud, Slack-triggered, parallel, or long-running agent runs | Human product decisions or final implementation merge approval |
+| Codex Cloud | Scheduled, cloud, Slack-triggered, parallel, or long-running agent runs through approved dispatch contracts | Human product decisions or final implementation merge approval |
 | GitHub Issues | Execution work unit, acceptance, clarification, stage decisions, linked evidence | Broad untriaged brainstorming forever |
 | GitHub Project | Status, Todo queue, priority, sequencing, review gates | Durable architecture rationale by itself |
 | GitHub PRs and CI | Spec review, implementation review, checks, merge evidence | Product decisions not linked back to issues |
@@ -98,7 +98,7 @@ Slack, Codex, Obsidian Inbox, GitHub Issues, and GitHub Discussions feed a singl
 
 | Stage | Skill or workflow | Trigger | Source | Output |
 |---|---|---|---|---|
-| 1 | `duumbi-obsidian-capture` via Slack bridge / Oz | Dedicated idea channel or Slack shortcut | Slack message/thread | English Inbox note or duplicate report |
+| 1 | `duumbi-obsidian-capture` via Slack bridge and Codex handoff | Dedicated idea channel or Slack shortcut | Slack message/thread | English Inbox note or duplicate report |
 | 2 | `duumbi-codex-intake` | Developer uses Codex App, Codex Cloud, or Codex CLI on `duumbi-vault` | User idea in Codex | English Inbox note or duplicate report |
 | 3 | Manual Obsidian Inbox entry | Human directly edits Markdown | `00 Inbox (ToProcess)` | Raw note, possibly untagged and unnormalized |
 | 3b | `duumbi-inbox-enrichment` | Scheduled every 3 hours or manual dispatch | Raw Inbox notes | Normalized, classified, duplicate-marked Inbox notes; no GitHub issue |
@@ -265,7 +265,7 @@ Run DUUMBI Stage 5 Human Acceptance with duumbi-human-acceptance.
 
 Target issue: <GitHub issue URL>
 Human decision: Accept
-Reviewer source: <Codex | Oz | Slack | GitHub | other>
+Reviewer source: <Codex | Codex Cloud | Slack | GitHub | other>
 Rationale: <short human rationale>
 
 Goal: Record the structured Stage 5 decision and route accepted work to Spec Needed.
@@ -464,7 +464,7 @@ Agents may recommend decisions, but they must not invent human acceptance or imp
 
 - [[DUUMBI - Development Intake to Delivery Workflow]] (deprecated historical reference)
 - [[DUUMBI Agentic Development Map]]
-- [[Warp Oz and Codex Development Toolchain]]
+- [[Codex Development Toolchain]]
 - [[Agent Skills as Operational Playbooks]]
 - [[How to use]]
 - https://github.com/hgahub/duumbi/pull/621

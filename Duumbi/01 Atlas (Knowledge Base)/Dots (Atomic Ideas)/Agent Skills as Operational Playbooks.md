@@ -27,7 +27,6 @@ High-value agent work depends on repeatable process. Skills reduce prompt drift,
 ## Sources
 
 - [OpenAI Codex skills docs](https://developers.openai.com/codex/skills)
-- [Warp skills as agents docs](https://docs.warp.dev/agent-platform/cloud-agents/skills-as-agents/)
 
 ## Related
 

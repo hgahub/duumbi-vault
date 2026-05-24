@@ -19,7 +19,7 @@ Human review should evaluate behavior and trade-offs, not reconstruct the agent'
 
 ## DUUMBI usage
 
-Every significant Oz or Codex implementation should produce:
+Every significant Codex implementation should produce:
 
 - summary of change
 - affected files or modules
@@ -31,13 +31,11 @@ Every significant Oz or Codex implementation should produce:
 
 ## Sources
 
-- [What Warp’s Open Source Release Tells Us About the Future of Agentic Software Development](https://medium.com/jonathans-musings/what-warps-open-source-release-tells-us-about-the-future-of-agentic-software-development-5d4409726bf1)
-- [Warp Oz platform docs](https://docs.warp.dev/agent-platform/cloud-agents/platform)
 - [Anthropic: Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)
 
 ## Related
 
 - [[Spec-First Agentic Development]]
-- [[Warp Oz and Codex Development Toolchain]]
+- [[Codex Development Toolchain]]
 - [[GitHub Project as Execution Source of Truth]]
 - [[AI Agent Development Workflow]]

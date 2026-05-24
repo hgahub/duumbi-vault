@@ -37,7 +37,7 @@ The product wins when a user can answer:
 
 ## Users
 
-- **Developer:** builds and changes DUUMBI behavior using the source repo, Codex, Warp Oz, tests, and PR review.
+- **Developer:** builds and changes DUUMBI behavior using the source repo, Codex, Codex Cloud, tests, and PR review.
 - **Product/business decision maker:** asks what works, why it matters, what trade-offs exist, and what should be prioritized.
 - **Question asker:** uses DUUMBI in read-only mode to locate behavior, dependencies, evidence, and change risk before asking an agent to mutate anything.
 - **Agent operator:** turns issues, specs, and Slack captures into agent runs with reviewable evidence.
@@ -51,7 +51,7 @@ The product wins when a user can answer:
 - Convert ambiguous intent into a concise product/spec artifact with defaults, states, edge cases, and verification criteria.
 - Produce a technical plan that identifies affected areas, risks, tests, and review evidence.
 - In a controlled developer/test environment, run DUUMBI-built applications with tracing enabled so runtime failures can be mapped back to semantic graph context and turned into repair-ready evidence.
-- Use Codex for local/vault/repo work and Warp Oz for cloud, parallel, scheduled, or long-running work.
+- Use Codex for local/vault/repo work and Codex Cloud for cloud, parallel, scheduled, or long-running work.
 - Require structured agent review before human review.
 - Use GitHub Project, issues, PRs, and CI as the execution state.
 - Sync only stable product, architecture, workflow, and skill knowledge into Obsidian.
@@ -106,13 +106,13 @@ The first slice explicitly excludes cloud ingestion of customer crashes, DUUMBI 
 - **Human-verifiable:** the system should make product behavior easy to inspect, not just easy to generate.
 - **Runtime-evidence-backed:** runtime feedback should be captured as structured evidence that can be mapped to graph context before repair automation is trusted.
 - **Knowledge-backed:** agent context should come from concise, source-backed notes rather than stale long documents.
-- **Tool-agnostic core:** Warp Oz, Codex, Slack, GitHub, and Obsidian are workflow tools; DUUMBI's durable model should not depend on one vendor surface.
+- **Tool-agnostic core:** Codex Cloud, Codex, Slack, GitHub, and Obsidian are workflow tools; DUUMBI's durable model should not depend on one vendor surface.
 
 ## Agent Strategy
 
-DUUMBI follows the Warp/Oz-style operating model: people shape the work and verify outcomes while agents perform implementation-heavy, review-heavy, and synthesis-heavy tasks with explicit rules and evidence.
+DUUMBI follows the Codex-centered operating model: people shape the work and verify outcomes while agents perform implementation-heavy, review-heavy, and synthesis-heavy tasks with explicit rules and evidence.
 
-- **Warp Oz:** preferred for orchestration, cloud execution, parallel work, scheduled automation, Slack-triggered work, session visibility, and audit trails.
+- **Codex Cloud:** preferred for orchestration, cloud execution, parallel work, scheduled automation, Slack-triggered work, session visibility, and audit trails.
 - **Codex:** preferred for local source inspection, code changes, vault maintenance, skill authoring, PR review handling, and structured documentation updates.
 - **Slack:** mobile capture, status, approvals, and agent follow-up only; durable conclusions move to GitHub or Obsidian.
 - **GitHub Project:** execution source of truth for issue state, PR state, CI state, and work sequencing.
@@ -157,6 +157,6 @@ The vault should train humans and agents without flooding them with execution hi
 - [[DUUMBI Agentic Development Map]]
 - [[Spec-First Agentic Development]]
 - [[Runtime Failure Feedback Loop]]
-- [[Warp Oz and Codex Development Toolchain]]
+- [[Codex Development Toolchain]]
 - [[GitHub Project as Execution Source of Truth]]
 - [[Obsidian Vault as Agent Knowledge Substrate]]

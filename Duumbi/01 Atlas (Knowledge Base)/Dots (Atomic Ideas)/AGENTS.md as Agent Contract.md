@@ -33,5 +33,5 @@ Agents need stable local instructions at the point of work. A vault note can exp
 
 - [[Agent Skills as Operational Playbooks]]
 - [[Spec-First Agentic Development]]
-- [[Warp Oz and Codex Development Toolchain]]
+- [[Codex Development Toolchain]]
 - [[DUUMBI Agentic Development Map]]

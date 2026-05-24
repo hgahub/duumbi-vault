@@ -21,12 +21,11 @@ The team can move quickly on mobile without losing the canonical record. Every S
 
 - Slack thread becomes GitHub issue/PR when it affects execution.
 - Slack thread becomes Inbox/Dot/Map/Work when it affects durable knowledge.
-- Slack run updates should link to Oz, PRs, or final Obsidian notes.
+- Slack run updates should link to Codex Cloud, PRs, or final Obsidian notes.
 - Avoid treating Slack search as product memory.
 
 ## Sources
 
-- [Warp Slack integration docs](https://docs.warp.dev/agent-platform/cloud-agents/integrations/slack)
 - [GitHub Projects docs](https://docs.github.com/en/issues/planning-and-tracking-with-projects)
 - [Obsidian internal links docs](https://help.obsidian.md/links)
 

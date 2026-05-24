@@ -15,7 +15,7 @@ The Obsidian vault is the durable knowledge substrate for DUUMBI. It stores prod
 
 ## Why it matters
 
-Agents perform better when context is concise, linked, current, and source-backed. A clean vault can train custom GPTs, NotebookLM notebooks, and Codex/Oz runs without importing stale execution history.
+Agents perform better when context is concise, linked, current, and source-backed. A clean vault can train custom GPTs, NotebookLM notebooks, and Codex runs without importing stale execution history.
 
 ## DUUMBI usage
 

@@ -3,7 +3,7 @@
 ## Source
 - Surface: Slack
 - Link: Slack thread reference not provided (timestamp: 1779170097.181449, channel: D0B2X744E2U)
-- Submitted by: Slack user via `@Oz use duumbi-obsidian-capture`
+- Submitted by: Slack user via `the Slack intake shortcut`
 
 ## Raw input
 The user argues that DUUMBI's Semantic Rewrite Engine should be treated as a formal, graph-level semantic transformation substrate (closer to compiler optimization, theorem rewriting, and e-graph systems) rather than a text or AST refactor tool. The message describes problem framing, rewrite semantics, required components, rewrite categories, e-graph relevance, autonomous-agent stability value, long-term direction, IR shape, MVP phases, immutable-vs-mutable architecture trade-off, and semantic explosion risks.

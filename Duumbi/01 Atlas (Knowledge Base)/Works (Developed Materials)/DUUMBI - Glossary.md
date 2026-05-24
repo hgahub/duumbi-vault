@@ -53,9 +53,9 @@ A Rust compiler backend used for generating executable machine code from an inte
 
 A development model where humans define intent, constraints, and acceptance criteria while agents perform implementation, inspection, review, and evidence gathering.
 
-## Warp Oz
+## Codex Cloud
 
-Warp's orchestration layer for running and managing agents locally, in the cloud, across integrations, and through auditable agent sessions.
+OpenAI's cloud-hosted Codex execution surface for approved scheduled, parallel, long-running, or integration-triggered agent work.
 
 ## Codex
 

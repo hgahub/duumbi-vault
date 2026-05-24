@@ -5,7 +5,7 @@ tags:
   - doc/reference
 status: active
 created: 2026-02-08
-updated: 2026-05-07
+updated: 2026-05-24
 ---
 
 # How to Use This Vault
@@ -14,7 +14,7 @@ This vault is DUUMBI's durable knowledge base for product, architecture, workflo
 
 ## Start Here
 
-Read in this order when onboarding a developer, Codex session, Warp Oz run, custom GPT, or NotebookLM notebook:
+Read in this order when onboarding a developer, Codex session, custom GPT, or NotebookLM notebook:
 
 1. [[DUUMBI - PRD]] -- product thesis, users, workflows, architecture principles, agent strategy, non-goals, and success criteria.
 2. [[DUUMBI - Glossary]] -- shared terms used by product, code, and agents.
@@ -29,7 +29,7 @@ Read in this order when onboarding a developer, Codex session, Warp Oz run, cust
 - **Durable knowledge:** this Obsidian vault.
 - **Repo-specific agent behavior:** repository `AGENTS.md` and checked-in skills.
 - **Mobile capture and approvals:** Slack, with durable outcomes linked back into GitHub or Obsidian.
-- **Agent orchestration:** Warp Oz for cloud, parallel, scheduled, and long-running work; Codex for local repo/vault inspection, implementation support, PR review handling, skill authoring, and knowledge-base maintenance.
+- **Agent orchestration:** Codex App for human-controlled delivery work; Codex Cloud for approved cloud, parallel, scheduled, and long-running runs; Codex CLI for local repo/vault inspection, validation, implementation support, PR review handling, skill authoring, and knowledge-base maintenance.
 
 ## Vault Structure
 
@@ -48,7 +48,7 @@ Read in this order when onboarding a developer, Codex session, Warp Oz run, cust
    - durable knowledge -> Dot, Map, Work, or source note in this vault
 3. Clarify product behavior before implementation.
 4. Produce a technical plan with validation steps and affected files.
-5. Use Warp Oz or Codex to implement, inspect, review, and gather evidence.
+5. Use Codex App, Codex Cloud, or Codex CLI to implement, inspect, review, and gather evidence.
 6. Require structured agent review artifacts before human review.
 7. Human reviews behavior, product fit, and risk.
 8. CI and PR review decide merge readiness.

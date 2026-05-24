@@ -32,5 +32,5 @@ Agentic development products need trust and extensibility. Open source can suppo
 ## Related
 
 - [[DUUMBI - PRD]]
-- [[Warp Oz and Codex Development Toolchain]]
+- [[Codex Development Toolchain]]
 - [[GPT and NotebookLM Knowledge Packaging]]

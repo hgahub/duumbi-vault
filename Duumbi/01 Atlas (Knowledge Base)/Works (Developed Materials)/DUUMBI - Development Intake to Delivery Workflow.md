@@ -30,7 +30,7 @@ DUUMBI development should use one shared process with multiple entry points. A u
 6. require human acceptance
 7. produce a reviewed product/spec artifact
 8. produce a reviewed technical specification for implementation agents
-9. implement through permission-gated Ralph cycles in Codex or Oz
+9. implement through permission-gated Ralph cycles in Codex
 10. verify through CI, review, and structured evidence
 11. sync durable lessons back into Obsidian, skills, or `AGENTS.md`
 
@@ -53,7 +53,7 @@ The remaining future entries are non-blocking backlog items:
 
 ## Operating Principles
 
-- One workflow, multiple front doors. Slack Oz and Codex must use the same DUUMBI intake/triage/spec skills where possible.
+- One workflow, multiple front doors. Slack intake and Codex must use the same DUUMBI intake/triage/spec skills where possible.
 - No implementation starts from vague intent. Ambiguity is a workflow state, not a reason to guess.
 - Read-only context gathering comes before write-capable mutation. Agents should ask what exists, why it exists, where it lives, what proves it, and what risk a change carries before creating execution work.
 - GitHub is the execution source of truth. Obsidian should not mirror current issue status, sprint state, assignees, or PR progress.
@@ -66,8 +66,8 @@ The remaining future entries are non-blocking backlog items:
 
 | Tool or surface | Role | Writes to | Should not do |
 |---|---|---|---|
-| Slack | Fast capture, clarifying discussion, approvals, Oz run updates | Slack thread; linked Inbox/GitHub artifacts through agent | Act as durable memory or execution tracker |
-| Warp Oz | Cloud agent orchestration, Slack-triggered work, scheduled sweeps, parallel or long-running tasks | GitHub issues/PRs, Obsidian via configured repo, Slack summaries | Make final product decisions without human acceptance |
+| Slack | Fast capture, clarifying discussion, approvals, Codex Cloud run updates | Slack thread; linked Inbox/GitHub artifacts through agent | Act as durable memory or execution tracker |
+| Codex Cloud | Cloud agent orchestration, Slack-triggered work, scheduled sweeps, parallel or long-running tasks | GitHub issues/PRs, Obsidian via configured repo, Slack summaries | Make final product decisions without human acceptance |
 | Codex | Local repo/vault work, source inspection, skill maintenance, spec drafting, implementation, PR review handling | Local files, GitHub through CLI/app, Obsidian vault | Treat local chat history as canonical project state |
 | GitHub Issues | Execution work unit and discussion record for accepted or triaged work | Issue body/comments/labels/project fields | Store broad, untriaged brainstorming forever |
 | GitHub Discussions Ideas | Open-ended idea intake and community/product discussion | Discussion thread; converted issue when actionable | Replace accepted implementation issues |
@@ -75,14 +75,14 @@ The remaining future entries are non-blocking backlog items:
 | GitHub PRs and CI | Code change review, automated proof, merge gate | PR body, commits, checks, review threads | Carry undocumented product decisions after merge |
 | Obsidian Inbox | Raw captured material waiting for classification | `Duumbi/00 Inbox (ToProcess)/` | Become permanent backlog |
 | Obsidian Atlas | Durable product, architecture, workflow, glossary, and source-backed knowledge | Dots, Maps, Works | Mirror live delivery status |
-| Agent skills | Repeatable agent playbooks shared by Oz and Codex | `.agents/skills/` | Hide project decisions that belong in GitHub or Obsidian |
+| Agent skills | Repeatable agent playbooks shared by Codex Cloud and Codex | `.agents/skills/` | Hide project decisions that belong in GitHub or Obsidian |
 | `AGENTS.md` | Repository-local agent contract | Source repo root | Store general product roadmap content |
 
 ## End-To-End Flow
 
 ```mermaid
 flowchart TD
-  S["Slack @Oz or DM"] --> K["Shared DUUMBI intake skill"]
+  S["Slack Slack intake or DM"] --> K["Shared DUUMBI intake skill"]
   C["Codex skill invocation"] --> K
   I["Manual Obsidian Inbox note"] --> R["Triage sweep"]
   GI["GitHub issue"] --> GIN["Stage 3 GitHub intake"]
@@ -112,13 +112,13 @@ flowchart TD
   HR -- "Defer" --> HF["Set status: Deferred"]
   HR -- "Reject" --> HC["Set status: Closed"]
 
-  SN --> SP["Oz or Codex prepares PRODUCT spec"]
+  SN --> SP["Codex prepares PRODUCT spec"]
   SP --> SR["Set status: Spec Review"]
   SR --> AP{"Spec approved?"}
   AP -- "No" --> SP
   AP -- "Yes" --> TN["Set status: Technical Spec Needed"]
 
-  TN --> TS["Oz or Codex prepares TECHNICAL spec for agents"]
+  TN --> TS["Codex prepares TECHNICAL spec for agents"]
   TS --> TR["Set status: Technical Spec Review"]
   TR --> TA{"Technical spec approved?"}
   TA -- "No" --> TS
@@ -141,11 +141,11 @@ flowchart TD
   KS --> SU["Post final Slack/GitHub summary with links"]
 ```
 
-## Stage 1 - Intake From Slack Oz
+## Stage 1 - Intake From Slack intake
 
 Trigger:
 
-- A user tags `@Oz` in a Slack channel or thread, or DMs Oz.
+- A user tags `Slack intake` in a Slack channel or thread, or DMs Codex Cloud.
 
 Agent behavior:
 
@@ -210,19 +210,19 @@ Trigger:
 Agent behavior:
 
 1. Read the user's request and the local vault context.
-2. Use the same classification and clarification rules as Slack Oz.
+2. Use the same classification and clarification rules as Slack intake.
 3. Follow the same confirmation, duplicate detection, filename, and English Inbox-note rules as Stage 1.
 4. If needed, inspect related GitHub state read-only before deciding whether the input is new, duplicate, blocked, or already accepted.
 5. Create one Inbox capture artifact under `Duumbi/00 Inbox (ToProcess)/` using the authoritative Stage 2 template from `.agents/skills/duumbi-codex-intake/SKILL.md`.
 6. Return the note path, interpretation, open questions, related GitHub context, and routing recommendation in the user's initiated language.
 
-The important design constraint is that Slack Oz and Codex must not have separate mental models. Their entry surfaces differ; Stage 1 uses `duumbi-obsidian-capture`, Stage 2 uses `duumbi-codex-intake`, and both produce Inbox notes for later triage.
+The important design constraint is that Slack intake and Codex must not have separate mental models. Their entry surfaces differ; Stage 1 uses `duumbi-obsidian-capture`, Stage 2 uses `duumbi-codex-intake`, and both produce Inbox notes for later triage.
 
 ## Stage 3 - GitHub Issues And Discussions Intake
 
 Trigger:
 
-- A user asks Oz or Codex to review a GitHub Issue or GitHub Discussion.
+- A user asks Codex to review a GitHub Issue or GitHub Discussion.
 - A GitHub Issue is opened, updated, or selected for intake review.
 - A GitHub Discussion under Ideas is selected for intake review.
 - A scheduled or manual agent sweep finds GitHub-origin input that needs normalization before Stage 4 triage.
@@ -260,7 +260,7 @@ Stage 3 output should not be a durable Obsidian artifact. Its durable trace is t
 
 Trigger:
 
-- Scheduled Oz run.
+- Scheduled Codex Cloud run.
 - Manual Codex skill invocation.
 - Human request to process Inbox or GitHub Ideas.
 
@@ -384,7 +384,7 @@ Authoritative skill:
 Trigger:
 
 - GitHub issue is in `Needs Human Acceptance`.
-- A human asks Oz or Codex to prepare an acceptance brief for a triaged issue.
+- A human asks Codex to prepare an acceptance brief for a triaged issue.
 - A human gives an explicit decision for a triaged issue.
 
 Inputs:
@@ -428,7 +428,7 @@ Required GitHub decision comment:
 ## Stage 5 Human Acceptance Decision
 
 **Decision:** <Accept | Needs Clarification | Duplicate | Defer | Reject>
-**Reviewer source:** <Codex | Oz | Slack | GitHub | other>
+**Reviewer source:** <Codex | Codex Cloud | Slack | GitHub | other>
 **Rationale:** <short rationale>
 **Stage 4 recommendation considered:** <yes/no and short note>
 **Remaining open questions:** <none or list>
@@ -549,7 +549,7 @@ Trigger:
 
 - GitHub issue is in `Spec Review`.
 - A product spec exists as a GitHub issue comment or source-repo `specs/DUUMBI-<issue-number>/PRODUCT.md` draft PR.
-- A human asks Oz or Codex to review the product spec.
+- A human asks Codex to review the product spec.
 
 Inputs:
 
@@ -566,7 +566,7 @@ Review checklist:
 - Constraints separate facts from assumptions.
 - Decisions cite evidence or issue comments.
 - Behavior covers success, empty, error, retry, cancellation, and relevant accessibility/focus states.
-- Tasks are small enough for Codex or Oz runs.
+- Tasks are small enough for Codex runs.
 - Checks map to acceptance criteria.
 - Open questions are either resolved or explicitly accepted as risk.
 - Sources are traceable to issues, discussions, Slack captures, Obsidian notes, code, docs, or external references.
@@ -621,7 +621,7 @@ Required decision comment:
 ## Stage 7 Product Spec Review Decision
 
 **Decision:** <Approve | Request Changes | Needs Clarification | Reject / No Longer Needed>
-**Reviewer source:** <Codex | Oz | Slack | GitHub | other>
+**Reviewer source:** <Codex | Codex Cloud | Slack | GitHub | other>
 **Spec artifact:** <comment link or PRODUCT.md path / PR link>
 **Rationale:** <short rationale>
 **Blocking findings:** <none or list>
@@ -704,7 +704,7 @@ Recommended DUUMBI technical spec structure:
 Which approved product-spec outcomes this technical spec implements.
 
 ## Agent Audience
-Which agents should use this spec: Codex, Oz, specialized reviewer, tester, or other.
+Which agents should use this spec: Codex, specialized reviewer, tester, or other.
 
 ## Source Context
 - Product spec:
@@ -764,7 +764,7 @@ Stage 9 is the technical spec approval gate. The technical spec must be reviewed
 
 Authoritative skill: `.agents/skills/duumbi-tech-spec-review/SKILL.md`
 
-Stage 9 is review-only. Oz or Codex may prepare review findings, write GitHub issue comments, comment on the technical spec draft PR, and update existing labels or Project status after an explicit human decision. Stage 9 must not edit `TECHNICAL.md`, create implementation code, run Ralph cycles, open implementation PRs, or request cycle approval.
+Stage 9 is review-only. Codex may prepare review findings, write GitHub issue comments, comment on the technical spec draft PR, and update existing labels or Project status after an explicit human decision. Stage 9 must not edit `TECHNICAL.md`, create implementation code, run Ralph cycles, open implementation PRs, or request cycle approval.
 
 Input:
 
@@ -831,7 +831,7 @@ Stage 10 is permission-gated implementation. `duumbi-implementation` coordinates
 Tool choice:
 
 - Use Codex for local source repo changes, focused implementation, review feedback, and work that benefits from direct local inspection.
-- Use Oz for cloud execution, scheduled work, Slack-triggered tasks, parallel exploration, long-running tasks, or team-visible runs.
+- Use Codex Cloud for cloud execution, scheduled work, Slack-triggered tasks, parallel exploration, long-running tasks, or team-visible runs.
 
 Input:
 
@@ -925,7 +925,7 @@ PR evidence should include:
 
 Authoritative skill: `.agents/skills/duumbi-review-artifact/SKILL.md`
 
-Stage 11 is a review artifact gate that supports the human merge decision. Oz or Codex reviews the implementation PR, verifies evidence against the approved product and technical specs, classifies findings, and records a structured review artifact. Stage 11 does not merge PRs, close issues, move work to `Done`, or perform Stage 12 closure.
+Stage 11 is a review artifact gate that supports the human merge decision. Codex reviews the implementation PR, verifies evidence against the approved product and technical specs, classifies findings, and records a structured review artifact. Stage 11 does not merge PRs, close issues, move work to `Done`, or perform Stage 12 closure.
 
 Input:
 
@@ -941,7 +941,7 @@ If the item is not in `In Review`, the implementation PR is missing, or required
 Verification layers:
 
 1. Automated checks: tests, lint, build, CI, benchmarks when relevant.
-2. Agent review: Codex or Oz reviews the diff against the spec and reports findings by severity.
+2. Agent review: Codex reviews the diff against the spec and reports findings by severity.
 3. Human review: product fit, architecture fit, maintainability, risk, and operational impact.
 4. Final PR merge only when checks and review expectations are satisfied.
 
@@ -1043,21 +1043,21 @@ The workflow should be split into focused, reusable skills rather than one large
 
 | Skill                     | Used by   | Responsibility                                                                                                                                      |
 | ------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `duumbi-obsidian-capture` | Oz        | Stage 1 Slack-to-Inbox capture for Warp/Oz compatibility                                                                                            |
+| `duumbi-obsidian-capture` | Codex        | Stage 1 Slack-to-Inbox capture for Codex handoff compatibility                                                                                            |
 | `duumbi-codex-intake`     | Codex     | Stage 2 Codex-to-Inbox capture with optional read-only GitHub inspection                                                                            |
-| `duumbi-github-intake`    | Oz, Codex | Stage 3 GitHub Issues and Discussions intake with clarification comments, existing labels, and Stage 4 routing recommendations                      |
-| `duumbi-idea-intake`      | Oz, Codex | Future shared compatibility name for raw input capture                                                                                              |
-| `duumbi-triage`           | Oz, Codex | Stage 4 convergence sweep across Inbox, Issues, and Discussions; dedupe; create/update GitHub issues and durable Atlas artifacts                    |
-| `duumbi-human-acceptance` | Oz, Codex | Stage 5 human acceptance gate; prepare acceptance brief, record explicit decision, and update GitHub state                                          |
-| `duumbi-spec-draft`       | Oz, Codex | Turn accepted issues into PRODUCT specs                                                                                                             |
-| `duumbi-spec-review`      | Oz, Codex | Stage 7 product spec review gate; prepare findings, record explicit decision, and route to technical spec preparation                               |
-| `duumbi-tech-spec-draft`  | Oz, Codex | Stage 8 technical spec drafting; create agent-facing TECHNICAL.md draft PR with bounded Ralph-cycle instructions                                    |
-| `duumbi-tech-spec-review` | Oz, Codex | Stage 9 technical spec review gate; prepare findings, record explicit human decision, and route to Ready for Build or revision                      |
-| `duumbi-implementation`   | Oz, Codex | Stage 10 coordinator skill for approved technical specs, branch/PR readiness, evidence consolidation, blockers, and Ralph-cycle routing             |
-| `duumbi-ralph-cycle`      | Oz, Codex | Stage 10 per-cycle executor; request approval or run exactly one approved Ralph cycle, then stop with evidence                                      |
-| `duumbi-review-artifact`  | Oz, Codex | Stage 11 review artifact gate; verify PR evidence against specs, classify findings, and support human merge decision without merging                |
-| `duumbi-closure`          | Oz, Codex | Stage 12 closure coordinator; verify completion, close GitHub loop, update source surfaces and Inbox disposition, and decide durable knowledge sync |
-| `duumbi-knowledge-sync`   | Oz, Codex | Future specialized durable-learning sync skill for Dots, Maps, Works, skills, PRD, Glossary, or `AGENTS.md`                                         |
+| `duumbi-github-intake`    | Codex | Stage 3 GitHub Issues and Discussions intake with clarification comments, existing labels, and Stage 4 routing recommendations                      |
+| `duumbi-idea-intake`      | Codex | Future shared compatibility name for raw input capture                                                                                              |
+| `duumbi-triage`           | Codex | Stage 4 convergence sweep across Inbox, Issues, and Discussions; dedupe; create/update GitHub issues and durable Atlas artifacts                    |
+| `duumbi-human-acceptance` | Codex | Stage 5 human acceptance gate; prepare acceptance brief, record explicit decision, and update GitHub state                                          |
+| `duumbi-spec-draft`       | Codex | Turn accepted issues into PRODUCT specs                                                                                                             |
+| `duumbi-spec-review`      | Codex | Stage 7 product spec review gate; prepare findings, record explicit decision, and route to technical spec preparation                               |
+| `duumbi-tech-spec-draft`  | Codex | Stage 8 technical spec drafting; create agent-facing TECHNICAL.md draft PR with bounded Ralph-cycle instructions                                    |
+| `duumbi-tech-spec-review` | Codex | Stage 9 technical spec review gate; prepare findings, record explicit human decision, and route to Ready for Build or revision                      |
+| `duumbi-implementation`   | Codex | Stage 10 coordinator skill for approved technical specs, branch/PR readiness, evidence consolidation, blockers, and Ralph-cycle routing             |
+| `duumbi-ralph-cycle`      | Codex | Stage 10 per-cycle executor; request approval or run exactly one approved Ralph cycle, then stop with evidence                                      |
+| `duumbi-review-artifact`  | Codex | Stage 11 review artifact gate; verify PR evidence against specs, classify findings, and support human merge decision without merging                |
+| `duumbi-closure`          | Codex | Stage 12 closure coordinator; verify completion, close GitHub loop, update source surfaces and Inbox disposition, and decide durable knowledge sync |
+| `duumbi-knowledge-sync`   | Codex | Future specialized durable-learning sync skill for Dots, Maps, Works, skills, PRD, Glossary, or `AGENTS.md`                                         |
 
 The existing `duumbi-obsidian-capture` skill currently covers Stage 1 Slack-to-Inbox capture. It should either be renamed later to `duumbi-idea-intake` or kept as a compatibility wrapper while more specialized execution skills are added.
 
@@ -1073,9 +1073,5 @@ The existing `duumbi-obsidian-capture` skill currently covers Stage 1 Slack-to-I
 - [[Spec-First Agentic Development]]
 - [[Structured Agent Review Artifacts]]
 - [[Agent Skills as Operational Playbooks]]
-- [[Warp Oz and Codex Development Toolchain]]
-- Warp Oz Slack integration docs: https://docs.warp.dev/agent-platform/integrations/slack
-- Warp Oz platform docs: https://docs.warp.dev/agent-platform/cloud-agents/platform
-- Warp Skills as Agents docs: https://docs.warp.dev/agent-platform/cloud-agents/skills-as-agents
+- [[Codex Development Toolchain]]
 - GitHub Projects docs: https://docs.github.com/en/issues/planning-and-tracking-with-projects
-- Referenced Warp PRODUCT spec example: https://github.com/warpdotdev/warp/blob/master/specs/APP-4218/PRODUCT.md

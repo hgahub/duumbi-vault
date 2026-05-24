@@ -46,7 +46,7 @@
   <rect class="card agent" x="210" y="178" width="250" height="44"/>
   <rect class="pillAgent" x="226" y="190" width="72" height="20" rx="10"/>
   <text class="badge" x="242" y="205">AGENT</text>
-  <text class="body" x="312" y="206">Codex or Oz work</text>
+  <text class="body" x="312" y="206">Codex work</text>
   <rect class="card action" x="500" y="178" width="320" height="44"/>
   <rect class="pillAction" x="516" y="190" width="72" height="20" rx="10"/>
   <text class="badge" x="534" y="205">ACTION</text>
@@ -72,7 +72,7 @@
   <rect class="pillAgent" x="112" y="404" width="70" height="22" rx="11"/>
   <text class="badge" x="129" y="420">S1</text>
   <text class="label" x="112" y="452">Slack Intake</text>
-  <text class="body" x="112" y="474">Oz captures Slack input into Inbox.</text>
+  <text class="body" x="112" y="474">Codex Cloud captures Slack input into Inbox.</text>
 
   <rect class="card agent" x="502" y="384" width="370" height="104"/>
   <rect class="pillAgent" x="522" y="404" width="70" height="22" rx="11"/>

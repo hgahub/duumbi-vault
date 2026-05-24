@@ -4,7 +4,7 @@ tags:
   - concept/agent-workflow
 status: active
 created: 2026-05-07
-updated: 2026-05-07
+updated: 2026-05-24
 ---
 
 # Slack as Mobile Capture Surface
@@ -22,13 +22,11 @@ Slack is optimized for speed and conversation, not durable retrieval. Keeping de
 - Capture quick ideas or bugs in Slack.
 - Convert execution items into GitHub issues or Project items.
 - Convert durable knowledge into Inbox or Atlas notes.
-- Use Slack to monitor Oz runs and approve follow-up, then link final outputs into GitHub or Obsidian.
+- Use Slack to monitor Codex Cloud runs and approve follow-up, then link final outputs into GitHub or Obsidian.
 
 ## Sources
 
-- [Warp Slack integration docs](https://docs.warp.dev/agent-platform/cloud-agents/integrations/slack)
-- [Warp Oz platform docs](https://docs.warp.dev/agent-platform/cloud-agents/platform)
-- [OpenAI Codex Slack integration docs](https://developers.openai.com/codex/integrations/slack)
+- [OpenAI Codex use cases](https://developers.openai.com/codex/use-cases)
 
 ## Related
 
