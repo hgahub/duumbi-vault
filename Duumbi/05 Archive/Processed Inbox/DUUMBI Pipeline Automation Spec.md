@@ -376,3 +376,14 @@ prompt_supplement: ""  # optional additional context
 - Technical spec: https://github.com/hgahub/duumbi/pull/601
 - Review artifact: https://github.com/hgahub/duumbi/pull/603#issuecomment-4522484830
 - Disposition: source note remains in Processed Inbox; GitHub holds execution state.
+
+## Closure disposition for issue #595
+
+- Date: 2026-05-23
+- Outcome: issue #595 completed by merged implementation PR #619.
+- Issue: https://github.com/hgahub/duumbi/issues/595
+- Implementation PR: https://github.com/hgahub/duumbi/pull/619
+- Product spec: https://github.com/hgahub/duumbi/pull/616
+- Technical spec: https://github.com/hgahub/duumbi/pull/618
+- Review artifact: https://github.com/hgahub/duumbi/pull/619#issuecomment-4526515398
+- Disposition: source note remains in Processed Inbox; GitHub holds execution state.
