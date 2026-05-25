@@ -101,7 +101,7 @@ Slack, Codex, Obsidian Inbox, GitHub Issues, and GitHub Discussions feed a singl
 | 1 | `duumbi-obsidian-capture` via Slack bridge and Codex handoff | Dedicated idea channel or Slack shortcut | Slack message/thread | English Inbox note or duplicate report |
 | 2 | `duumbi-codex-intake` | Developer uses Codex App, Codex Cloud, or Codex CLI on `duumbi-vault` | User idea in Codex | English Inbox note or duplicate report |
 | 3 | Manual Obsidian Inbox entry | Human directly edits Markdown | `00 Inbox (ToProcess)` | Raw note, possibly untagged and unnormalized |
-| 3b | `duumbi-inbox-enrichment` | Scheduled every 3 hours or manual dispatch | Raw Inbox notes | Normalized, classified, duplicate-marked Inbox notes; no GitHub issue |
+| 3b | `duumbi-inbox-enrichment` | Scheduled twice daily when candidate notes exist, or manual dispatch | Raw Inbox notes | Normalized, classified, duplicate-marked Inbox notes; no GitHub issue |
 | 4 | `duumbi-triage` plus `triage-queue-refill.yml` | Scheduled every 3 hours when Todo count is below 3, or manual | Inbox, GitHub Issues, Ideas Discussions, existing Project state | GitHub issue in `Needs Human Acceptance` or updated duplicate/clarification state |
 | 5 | `duumbi-human-acceptance` or `stage-approval.yml` | Human decision in GitHub or Slack | Triaged issue | Structured Stage 5 decision and `Spec Needed` when accepted |
 | 6 | `duumbi-spec-draft` | Accepted issue reaches `Spec Needed` | GitHub issue and vault/source context | Product spec PR or issue-comment spec |
@@ -133,7 +133,7 @@ A developer may directly edit Markdown in `00 Inbox (ToProcess)`. These notes ar
 
 ### Stage 3b - Scheduled Inbox Enrichment
 
-`duumbi-inbox-enrichment` runs on a 3-hour cadence or manually. It normalizes manually edited raw notes, classifies them, and marks likely duplicates. It does not create GitHub issues, specs, PRs, or source changes.
+`duumbi-inbox-enrichment` runs twice daily or manually. The scheduled dispatch first checks `duumbi-vault/Duumbi/00 Inbox (ToProcess)/` and sends a Slack agent handoff only when candidate notes exist. If there is no enrichment work, the workflow records `not_needed` in summary/metrics and stays quiet in Slack. The agent normalizes manually edited raw notes, classifies them, and marks likely duplicates. It does not create GitHub issues, specs, PRs, or source changes.
 
 ## Triage Queue Refill
 
