@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1120" viewBox="0 0 1800 1120" role="img" aria-labelledby="title desc">
-  <title id="title">Fejlesztői folyamat egy jegy megoldásához</title>
-  <desc id="desc">DUUMBI fejlesztői jegyfolyamat ötlettől vagy hibajegytől a merge utáni Stage 12 closure lépésig.</desc>
+  <title id="title">Developer Flow for Resolving a Ticket</title>
+  <desc id="desc">DUUMBI developer ticket flow from an idea or bug report through post-merge Stage 12 closure.</desc>
   <defs>
     <style>
       .bg { fill: #f8fafc; }
@@ -30,19 +30,19 @@
   </defs>
 
   <rect class="bg" width="1800" height="1120"/>
-  <text class="title" x="72" y="82">Fejlesztői folyamat egy jegy megoldásához</text>
-  <text class="subtitle" x="74" y="118">Ötlettől vagy hibajegytől a merge utáni lezárásig - fejlesztői feladatok és döntési pontok</text>
+  <text class="title" x="72" y="82">Developer Flow for Resolving a Ticket</text>
+  <text class="subtitle" x="74" y="118">From idea or bug report to post-merge closure - developer tasks and decision points</text>
 
   <rect class="panel" x="64" y="154" width="1672" height="132" rx="24"/>
-  <text class="section" x="96" y="196">Alapelv</text>
-  <text class="body" x="96" y="228">AI előkészít, deduplikál, specifikál, implementál és ellenőriz. Az ember dönt scope-ról, erőforrásról, elfogadásról és PR merge-ről.</text>
-  <text class="body" x="96" y="256">Stage 12 closure csak verified merge vagy azzal egyenértékű befejezési bizonyíték után indulhat.</text>
+  <text class="section" x="96" y="196">Operating principle</text>
+  <text class="body" x="96" y="228">AI prepares, deduplicates, specifies, implements, and verifies. Humans decide scope, resources, acceptance, and PR merge.</text>
+  <text class="body" x="96" y="256">Stage 12 closure may run only after a verified merge or equivalent completion evidence.</text>
 
   <g transform="translate(72 340)">
     <rect class="card idea" x="0" y="0" width="210" height="190" rx="18"/>
     <circle cx="34" cy="34" r="22" fill="#2563eb"/><text class="num" x="27" y="43">1</text>
-    <text class="h" x="24" y="78">Ötlet vagy</text>
-    <text class="h" x="24" y="106">hibajegy</text>
+    <text class="h" x="24" y="78">Idea or</text>
+    <text class="h" x="24" y="106">Bug Report</text>
     <text class="body" x="24" y="140">Slack, Codex,</text>
     <text class="body" x="24" y="162">GitHub Issue, Inbox</text>
   </g>
@@ -51,18 +51,18 @@
   <g transform="translate(352 340)">
     <rect class="card human" x="0" y="0" width="210" height="190" rx="18"/>
     <circle cx="34" cy="34" r="22" fill="#f59e0b"/><text class="num" x="27" y="43">2</text>
-    <text class="h" x="24" y="78">Triage és</text>
-    <text class="h" x="24" y="106">elfogadás</text>
-    <text class="body" x="24" y="140">Duplikáció,</text>
-    <text class="body" x="24" y="162">pontosítás, scope</text>
+    <text class="h" x="24" y="78">Triage and</text>
+    <text class="h" x="24" y="106">Acceptance</text>
+    <text class="body" x="24" y="140">Duplicate check,</text>
+    <text class="body" x="24" y="162">clarification, scope</text>
   </g>
   <path class="arrow" d="M564 435 L622 435" marker-end="url(#arrow)"/>
 
   <g transform="translate(632 340)">
     <rect class="card spec" x="0" y="0" width="250" height="190" rx="18"/>
     <circle cx="34" cy="34" r="22" fill="#0f766e"/><text class="num" x="27" y="43">3</text>
-    <text class="h" x="24" y="78">Termék- és</text>
-    <text class="h" x="24" y="106">technikai spec</text>
+    <text class="h" x="24" y="78">Product and</text>
+    <text class="h" x="24" y="106">Technical Spec</text>
     <text class="body" x="24" y="140">PRODUCT.md,</text>
     <text class="body" x="24" y="162">TECHNICAL.md, review</text>
   </g>
@@ -71,9 +71,9 @@
   <g transform="translate(952 340)">
     <rect class="card build" x="0" y="0" width="240" height="190" rx="18"/>
     <circle cx="34" cy="34" r="22" fill="#7c3aed"/><text class="num" x="27" y="43">4</text>
-    <text class="h" x="24" y="78">Implementáció</text>
-    <text class="h" x="24" y="106">Ralph ciklusban</text>
-    <text class="body" x="24" y="140">Kis scope, teszt,</text>
+    <text class="h" x="24" y="78">Implementation</text>
+    <text class="h" x="24" y="106">in Ralph Cycles</text>
+    <text class="body" x="24" y="140">Small scope, tests,</text>
     <text class="body" x="24" y="162">evidence, gate</text>
   </g>
   <path class="arrow" d="M1194 435 L1252 435" marker-end="url(#arrow)"/>
@@ -82,17 +82,17 @@
     <rect class="card review" x="0" y="0" width="220" height="190" rx="18"/>
     <circle cx="34" cy="34" r="22" fill="#ca8a04"/><text class="num" x="27" y="43">5</text>
     <text class="h" x="24" y="78">Stage 11</text>
-    <text class="h" x="24" y="106">review artifact</text>
+    <text class="h" x="24" y="106">Review Artifact</text>
     <text class="body" x="24" y="140">CI, diff, Copilot,</text>
-    <text class="body" x="24" y="162">spec megfelelés</text>
+    <text class="body" x="24" y="162">spec compliance</text>
   </g>
   <path class="arrow" d="M1484 435 L1542 435" marker-end="url(#arrow)"/>
 
   <g transform="translate(1552 340)">
     <rect class="card merge" x="0" y="0" width="184" height="190" rx="18"/>
     <circle cx="34" cy="34" r="22" fill="#dc2626"/><text class="num" x="27" y="43">6</text>
-    <text class="h" x="24" y="78">Emberi PR</text>
-    <text class="h" x="24" y="106">döntés</text>
+    <text class="h" x="24" y="78">Human PR</text>
+    <text class="h" x="24" y="106">Decision</text>
     <text class="body" x="24" y="140">Merge, changes,</text>
     <text class="body" x="24" y="162">clarification</text>
   </g>
@@ -102,28 +102,28 @@
     <rect class="card done" x="0" y="0" width="260" height="168" rx="18"/>
     <circle cx="34" cy="34" r="22" fill="#059669"/><text class="num" x="27" y="43">7</text>
     <text class="h" x="24" y="78">Stage 12 closure</text>
-    <text class="body" x="24" y="112">Issue lezárás,</text>
+    <text class="body" x="24" y="112">Issue closure,</text>
     <text class="body" x="24" y="134">Project Done, Inbox,</text>
-    <text class="body" x="24" y="158">tudás-szinkron döntés</text>
+    <text class="body" x="24" y="158">knowledge sync decision</text>
   </g>
 
   <rect class="panel" x="388" y="700" width="640" height="190" rx="22"/>
-  <text class="section" x="420" y="744">Fejlesztő feladatai</text>
-  <text class="body" x="420" y="780">✓ Kontextus és spec határok ellenőrzése</text>
-  <text class="body" x="420" y="812">✓ Ralph ciklusokban kis scope-ú implementáció</text>
-  <text class="body" x="420" y="844">✓ Tesztek, evidence és PR bizonyíték rögzítése</text>
-  <text class="body" x="420" y="876">✓ Review feedback kezelése, majd GitHub PR döntés</text>
+  <text class="section" x="420" y="744">Developer Tasks</text>
+  <text class="body" x="420" y="780">✓ Check context and specification boundaries</text>
+  <text class="body" x="420" y="812">✓ Implement small scopes in Ralph cycles</text>
+  <text class="body" x="420" y="844">✓ Record tests, evidence, and PR proof</text>
+  <text class="body" x="420" y="876">✓ Handle review feedback, then decide the GitHub PR</text>
 
   <rect class="panel" x="1070" y="700" width="666" height="190" rx="22"/>
-  <text class="section" x="1102" y="744">Állapot- és eseménylogika</text>
+  <text class="section" x="1102" y="744">State and Event Logic</text>
   <rect x="1102" y="770" width="120" height="28" rx="14" fill="#2563eb"/><text class="pill" x="1133" y="790">event</text>
-  <text class="body" x="1240" y="790">Slack üzenet, GitHub label, PR event, workflow dispatch</text>
+  <text class="body" x="1240" y="790">Slack message, GitHub label, PR event, workflow dispatch</text>
   <rect x="1102" y="812" width="120" height="28" rx="14" fill="#7c3aed"/><text class="pill" x="1132" y="832">skill</text>
-  <text class="body" x="1240" y="832">Codex skill dolgozik, de nem talál ki emberi döntést</text>
+  <text class="body" x="1240" y="832">Codex skill works, but does not invent human decisions</text>
   <rect x="1102" y="854" width="120" height="28" rx="14" fill="#059669"/><text class="pill" x="1130" y="874">state</text>
-  <text class="body" x="1240" y="874">GitHub Issue/Project státusz, PR merge evidence</text>
+  <text class="body" x="1240" y="874">GitHub Issue/Project status, PR merge evidence</text>
 
   <rect x="64" y="946" width="1672" height="92" rx="24" fill="#111827"/>
-  <text x="96" y="984" style="font:760 22px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#fff">AI és ember egyensúlya</text>
-  <text x="96" y="1018" style="font:560 18px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#dbeafe">AI: előkészít, implementál, ellenőriz, javasol. Ember: scope, költség, elfogadás, merge. Closure: csak verified merge után.</text>
+  <text x="96" y="984" style="font:760 22px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#fff">AI and Human Balance</text>
+  <text x="96" y="1018" style="font:560 18px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#dbeafe">AI: prepares, implements, verifies, recommends. Human: scope, cost, acceptance, merge. Closure: only after verified merge.</text>
 </svg>
