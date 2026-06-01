@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1120" viewBox="0 0 1800 1120" role="img" aria-labelledby="title desc">
+  <title id="title">Fejlesztői folyamat egy jegy megoldásához</title>
+  <desc id="desc">DUUMBI fejlesztői jegyfolyamat ötlettől vagy hibajegytől a merge utáni Stage 12 closure lépésig.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #dbe3ee; stroke-width: 2; }
+      .card { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2.4; }
+      .idea { fill: #eff6ff; stroke: #2563eb; }
+      .human { fill: #fff7ed; stroke: #f59e0b; }
+      .spec { fill: #f0fdfa; stroke: #0f766e; }
+      .build { fill: #f5f3ff; stroke: #7c3aed; }
+      .review { fill: #fefce8; stroke: #ca8a04; }
+      .merge { fill: #fef2f2; stroke: #dc2626; }
+      .done { fill: #ecfdf5; stroke: #059669; }
+      .title { font: 760 48px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 450 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .section { font: 760 25px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .num { font: 850 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #ffffff; }
+      .h { font: 760 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .body { font: 520 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .small { font: 650 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .pill { font: 800 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .arrow { stroke: #64748b; stroke-width: 3.4; fill: none; }
+      .soft { stroke: #cbd5e1; stroke-width: 2; fill: none; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1800" height="1120"/>
+  <text class="title" x="72" y="82">Fejlesztői folyamat egy jegy megoldásához</text>
+  <text class="subtitle" x="74" y="118">Ötlettől vagy hibajegytől a merge utáni lezárásig - fejlesztői feladatok és döntési pontok</text>
+
+  <rect class="panel" x="64" y="154" width="1672" height="132" rx="24"/>
+  <text class="section" x="96" y="196">Alapelv</text>
+  <text class="body" x="96" y="228">AI előkészít, deduplikál, specifikál, implementál és ellenőriz. Az ember dönt scope-ról, erőforrásról, elfogadásról és PR merge-ről.</text>
+  <text class="body" x="96" y="256">Stage 12 closure csak verified merge vagy azzal egyenértékű befejezési bizonyíték után indulhat.</text>
+
+  <g transform="translate(72 340)">
+    <rect class="card idea" x="0" y="0" width="210" height="190" rx="18"/>
+    <circle cx="34" cy="34" r="22" fill="#2563eb"/><text class="num" x="27" y="43">1</text>
+    <text class="h" x="24" y="78">Ötlet vagy</text>
+    <text class="h" x="24" y="106">hibajegy</text>
+    <text class="body" x="24" y="140">Slack, Codex,</text>
+    <text class="body" x="24" y="162">GitHub Issue, Inbox</text>
+  </g>
+  <path class="arrow" d="M284 435 L342 435" marker-end="url(#arrow)"/>
+
+  <g transform="translate(352 340)">
+    <rect class="card human" x="0" y="0" width="210" height="190" rx="18"/>
+    <circle cx="34" cy="34" r="22" fill="#f59e0b"/><text class="num" x="27" y="43">2</text>
+    <text class="h" x="24" y="78">Triage és</text>
+    <text class="h" x="24" y="106">elfogadás</text>
+    <text class="body" x="24" y="140">Duplikáció,</text>
+    <text class="body" x="24" y="162">pontosítás, scope</text>
+  </g>
+  <path class="arrow" d="M564 435 L622 435" marker-end="url(#arrow)"/>
+
+  <g transform="translate(632 340)">
+    <rect class="card spec" x="0" y="0" width="250" height="190" rx="18"/>
+    <circle cx="34" cy="34" r="22" fill="#0f766e"/><text class="num" x="27" y="43">3</text>
+    <text class="h" x="24" y="78">Termék- és</text>
+    <text class="h" x="24" y="106">technikai spec</text>
+    <text class="body" x="24" y="140">PRODUCT.md,</text>
+    <text class="body" x="24" y="162">TECHNICAL.md, review</text>
+  </g>
+  <path class="arrow" d="M884 435 L942 435" marker-end="url(#arrow)"/>
+
+  <g transform="translate(952 340)">
+    <rect class="card build" x="0" y="0" width="240" height="190" rx="18"/>
+    <circle cx="34" cy="34" r="22" fill="#7c3aed"/><text class="num" x="27" y="43">4</text>
+    <text class="h" x="24" y="78">Implementáció</text>
+    <text class="h" x="24" y="106">Ralph ciklusban</text>
+    <text class="body" x="24" y="140">Kis scope, teszt,</text>
+    <text class="body" x="24" y="162">evidence, gate</text>
+  </g>
+  <path class="arrow" d="M1194 435 L1252 435" marker-end="url(#arrow)"/>
+
+  <g transform="translate(1262 340)">
+    <rect class="card review" x="0" y="0" width="220" height="190" rx="18"/>
+    <circle cx="34" cy="34" r="22" fill="#ca8a04"/><text class="num" x="27" y="43">5</text>
+    <text class="h" x="24" y="78">Stage 11</text>
+    <text class="h" x="24" y="106">review artifact</text>
+    <text class="body" x="24" y="140">CI, diff, Copilot,</text>
+    <text class="body" x="24" y="162">spec megfelelés</text>
+  </g>
+  <path class="arrow" d="M1484 435 L1542 435" marker-end="url(#arrow)"/>
+
+  <g transform="translate(1552 340)">
+    <rect class="card merge" x="0" y="0" width="184" height="190" rx="18"/>
+    <circle cx="34" cy="34" r="22" fill="#dc2626"/><text class="num" x="27" y="43">6</text>
+    <text class="h" x="24" y="78">Emberi PR</text>
+    <text class="h" x="24" y="106">döntés</text>
+    <text class="body" x="24" y="140">Merge, changes,</text>
+    <text class="body" x="24" y="162">clarification</text>
+  </g>
+
+  <path class="arrow" d="M1644 530 C1644 628 128 628 128 700" marker-end="url(#arrow)"/>
+  <g transform="translate(72 710)">
+    <rect class="card done" x="0" y="0" width="260" height="168" rx="18"/>
+    <circle cx="34" cy="34" r="22" fill="#059669"/><text class="num" x="27" y="43">7</text>
+    <text class="h" x="24" y="78">Stage 12 closure</text>
+    <text class="body" x="24" y="112">Issue lezárás,</text>
+    <text class="body" x="24" y="134">Project Done, Inbox,</text>
+    <text class="body" x="24" y="158">tudás-szinkron döntés</text>
+  </g>
+
+  <rect class="panel" x="388" y="700" width="640" height="190" rx="22"/>
+  <text class="section" x="420" y="744">Fejlesztő feladatai</text>
+  <text class="body" x="420" y="780">✓ Kontextus és spec határok ellenőrzése</text>
+  <text class="body" x="420" y="812">✓ Ralph ciklusokban kis scope-ú implementáció</text>
+  <text class="body" x="420" y="844">✓ Tesztek, evidence és PR bizonyíték rögzítése</text>
+  <text class="body" x="420" y="876">✓ Review feedback kezelése, majd GitHub PR döntés</text>
+
+  <rect class="panel" x="1070" y="700" width="666" height="190" rx="22"/>
+  <text class="section" x="1102" y="744">Állapot- és eseménylogika</text>
+  <rect x="1102" y="770" width="120" height="28" rx="14" fill="#2563eb"/><text class="pill" x="1133" y="790">event</text>
+  <text class="body" x="1240" y="790">Slack üzenet, GitHub label, PR event, workflow dispatch</text>
+  <rect x="1102" y="812" width="120" height="28" rx="14" fill="#7c3aed"/><text class="pill" x="1132" y="832">skill</text>
+  <text class="body" x="1240" y="832">Codex skill dolgozik, de nem talál ki emberi döntést</text>
+  <rect x="1102" y="854" width="120" height="28" rx="14" fill="#059669"/><text class="pill" x="1130" y="874">state</text>
+  <text class="body" x="1240" y="874">GitHub Issue/Project státusz, PR merge evidence</text>
+
+  <rect x="64" y="946" width="1672" height="92" rx="24" fill="#111827"/>
+  <text x="96" y="984" style="font:760 22px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#fff">AI és ember egyensúlya</text>
+  <text x="96" y="1018" style="font:560 18px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#dbeafe">AI: előkészít, implementál, ellenőriz, javasol. Ember: scope, költség, elfogadás, merge. Closure: csak verified merge után.</text>
+</svg>

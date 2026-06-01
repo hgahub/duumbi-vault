@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1040" viewBox="0 0 1800 1040" role="img" aria-labelledby="title desc">
+  <title id="title">1. állapot - Ötlet vagy hibajegy</title>
+  <desc id="desc">Infografika arról, milyen eseményekből jön létre egy DUUMBI jegyjelölt, milyen skill vagy workflow fut, és milyen állapotba megy tovább.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .panel { fill: #ffffff; stroke: #dbe3ee; stroke-width: 2; }
+      .source { fill: #eff6ff; stroke: #2563eb; stroke-width: 2.5; }
+      .action { fill: #f5f3ff; stroke: #7c3aed; stroke-width: 2.5; }
+      .state { fill: #ecfdf5; stroke: #059669; stroke-width: 2.5; }
+      .decision { fill: #fff7ed; stroke: #f59e0b; stroke-width: 2.5; }
+      .risk { fill: #fef2f2; stroke: #dc2626; stroke-width: 2.5; }
+      .title { font: 760 46px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 450 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .section { font: 760 26px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .h { font: 760 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .body { font: 520 17px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .small { font: 650 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
+      .badge { font: 820 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .arrow { stroke: #64748b; stroke-width: 3.4; fill: none; }
+      .dash { stroke-dasharray: 9 8; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1800" height="1040"/>
+  <text class="title" x="72" y="82">1. Ötlet vagy hibajegy</text>
+  <text class="subtitle" x="74" y="118">Honnan indul a munka, milyen skill vagy Action reagál rá, és mi lesz a következő állapot?</text>
+
+  <rect class="panel" x="64" y="154" width="1672" height="124" rx="24"/>
+  <text class="section" x="96" y="196">Fejlesztői értelmezés</text>
+  <text class="body" x="96" y="230">Ebben az állapotban még nincs végrehajtási engedély. A cél: nyers inputból deduplikált, kontextussal ellátott, triage-ra alkalmas jelölt legyen.</text>
+  <text class="body" x="96" y="258">A fejlesztő feladata főleg forráskontextus megőrzése és annak ellenőrzése, hogy az input ne vesszen el vagy ne duplikálódjon.</text>
+
+  <text class="section" x="96" y="342">Belépő események</text>
+  <g transform="translate(96 378)">
+    <rect class="source" width="330" height="104" rx="18"/>
+    <rect x="24" y="22" width="92" height="24" rx="12" fill="#2563eb"/><text class="badge" x="45" y="40">SLACK</text>
+    <text class="h" x="24" y="72">Felhasználó üzenetet küld</text>
+    <text class="body" x="24" y="96">csatornában vagy shortcutból</text>
+  </g>
+  <g transform="translate(96 512)">
+    <rect class="source" width="330" height="104" rx="18"/>
+    <rect x="24" y="22" width="92" height="24" rx="12" fill="#2563eb"/><text class="badge" x="45" y="40">CODEX</text>
+    <text class="h" x="24" y="72">Fejlesztő ötletet ír</text>
+    <text class="body" x="24" y="96">Codex App / Cloud / CLI felületen</text>
+  </g>
+  <g transform="translate(96 646)">
+    <rect class="source" width="330" height="104" rx="18"/>
+    <rect x="24" y="22" width="92" height="24" rx="12" fill="#2563eb"/><text class="badge" x="38" y="40">GITHUB</text>
+    <text class="h" x="24" y="72">Issue vagy bug report</text>
+    <text class="body" x="24" y="96">létrejön vagy komment érkezik</text>
+  </g>
+  <g transform="translate(96 780)">
+    <rect class="source" width="330" height="104" rx="18"/>
+    <rect x="24" y="22" width="92" height="24" rx="12" fill="#2563eb"/><text class="badge" x="32" y="40">OBSIDIAN</text>
+    <text class="h" x="24" y="72">Nyers Inbox note</text>
+    <text class="body" x="24" y="96">kézzel kerül a vaultba</text>
+  </g>
+
+  <path class="arrow" d="M438 430 L562 430" marker-end="url(#arrow)"/>
+  <path class="arrow" d="M438 564 L562 564" marker-end="url(#arrow)"/>
+  <path class="arrow" d="M438 698 L562 698" marker-end="url(#arrow)"/>
+  <path class="arrow" d="M438 832 L562 832" marker-end="url(#arrow)"/>
+
+  <text class="section" x="590" y="342">Automatikus vagy agent reakció</text>
+  <g transform="translate(590 378)">
+    <rect class="action" width="470" height="104" rx="18"/>
+    <rect x="24" y="22" width="112" height="24" rx="12" fill="#7c3aed"/><text class="badge" x="42" y="40">ACTION</text>
+    <text class="h" x="24" y="72">slack-intake-dispatch.yml</text>
+    <text class="body" x="24" y="96">Stage 1 handoff: duumbi-obsidian-capture</text>
+  </g>
+  <g transform="translate(590 512)">
+    <rect class="action" width="470" height="104" rx="18"/>
+    <rect x="24" y="22" width="112" height="24" rx="12" fill="#7c3aed"/><text class="badge" x="45" y="40">SKILL</text>
+    <text class="h" x="24" y="72">duumbi-codex-intake</text>
+    <text class="body" x="24" y="96">ötletből normalizált Inbox note vagy duplicate report</text>
+  </g>
+  <g transform="translate(590 646)">
+    <rect class="action" width="470" height="104" rx="18"/>
+    <rect x="24" y="22" width="112" height="24" rx="12" fill="#7c3aed"/><text class="badge" x="45" y="40">SKILL</text>
+    <text class="h" x="24" y="72">duumbi-github-intake</text>
+    <text class="body" x="24" y="96">issue / discussion áttekintése triage előtt</text>
+  </g>
+  <g transform="translate(590 780)">
+    <rect class="action" width="470" height="104" rx="18"/>
+    <rect x="24" y="22" width="112" height="24" rx="12" fill="#7c3aed"/><text class="badge" x="42" y="40">ACTION</text>
+    <text class="h" x="24" y="72">inbox-enrichment-dispatch.yml</text>
+    <text class="body" x="24" y="96">naponta kétszer vagy kézzel: duumbi-inbox-enrichment</text>
+  </g>
+
+  <path class="arrow" d="M1074 520 C1160 520 1160 486 1242 486" marker-end="url(#arrow)"/>
+  <path class="arrow" d="M1074 698 C1160 698 1160 620 1242 620" marker-end="url(#arrow)"/>
+  <path class="arrow" d="M1074 832 C1160 832 1160 754 1242 754" marker-end="url(#arrow)"/>
+
+  <text class="section" x="1250" y="342">Kimenő állapotok</text>
+  <g transform="translate(1250 402)">
+    <rect class="state" width="430" height="108" rx="18"/>
+    <rect x="24" y="22" width="92" height="24" rx="12" fill="#059669"/><text class="badge" x="43" y="40">STATE</text>
+    <text class="h" x="24" y="72">Inbox Capture</text>
+    <text class="body" x="24" y="96">normalizált vagy nyers, de követhető jelölt</text>
+  </g>
+  <g transform="translate(1250 548)">
+    <rect class="decision" width="430" height="108" rx="18"/>
+    <rect x="24" y="22" width="104" height="24" rx="12" fill="#f59e0b"/><text class="badge" x="43" y="40">NEXT</text>
+    <text class="h" x="24" y="72">Stage 2 - Triage</text>
+    <text class="body" x="24" y="96">duplikáció, érték, scope, pontosítás</text>
+  </g>
+  <g transform="translate(1250 694)">
+    <rect class="risk" width="430" height="108" rx="18"/>
+    <rect x="24" y="22" width="104" height="24" rx="12" fill="#dc2626"/><text class="badge" x="40" y="40">STOP</text>
+    <text class="h" x="24" y="72">Duplicate vagy nem actionable</text>
+    <text class="body" x="24" y="96">nem indul specifikáció vagy implementáció</text>
+  </g>
+
+  <rect class="panel" x="96" y="924" width="1584" height="64" rx="18"/>
+  <text class="small" x="124" y="950">Fejlesztői ellenőrzés:</text>
+  <text class="body" x="294" y="950">legyen forráslink, rövid intent, duplicate check, és ne induljon kódmunka Stage 5 elfogadás előtt.</text>
+  <text class="small" x="124" y="976">Továbbvivő esemény:</text>
+  <text class="body" x="294" y="976">triage sweep, manuális triage, vagy olyan issue/discussion állapot, amely Stage 2-re alkalmas.</text>
+</svg>
