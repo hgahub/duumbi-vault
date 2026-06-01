@@ -24,7 +24,7 @@ GitHub remains the execution source of truth. Obsidian stores raw intake and dur
 
 ## Visual Guide
 
-![[DUUMBI - Agentic Development Runbook.png]]
+![[DUUMBI - Developer Ticket Flow Overview.svg]]
 
 ## Current Architecture In One Sentence
 
