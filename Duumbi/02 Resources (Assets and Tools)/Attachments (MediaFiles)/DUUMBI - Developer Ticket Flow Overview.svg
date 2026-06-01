@@ -1,129 +1,401 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1120" viewBox="0 0 1800 1120" role="img" aria-labelledby="title desc">
-  <title id="title">Developer Flow for Resolving a Ticket</title>
-  <desc id="desc">DUUMBI developer ticket flow from an idea or bug report through post-merge Stage 12 closure.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1000" viewBox="0 0 1800 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Developer Process for Resolving a Ticket</title>
+  <desc id="desc">Detailed DUUMBI developer process infographic from idea or bug report to post-merge closure, balancing AI automation and human decisions.</desc>
   <defs>
     <style>
-      .bg { fill: #f8fafc; }
-      .panel { fill: #ffffff; stroke: #dbe3ee; stroke-width: 2; }
-      .card { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2.4; }
-      .idea { fill: #eff6ff; stroke: #2563eb; }
-      .human { fill: #fff7ed; stroke: #f59e0b; }
-      .spec { fill: #f0fdfa; stroke: #0f766e; }
-      .build { fill: #f5f3ff; stroke: #7c3aed; }
-      .review { fill: #fefce8; stroke: #ca8a04; }
-      .merge { fill: #fef2f2; stroke: #dc2626; }
-      .done { fill: #ecfdf5; stroke: #059669; }
-      .title { font: 760 48px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
-      .subtitle { font: 450 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
-      .section { font: 760 25px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
-      .num { font: 850 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #ffffff; }
-      .h { font: 760 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
-      .body { font: 520 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
-      .small { font: 650 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475569; }
-      .pill { font: 800 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #ffffff; letter-spacing: 0; }
-      .arrow { stroke: #64748b; stroke-width: 3.4; fill: none; }
-      .soft { stroke: #cbd5e1; stroke-width: 2; fill: none; }
+      .bg { fill: #fbfcff; }
+      .title { font: 800 50px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .subtitle { font: 450 28px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #334155; }
+      .card { fill: #fff; stroke-width: 1.7; }
+      .c1 { stroke: #2563eb; }
+      .c2 { stroke: #16a34a; }
+      .c3 { stroke: #2563eb; }
+      .c4 { stroke: #d97706; }
+      .c5 { stroke: #2563eb; }
+      .c6 { stroke: #dc2626; }
+      .c7 { stroke: #16a34a; }
+      .n { font: 800 28px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #fff; }
+      .head { font: 790 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor: middle; }
+      .head-small { font: 780 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor: middle; }
+      .body { font: 500 16px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172033; }
+      .small { font: 500 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172033; }
+      .tiny { font: 650 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .label { font: 740 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor: middle; }
+      .status { font: 800 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-anchor: middle; }
+      .divider { stroke: #cbd5e1; stroke-width: 1.3; stroke-dasharray: 4 4; }
+      .arrow { stroke: #475569; stroke-width: 4; fill: none; }
+      .dash-arrow { stroke: #64748b; stroke-width: 2; stroke-dasharray: 7 6; fill: none; }
+      .side-head { font: 800 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #fff; }
+      .side-text { font: 500 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
+      .bottom-title { font: 800 29px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #08245c; text-anchor: middle; }
+      .bottom-bold { font: 800 28px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .bottom-body { font: 500 25px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #0f172a; }
     </style>
-    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
-      <path d="M2,2 L10,6 L2,10 Z" fill="#64748b"/>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M1,1 L10,6 L1,11 Z" fill="#475569"/>
     </marker>
+    <marker id="dashArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M1,1 L9,5 L1,9 Z" fill="#64748b"/>
+    </marker>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#94a3b8" flood-opacity=".18"/>
+    </filter>
   </defs>
 
-  <rect class="bg" width="1800" height="1120"/>
-  <text class="title" x="72" y="82">Developer Flow for Resolving a Ticket</text>
-  <text class="subtitle" x="74" y="118">From idea or bug report to post-merge closure - developer tasks and decision points</text>
+  <rect class="bg" width="1800" height="1000"/>
+  <text class="title" x="28" y="66">Developer Process for Resolving a Ticket</text>
+  <text class="subtitle" x="30" y="124">From idea or bug report to post-merge closure</text>
 
-  <rect class="panel" x="64" y="154" width="1672" height="132" rx="24"/>
-  <text class="section" x="96" y="196">Operating principle</text>
-  <text class="body" x="96" y="228">AI prepares, deduplicates, specifies, implements, and verifies. Humans decide scope, resources, acceptance, and PR merge.</text>
-  <text class="body" x="96" y="256">Stage 12 closure may run only after a verified merge or equivalent completion evidence.</text>
-
-  <g transform="translate(72 340)">
-    <rect class="card idea" x="0" y="0" width="210" height="190" rx="18"/>
-    <circle cx="34" cy="34" r="22" fill="#2563eb"/><text class="num" x="27" y="43">1</text>
-    <text class="h" x="24" y="78">Idea or</text>
-    <text class="h" x="24" y="106">Bug Report</text>
-    <text class="body" x="24" y="140">Slack, Codex,</text>
-    <text class="body" x="24" y="162">GitHub Issue, Inbox</text>
-  </g>
-  <path class="arrow" d="M284 435 L342 435" marker-end="url(#arrow)"/>
-
-  <g transform="translate(352 340)">
-    <rect class="card human" x="0" y="0" width="210" height="190" rx="18"/>
-    <circle cx="34" cy="34" r="22" fill="#f59e0b"/><text class="num" x="27" y="43">2</text>
-    <text class="h" x="24" y="78">Triage and</text>
-    <text class="h" x="24" y="106">Acceptance</text>
-    <text class="body" x="24" y="140">Duplicate check,</text>
-    <text class="body" x="24" y="162">clarification, scope</text>
-  </g>
-  <path class="arrow" d="M564 435 L622 435" marker-end="url(#arrow)"/>
-
-  <g transform="translate(632 340)">
-    <rect class="card spec" x="0" y="0" width="250" height="190" rx="18"/>
-    <circle cx="34" cy="34" r="22" fill="#0f766e"/><text class="num" x="27" y="43">3</text>
-    <text class="h" x="24" y="78">Product and</text>
-    <text class="h" x="24" y="106">Technical Spec</text>
-    <text class="body" x="24" y="140">PRODUCT.md,</text>
-    <text class="body" x="24" y="162">TECHNICAL.md, review</text>
-  </g>
-  <path class="arrow" d="M884 435 L942 435" marker-end="url(#arrow)"/>
-
-  <g transform="translate(952 340)">
-    <rect class="card build" x="0" y="0" width="240" height="190" rx="18"/>
-    <circle cx="34" cy="34" r="22" fill="#7c3aed"/><text class="num" x="27" y="43">4</text>
-    <text class="h" x="24" y="78">Implementation</text>
-    <text class="h" x="24" y="106">in Ralph Cycles</text>
-    <text class="body" x="24" y="140">Small scope, tests,</text>
-    <text class="body" x="24" y="162">evidence, gate</text>
-  </g>
-  <path class="arrow" d="M1194 435 L1252 435" marker-end="url(#arrow)"/>
-
-  <g transform="translate(1262 340)">
-    <rect class="card review" x="0" y="0" width="220" height="190" rx="18"/>
-    <circle cx="34" cy="34" r="22" fill="#ca8a04"/><text class="num" x="27" y="43">5</text>
-    <text class="h" x="24" y="78">Stage 11</text>
-    <text class="h" x="24" y="106">Review Artifact</text>
-    <text class="body" x="24" y="140">CI, diff, Copilot,</text>
-    <text class="body" x="24" y="162">spec compliance</text>
-  </g>
-  <path class="arrow" d="M1484 435 L1542 435" marker-end="url(#arrow)"/>
-
-  <g transform="translate(1552 340)">
-    <rect class="card merge" x="0" y="0" width="184" height="190" rx="18"/>
-    <circle cx="34" cy="34" r="22" fill="#dc2626"/><text class="num" x="27" y="43">6</text>
-    <text class="h" x="24" y="78">Human PR</text>
-    <text class="h" x="24" y="106">Decision</text>
-    <text class="body" x="24" y="140">Merge, changes,</text>
-    <text class="body" x="24" y="162">clarification</text>
+  <g id="stage-1" transform="translate(28 242)">
+    <rect class="card c1" width="182" height="578" rx="7" filter="url(#softShadow)"/>
+    <circle cx="91" cy="-9" r="22" fill="#0b72cf"/><text class="n" x="91" y="1" text-anchor="middle">1</text>
+    <text class="head" x="91" y="46" fill="#004fb5">Idea or</text>
+    <text class="head" x="91" y="75" fill="#004fb5">bug report</text>
+    <g transform="translate(22 97)">
+      <rect x="0" y="0" width="60" height="58" rx="6" fill="#fff" stroke="#d6dde8"/>
+      <circle cx="24" cy="21" r="7" fill="#2eb67d"/><circle cx="38" cy="21" r="7" fill="#ecb22e"/>
+      <circle cx="24" cy="37" r="7" fill="#e01e5a"/><circle cx="38" cy="37" r="7" fill="#36c5f0"/>
+      <rect x="76" y="0" width="60" height="58" rx="6" fill="#fff" stroke="#d6dde8"/>
+      <circle cx="106" cy="29" r="18" fill="none" stroke="#111827" stroke-width="3"/>
+      <path d="M95 26 C100 15 116 18 119 29 C115 40 101 42 95 32 Z" fill="none" stroke="#111827" stroke-width="3"/>
+      <rect x="0" y="68" width="60" height="58" rx="6" fill="#fff" stroke="#d6dde8"/>
+      <circle cx="30" cy="96" r="20" fill="#111827"/><circle cx="22" cy="89" r="7" fill="#fff"/><circle cx="38" cy="89" r="7" fill="#fff"/>
+      <rect x="76" y="68" width="60" height="58" rx="6" fill="#fff" stroke="#d6dde8"/>
+      <path d="M104 74 L124 91 L116 121 L91 114 L86 91 Z" fill="#6d42c7"/>
+      <path d="M104 74 L116 121 L101 106 Z" fill="#8b5cf6" opacity=".7"/>
+    </g>
+    <text class="body" x="91" y="257" text-anchor="middle">Slack, Codex,</text>
+    <text class="body" x="91" y="281" text-anchor="middle">GitHub Issue,</text>
+    <text class="body" x="91" y="305" text-anchor="middle">Obsidian Inbox</text>
+    <line class="divider" x1="12" y1="332" x2="170" y2="332"/>
+    <g transform="translate(14 352)">
+      <circle cx="11" cy="0" r="8" fill="#0b72cf"/><path d="M7 -1 L10 3 L16 -5" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="4">Problem or idea</text><text class="small" x="30" y="23">recorded</text>
+      <circle cx="11" cy="51" r="8" fill="#0b72cf"/><path d="M7 50 L10 54 L16 46" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="55">Description, context,</text><text class="small" x="30" y="74">priority if known</text>
+      <circle cx="11" cy="102" r="8" fill="#0b72cf"/><path d="M7 101 L10 105 L16 97" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="106">Captured into Inbox</text>
+    </g>
+    <rect x="13" y="523" width="156" height="35" rx="7" fill="#eff6ff" stroke="#0b72cf"/>
+    <text class="status" x="91" y="546" fill="#0b72cf">RECEIVED</text>
   </g>
 
-  <path class="arrow" d="M1644 530 C1644 628 128 628 128 700" marker-end="url(#arrow)"/>
-  <g transform="translate(72 710)">
-    <rect class="card done" x="0" y="0" width="260" height="168" rx="18"/>
-    <circle cx="34" cy="34" r="22" fill="#059669"/><text class="num" x="27" y="43">7</text>
-    <text class="h" x="24" y="78">Stage 12 closure</text>
-    <text class="body" x="24" y="112">Issue closure,</text>
-    <text class="body" x="24" y="134">Project Done, Inbox,</text>
-    <text class="body" x="24" y="158">knowledge sync decision</text>
+  <path class="arrow" d="M205 395 L236 395" marker-end="url(#arrow)"/>
+
+  <g id="stage-2" transform="translate(240 242)">
+    <rect class="card c2" width="182" height="578" rx="7" filter="url(#softShadow)"/>
+    <circle cx="91" cy="-9" r="22" fill="#16a34a"/><text class="n" x="91" y="1" text-anchor="middle">2</text>
+    <text class="head" x="91" y="42" fill="#087334">Triage &amp;</text>
+    <text class="head-small" x="91" y="69" fill="#087334">human</text>
+    <text class="head-small" x="91" y="96" fill="#087334">acceptance</text>
+    <g transform="translate(52 96)">
+      <rect x="0" y="16" width="64" height="94" rx="5" fill="#eef2f7" stroke="#1f2937" stroke-width="5"/>
+      <rect x="19" y="0" width="28" height="20" rx="8" fill="#4b5563"/>
+      <path d="M15 45 L23 53 L37 35" fill="none" stroke="#16a34a" stroke-width="3"/>
+      <path d="M15 70 L23 78 L37 60" fill="none" stroke="#16a34a" stroke-width="3"/>
+      <path d="M15 95 L23 103 L37 85" fill="none" stroke="#16a34a" stroke-width="3"/>
+      <line x1="45" y1="43" x2="70" y2="43" stroke="#94a3b8" stroke-width="4"/>
+      <line x1="45" y1="68" x2="70" y2="68" stroke="#94a3b8" stroke-width="4"/>
+      <line x1="45" y1="93" x2="70" y2="93" stroke="#94a3b8" stroke-width="4"/>
+      <circle cx="76" cy="100" r="22" fill="none" stroke="#64748b" stroke-width="6"/>
+      <line x1="91" y1="115" x2="112" y2="136" stroke="#64748b" stroke-width="8" stroke-linecap="round"/>
+    </g>
+    <text class="body" x="91" y="257" text-anchor="middle">Duplicate check,</text>
+    <text class="body" x="91" y="281" text-anchor="middle">clarification, value,</text>
+    <text class="body" x="91" y="305" text-anchor="middle">scope</text>
+    <line class="divider" x1="12" y1="332" x2="170" y2="332"/>
+    <g transform="translate(14 352)">
+      <circle cx="11" cy="0" r="8" fill="#16a34a"/><path d="M7 -1 L10 3 L16 -5" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="4">Duplicate check</text>
+      <circle cx="11" cy="32" r="8" fill="#16a34a"/><path d="M7 31 L10 35 L16 27" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="36">Clarification request</text>
+      <circle cx="11" cy="64" r="8" fill="#16a34a"/><path d="M7 63 L10 67 L16 59" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="68">Value and priority</text>
+      <circle cx="11" cy="96" r="8" fill="#16a34a"/><path d="M7 95 L10 99 L16 91" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="100">Scope proposal</text>
+      <circle cx="11" cy="128" r="8" fill="#16a34a"/><path d="M7 127 L10 131 L16 123" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="132">Accepted to backlog</text>
+    </g>
+    <rect x="13" y="523" width="156" height="35" rx="7" fill="#ecfdf5" stroke="#16a34a"/>
+    <text class="status" x="91" y="546" fill="#087334">ACCEPTED</text>
   </g>
 
-  <rect class="panel" x="388" y="700" width="640" height="190" rx="22"/>
-  <text class="section" x="420" y="744">Developer Tasks</text>
-  <text class="body" x="420" y="780">✓ Check context and specification boundaries</text>
-  <text class="body" x="420" y="812">✓ Implement small scopes in Ralph cycles</text>
-  <text class="body" x="420" y="844">✓ Record tests, evidence, and PR proof</text>
-  <text class="body" x="420" y="876">✓ Handle review feedback, then decide the GitHub PR</text>
+  <path class="arrow" d="M417 395 L448 395" marker-end="url(#arrow)"/>
 
-  <rect class="panel" x="1070" y="700" width="666" height="190" rx="22"/>
-  <text class="section" x="1102" y="744">State and Event Logic</text>
-  <rect x="1102" y="770" width="120" height="28" rx="14" fill="#2563eb"/><text class="pill" x="1133" y="790">event</text>
-  <text class="body" x="1240" y="790">Slack message, GitHub label, PR event, workflow dispatch</text>
-  <rect x="1102" y="812" width="120" height="28" rx="14" fill="#7c3aed"/><text class="pill" x="1132" y="832">skill</text>
-  <text class="body" x="1240" y="832">Codex skill works, but does not invent human decisions</text>
-  <rect x="1102" y="854" width="120" height="28" rx="14" fill="#059669"/><text class="pill" x="1130" y="874">state</text>
-  <text class="body" x="1240" y="874">GitHub Issue/Project status, PR merge evidence</text>
+  <g id="stage-3" transform="translate(452 242)">
+    <rect class="card c3" width="188" height="578" rx="7" filter="url(#softShadow)"/>
+    <circle cx="94" cy="-9" r="22" fill="#0b72cf"/><text class="n" x="94" y="1" text-anchor="middle">3</text>
+    <text class="head" x="94" y="46" fill="#004fb5">Product &amp;</text>
+    <text class="head" x="94" y="75" fill="#004fb5">technical spec</text>
+    <text class="head-small" x="94" y="102" fill="#004fb5">documents</text>
+    <g transform="translate(18 126)">
+      <path d="M0 0 H49 L70 21 V112 H0 Z" fill="#fff" stroke="#1f2937" stroke-width="2"/>
+      <path d="M49 0 V21 H70" fill="none" stroke="#1f2937" stroke-width="2"/>
+      <line x1="12" y1="34" x2="51" y2="34" stroke="#64748b" stroke-width="2"/>
+      <line x1="12" y1="54" x2="58" y2="54" stroke="#64748b" stroke-width="2"/>
+      <line x1="12" y1="74" x2="52" y2="74" stroke="#64748b" stroke-width="2"/>
+      <rect x="5" y="91" width="61" height="17" rx="3" fill="#eff6ff"/><text class="tiny" x="36" y="104" text-anchor="middle" fill="#004fb5">PRODUCT.md</text>
+      <path d="M83 0 H132 L153 21 V112 H83 Z" fill="#fff" stroke="#1f2937" stroke-width="2"/>
+      <path d="M132 0 V21 H153" fill="none" stroke="#1f2937" stroke-width="2"/>
+      <line x1="95" y1="34" x2="134" y2="34" stroke="#64748b" stroke-width="2"/>
+      <line x1="95" y1="54" x2="141" y2="54" stroke="#64748b" stroke-width="2"/>
+      <line x1="95" y1="74" x2="135" y2="74" stroke="#64748b" stroke-width="2"/>
+      <rect x="88" y="91" width="61" height="17" rx="3" fill="#eff6ff"/><text class="tiny" x="119" y="104" text-anchor="middle" fill="#004fb5">TECHNICAL.md</text>
+    </g>
+    <text class="body" x="94" y="257" text-anchor="middle">PRODUCT.md,</text>
+    <text class="body" x="94" y="281" text-anchor="middle">TECHNICAL.md,</text>
+    <text class="body" x="94" y="305" text-anchor="middle">review gate</text>
+    <line class="divider" x1="12" y1="332" x2="176" y2="332"/>
+    <g transform="translate(14 352)">
+      <circle cx="11" cy="0" r="8" fill="#0b72cf"/><path d="M7 -1 L10 3 L16 -5" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="4">Product need recorded</text>
+      <circle cx="11" cy="32" r="8" fill="#0b72cf"/><path d="M7 31 L10 35 L16 27" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="36">Technical plan</text>
+      <circle cx="11" cy="64" r="8" fill="#0b72cf"/><path d="M7 63 L10 67 L16 59" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="68">Acceptance criteria</text>
+      <circle cx="11" cy="96" r="8" fill="#0b72cf"/><path d="M7 95 L10 99 L16 91" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="100">Review gate, human</text>
+    </g>
+    <rect x="17" y="523" width="154" height="35" rx="7" fill="#eff6ff" stroke="#0b72cf"/>
+    <text class="status" x="94" y="546" fill="#004fb5">SPEC READY</text>
+  </g>
 
-  <rect x="64" y="946" width="1672" height="92" rx="24" fill="#111827"/>
-  <text x="96" y="984" style="font:760 22px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#fff">AI and Human Balance</text>
-  <text x="96" y="1018" style="font:560 18px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#dbeafe">AI: prepares, implements, verifies, recommends. Human: scope, cost, acceptance, merge. Closure: only after verified merge.</text>
+  <path class="arrow" d="M635 395 L660 395" marker-end="url(#arrow)"/>
+
+  <g id="stage-4" transform="translate(664 242)">
+    <rect class="card c4" width="192" height="578" rx="7" filter="url(#softShadow)"/>
+    <circle cx="96" cy="-9" r="22" fill="#d97706"/><text class="n" x="96" y="1" text-anchor="middle">4</text>
+    <text class="head" x="96" y="46" fill="#c45f00">Implementation</text>
+    <text class="head-small" x="96" y="75" fill="#c45f00">in Ralph cycles</text>
+    <g transform="translate(33 103)">
+      <circle cx="63" cy="63" r="39" fill="#1f2937"/>
+      <text x="63" y="55" text-anchor="middle" style="font:800 13px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#fff">RALPH</text>
+      <text x="63" y="73" text-anchor="middle" style="font:800 13px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#fff">CYCLE</text>
+      <path d="M10 64 C10 30 35 8 67 7" fill="none" stroke="#111827" stroke-width="3" marker-end="url(#arrow)"/>
+      <path d="M76 7 C108 12 122 40 113 70" fill="none" stroke="#111827" stroke-width="3" marker-end="url(#arrow)"/>
+      <path d="M112 82 C97 113 59 122 31 102" fill="none" stroke="#111827" stroke-width="3" marker-end="url(#arrow)"/>
+      <path d="M24 94 C3 72 2 42 18 21" fill="none" stroke="#111827" stroke-width="3" marker-end="url(#arrow)"/>
+      <rect x="38" y="-2" width="51" height="25" rx="12" fill="#fff7ed" stroke="#d97706"/><text class="tiny" x="63" y="15" text-anchor="middle" fill="#c45f00">PLAN</text>
+      <rect x="-6" y="57" width="58" height="25" rx="12" fill="#fff7ed" stroke="#d97706"/><text class="tiny" x="23" y="74" text-anchor="middle" fill="#c45f00">PROVE</text>
+      <rect x="86" y="57" width="58" height="25" rx="12" fill="#fff7ed" stroke="#d97706"/><text class="tiny" x="115" y="74" text-anchor="middle" fill="#c45f00">CODE</text>
+      <rect x="40" y="109" width="58" height="25" rx="12" fill="#fff7ed" stroke="#d97706"/><text class="tiny" x="69" y="126" text-anchor="middle" fill="#c45f00">TEST</text>
+    </g>
+    <text class="body" x="96" y="257" text-anchor="middle">Small scope, evidence,</text>
+    <text class="body" x="96" y="281" text-anchor="middle">tests, resource gate</text>
+    <line class="divider" x1="12" y1="332" x2="180" y2="332"/>
+    <g transform="translate(14 352)">
+      <circle cx="11" cy="0" r="8" fill="#d97706"/><path d="M7 -1 L10 3 L16 -5" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="4">Break into small scope</text>
+      <circle cx="11" cy="32" r="8" fill="#d97706"/><path d="M7 31 L10 35 L16 27" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="36">Implementation</text>
+      <circle cx="11" cy="64" r="8" fill="#d97706"/><path d="M7 63 L10 67 L16 59" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="68">Tests and evidence</text>
+      <circle cx="11" cy="96" r="8" fill="#d97706"/><path d="M7 95 L10 99 L16 91" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="100">Resource gate check</text>
+      <circle cx="11" cy="128" r="8" fill="#d97706"/><path d="M7 127 L10 131 L16 123" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="132">Iterate to ready state</text>
+    </g>
+    <rect x="16" y="523" width="160" height="35" rx="7" fill="#fff7ed" stroke="#d97706"/>
+    <text class="status" x="96" y="546" fill="#c45f00">IMPLEMENTED</text>
+  </g>
+
+  <path class="arrow" d="M852 395 L872 395" marker-end="url(#arrow)"/>
+
+  <g id="stage-5" transform="translate(876 242)">
+    <rect class="card c5" width="172" height="578" rx="7" filter="url(#softShadow)"/>
+    <circle cx="86" cy="-9" r="22" fill="#0b72cf"/><text class="n" x="86" y="1" text-anchor="middle">5</text>
+    <text class="head" x="86" y="46" fill="#004fb5">Stage 11</text>
+    <text class="head-small" x="86" y="75" fill="#004fb5">review artifact</text>
+    <g transform="translate(14 108)">
+      <rect x="0" y="0" width="144" height="124" rx="5" fill="#f8fafc" stroke="#1f2937" stroke-width="2"/>
+      <rect x="0" y="0" width="144" height="23" rx="5" fill="#334155"/>
+      <circle cx="13" cy="12" r="4" fill="#e2e8f0"/><circle cx="27" cy="12" r="4" fill="#e2e8f0"/><circle cx="41" cy="12" r="4" fill="#e2e8f0"/>
+      <rect x="17" y="40" width="110" height="17" fill="#ecfdf5"/><line x1="43" y1="48" x2="83" y2="48" stroke="#16a34a" stroke-width="3"/>
+      <rect x="17" y="68" width="110" height="17" fill="#fef2f2"/><line x1="43" y1="76" x2="89" y2="76" stroke="#dc2626" stroke-width="3"/>
+      <rect x="17" y="96" width="110" height="17" fill="#ecfdf5"/><line x1="43" y1="104" x2="83" y2="104" stroke="#16a34a" stroke-width="3"/>
+      <text x="22" y="52" style="font:800 14px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#16a34a">+</text>
+      <text x="22" y="80" style="font:800 14px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#dc2626">-</text>
+      <text x="22" y="108" style="font:800 14px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#16a34a">+</text>
+      <path d="M106 92 L146 104 L138 151 C125 146 115 137 111 122 Z" fill="#0b72cf"/>
+      <path d="M119 121 L130 132 L148 109" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <text class="body" x="86" y="257" text-anchor="middle">CI, Copilot, diff,</text>
+    <text class="body" x="86" y="281" text-anchor="middle">spec compliance</text>
+    <line class="divider" x1="10" y1="332" x2="162" y2="332"/>
+    <g transform="translate(14 352)">
+      <circle cx="11" cy="0" r="8" fill="#0b72cf"/><path d="M7 -1 L10 3 L16 -5" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="4">CI pipeline green</text>
+      <circle cx="11" cy="36" r="8" fill="#0b72cf"/><path d="M7 35 L10 39 L16 31" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="40">Spec compliance</text><text class="small" x="30" y="59">checked</text>
+      <circle cx="11" cy="88" r="8" fill="#0b72cf"/><path d="M7 87 L10 91 L16 83" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="92">Diff and changes</text><text class="small" x="30" y="111">reviewed</text>
+      <circle cx="11" cy="140" r="8" fill="#0b72cf"/><path d="M7 139 L10 143 L16 135" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="144">Evidence attached</text>
+    </g>
+    <rect x="13" y="523" width="146" height="35" rx="7" fill="#eff6ff" stroke="#0b72cf"/>
+    <text class="status" x="86" y="546" fill="#004fb5">REVIEW-READY</text>
+  </g>
+
+  <path class="arrow" d="M1044 395 L1084 395" marker-end="url(#arrow)"/>
+
+  <g id="stage-6" transform="translate(1088 242)">
+    <rect class="card c6" width="186" height="578" rx="7" filter="url(#softShadow)"/>
+    <circle cx="93" cy="-9" r="22" fill="#dc2626"/><text class="n" x="93" y="1" text-anchor="middle">6</text>
+    <text class="head" x="93" y="42" fill="#dc2626">Human PR</text>
+    <text class="head-small" x="93" y="69" fill="#dc2626">decision</text>
+    <text class="head-small" x="93" y="96" fill="#dc2626">on GitHub</text>
+    <g transform="translate(45 112)">
+      <circle cx="48" cy="48" r="48" fill="#111827"/>
+      <circle cx="48" cy="44" r="27" fill="#fff"/>
+      <path d="M27 34 L23 17 L39 26 Z" fill="#fff"/>
+      <path d="M69 34 L73 17 L57 26 Z" fill="#fff"/>
+      <rect x="28" y="66" width="13" height="32" rx="6" fill="#fff"/>
+      <rect x="55" y="66" width="13" height="32" rx="6" fill="#fff"/>
+    </g>
+    <text class="body" x="93" y="257" text-anchor="middle">Merge, request</text>
+    <text class="body" x="93" y="281" text-anchor="middle">changes, clarification,</text>
+    <text class="body" x="93" y="305" text-anchor="middle">abandon</text>
+    <line class="divider" x1="12" y1="332" x2="174" y2="332"/>
+    <g transform="translate(14 352)">
+      <circle cx="11" cy="0" r="8" fill="#16a34a"/><path d="M7 -1 L10 3 L16 -5" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="4">Merge, accepted</text>
+      <circle cx="11" cy="34" r="8" fill="#d97706"/><text x="11" y="39" text-anchor="middle" style="font:800 14px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#fff">!</text>
+      <text class="small" x="30" y="38">Request changes</text><text class="small" x="30" y="57">send back</text>
+      <circle cx="11" cy="86" r="8" fill="#0b72cf"/><text x="11" y="91" text-anchor="middle" style="font:800 14px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#fff">i</text>
+      <text class="small" x="30" y="90">Clarification</text><text class="small" x="30" y="109">needed</text>
+      <circle cx="11" cy="138" r="8" fill="#dc2626"/><path d="M7 134 L15 142 M15 134 L7 142" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="142">Abandon, reject</text>
+    </g>
+    <rect x="14" y="523" width="158" height="35" rx="7" fill="#fef2f2" stroke="#dc2626"/>
+    <text class="status" x="93" y="546" fill="#dc2626">DECISION: HUMAN</text>
+  </g>
+
+  <path class="arrow" d="M1268 395 L1300 395" marker-end="url(#arrow)"/>
+  <path class="dash-arrow" d="M1284 300 L1306 300" marker-end="url(#dashArrow)"/>
+  <path class="dash-arrow" d="M1304 117 L1304 200 L1389 200 L1389 226" marker-end="url(#dashArrow)"/>
+  <rect x="1158" y="112" width="240" height="28" rx="4" fill="#fff" stroke="#334155"/>
+  <text class="tiny" x="1278" y="131" text-anchor="middle">Stage 12 only after human merge decision</text>
+
+  <g id="stage-7" transform="translate(1306 242)">
+    <rect class="card c7" width="172" height="578" rx="7" filter="url(#softShadow)"/>
+    <circle cx="86" cy="-9" r="22" fill="#16a34a"/><text class="n" x="86" y="1" text-anchor="middle">7</text>
+    <text class="head" x="86" y="46" fill="#087334">Stage 12</text>
+    <text class="head" x="86" y="75" fill="#087334">closure</text>
+    <g transform="translate(33 111)">
+      <circle cx="53" cy="53" r="53" fill="#16a34a"/>
+      <circle cx="53" cy="53" r="47" fill="#22c55e" opacity=".45"/>
+      <path d="M26 54 L47 78 L82 31" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <text class="body" x="86" y="257" text-anchor="middle">Issue closure,</text>
+    <text class="body" x="86" y="281" text-anchor="middle">Project Done,</text>
+    <text class="body" x="86" y="305" text-anchor="middle">Inbox, knowledge sync</text>
+    <line class="divider" x1="10" y1="332" x2="162" y2="332"/>
+    <g transform="translate(14 352)">
+      <circle cx="11" cy="0" r="8" fill="#16a34a"/><path d="M7 -1 L10 3 L16 -5" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="4">Issue closed</text>
+      <circle cx="11" cy="32" r="8" fill="#16a34a"/><path d="M7 31 L10 35 L16 27" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="36">Project: Done</text>
+      <circle cx="11" cy="64" r="8" fill="#16a34a"/><path d="M7 63 L10 67 L16 59" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="68">Inbox updated</text>
+      <circle cx="11" cy="96" r="8" fill="#16a34a"/><path d="M7 95 L10 99 L16 91" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="100">Knowledge sync</text><text class="small" x="30" y="119">documented</text>
+      <circle cx="11" cy="148" r="8" fill="#16a34a"/><path d="M7 147 L10 151 L16 143" fill="none" stroke="#fff" stroke-width="3"/>
+      <text class="small" x="30" y="152">Retro lesson</text>
+    </g>
+    <rect x="13" y="523" width="146" height="35" rx="7" fill="#ecfdf5" stroke="#16a34a"/>
+    <text class="status" x="86" y="546" fill="#087334">CLOSED</text>
+  </g>
+
+  <g id="developer-tasks" transform="translate(1510 142)">
+    <rect x="0" y="0" width="260" height="712" rx="8" fill="#fff" stroke="#0b72cf" filter="url(#softShadow)"/>
+    <rect x="0" y="0" width="260" height="56" rx="8" fill="#1769c2"/>
+    <path d="M0 48 H260 V56 H0 Z" fill="#1769c2"/>
+    <text class="side-head" x="26" y="37">Developer Tasks</text>
+    <g transform="translate(16 102)">
+      <rect x="0" y="0" width="26" height="30" rx="4" fill="#eff6ff" stroke="#0b72cf" stroke-width="3"/>
+      <path d="M7 14 L13 21 L22 7" fill="none" stroke="#0b72cf" stroke-width="3"/>
+      <circle cx="58" cy="13" r="17" fill="none" stroke="#334155" stroke-width="3"/>
+      <line x1="70" y1="26" x2="88" y2="48" stroke="#334155" stroke-width="6" stroke-linecap="round"/>
+      <text class="side-text" x="104" y="10">Check</text><text class="side-text" x="104" y="32">context</text>
+    </g>
+    <line class="divider" x1="12" y1="176" x2="248" y2="176"/>
+    <g transform="translate(16 202)">
+      <rect x="0" y="0" width="26" height="30" rx="4" fill="#eff6ff" stroke="#0b72cf" stroke-width="3"/>
+      <path d="M7 14 L13 21 L22 7" fill="none" stroke="#0b72cf" stroke-width="3"/>
+      <path d="M49 0 H70 L86 16 V48 H49 Z" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+      <path d="M70 0 V16 H86" fill="none" stroke="#334155" stroke-width="2"/>
+      <line x1="57" y1="23" x2="76" y2="23" stroke="#64748b" stroke-width="2"/>
+      <line x1="57" y1="34" x2="78" y2="34" stroke="#64748b" stroke-width="2"/>
+      <text class="side-text" x="104" y="10">Respect spec</text><text class="side-text" x="104" y="32">boundaries</text>
+    </g>
+    <line class="divider" x1="12" y1="280" x2="248" y2="280"/>
+    <g transform="translate(16 306)">
+      <rect x="0" y="0" width="26" height="30" rx="4" fill="#eff6ff" stroke="#0b72cf" stroke-width="3"/>
+      <path d="M7 14 L13 21 L22 7" fill="none" stroke="#0b72cf" stroke-width="3"/>
+      <path d="M68 0 V18 L92 55 H38 L62 18 V0" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+      <line x1="57" y1="0" x2="74" y2="0" stroke="#334155" stroke-width="4"/>
+      <circle cx="64" cy="36" r="4" fill="#0b72cf"/><circle cx="75" cy="46" r="3" fill="#0b72cf"/>
+      <text class="side-text" x="104" y="10">Record tests</text><text class="side-text" x="104" y="32">and evidence</text>
+    </g>
+    <line class="divider" x1="12" y1="384" x2="248" y2="384"/>
+    <g transform="translate(16 410)">
+      <rect x="0" y="0" width="26" height="30" rx="4" fill="#eff6ff" stroke="#0b72cf" stroke-width="3"/>
+      <path d="M7 14 L13 21 L22 7" fill="none" stroke="#0b72cf" stroke-width="3"/>
+      <path d="M45 0 H88 Q100 0 100 12 V38 Q100 50 88 50 H67 L50 64 V50 H45 Q33 50 33 38 V12 Q33 0 45 0 Z" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+      <line x1="48" y1="18" x2="86" y2="18" stroke="#64748b" stroke-width="2"/>
+      <line x1="48" y1="31" x2="77" y2="31" stroke="#64748b" stroke-width="2"/>
+      <text class="side-text" x="104" y="10">Answer PR</text><text class="side-text" x="104" y="32">review</text>
+    </g>
+    <line class="divider" x1="12" y1="488" x2="248" y2="488"/>
+    <g transform="translate(16 514)">
+      <rect x="0" y="0" width="26" height="30" rx="4" fill="#eff6ff" stroke="#0b72cf" stroke-width="3"/>
+      <path d="M7 14 L13 21 L22 7" fill="none" stroke="#0b72cf" stroke-width="3"/>
+      <circle cx="65" cy="24" r="25" fill="#111827"/>
+      <circle cx="65" cy="22" r="14" fill="#fff"/>
+      <path d="M51 17 L49 8 L58 14 Z" fill="#fff"/><path d="M79 17 L81 8 L72 14 Z" fill="#fff"/>
+      <text class="side-text" x="104" y="10">GitHub merge</text><text class="side-text" x="104" y="32">decision</text>
+    </g>
+    <line class="divider" x1="12" y1="592" x2="248" y2="592"/>
+    <g transform="translate(16 618)">
+      <rect x="0" y="0" width="26" height="30" rx="4" fill="#eff6ff" stroke="#0b72cf" stroke-width="3"/>
+      <path d="M7 14 L13 21 L22 7" fill="none" stroke="#0b72cf" stroke-width="3"/>
+      <circle cx="64" cy="22" r="24" fill="none" stroke="#16a34a" stroke-width="4"/>
+      <path d="M50 22 L61 34 L79 10" fill="none" stroke="#16a34a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text class="side-text" x="104" y="10">Verify</text><text class="side-text" x="104" y="32">closure</text>
+    </g>
+  </g>
+
+  <g id="balance" transform="translate(30 854)">
+    <rect width="1455" height="128" rx="8" fill="#fff" stroke="#0b2c63" stroke-width="2"/>
+    <rect x="536" y="-14" width="385" height="34" fill="#fbfcff"/>
+    <text class="bottom-title" x="728" y="9">AI and Human Balance</text>
+    <g transform="translate(54 24)">
+      <circle cx="40" cy="40" r="36" fill="#eff6ff" stroke="#0b72cf" stroke-width="2"/>
+      <rect x="24" y="29" width="32" height="29" rx="6" fill="#0b72cf"/>
+      <circle cx="40" cy="16" r="7" fill="#0b72cf"/><line x1="40" y1="22" x2="40" y2="29" stroke="#0b72cf" stroke-width="5"/>
+      <circle cx="33" cy="43" r="4" fill="#fff"/><circle cx="47" cy="43" r="4" fill="#fff"/>
+      <line x1="13" y1="40" x2="24" y2="40" stroke="#0b72cf" stroke-width="5"/><line x1="56" y1="40" x2="67" y2="40" stroke="#0b72cf" stroke-width="5"/>
+      <text class="bottom-bold" x="95" y="37" fill="#08245c">AI:</text>
+      <text class="bottom-body" x="140" y="37">prepares, implements,</text>
+      <text class="bottom-body" x="140" y="72">verifies, recommends</text>
+    </g>
+    <line x1="472" y1="26" x2="472" y2="102" stroke="#94a3b8" stroke-width="1.5"/>
+    <g transform="translate(532 24)">
+      <circle cx="40" cy="40" r="36" fill="#ecfdf5" stroke="#16a34a" stroke-width="2"/>
+      <circle cx="40" cy="27" r="11" fill="#16a34a"/>
+      <path d="M16 68 C21 48 28 42 40 42 C52 42 59 48 64 68 Z" fill="#16a34a"/>
+      <text class="bottom-bold" x="95" y="37" fill="#087334">Human:</text>
+      <text class="bottom-body" x="225" y="37">scope, cost,</text>
+      <text class="bottom-body" x="225" y="72">acceptance, merge</text>
+    </g>
+    <line x1="1010" y1="26" x2="1010" y2="102" stroke="#94a3b8" stroke-width="1.5"/>
+    <g transform="translate(1050 24)">
+      <circle cx="40" cy="40" r="36" fill="#faf5ff" stroke="#6d28d9" stroke-width="2"/>
+      <path d="M40 13 L68 26 V45 C64 63 53 74 40 80 C27 74 16 63 12 45 V26 Z" fill="#6d28d9"/>
+      <path d="M28 43 L38 54 L55 32" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text class="bottom-bold" x="95" y="37" fill="#0f172a">Closure:</text>
+      <text class="bottom-body" x="230" y="37">only after</text>
+      <text class="bottom-body" x="230" y="72">verified merge</text>
+    </g>
+  </g>
 </svg>
