@@ -4,7 +4,7 @@ tags:
   - concept/agent-workflow
 status: active
 created: 2026-05-07
-updated: 2026-05-24
+updated: 2026-06-03
 ---
 
 # Codex Development Toolchain
@@ -22,6 +22,7 @@ Agentic development fails when tool responsibility is ambiguous. DUUMBI needs a 
 - Use Codex App for mobile-supervised delivery autopilot, high-cost work, review handling, and developer-controlled implementation.
 - Use Codex Cloud for scheduled, cloud, parallel, or long-running runs only through approved dispatch contracts.
 - Use Codex CLI for local repo/vault inspection, focused edits, validation, and PR review handling.
+- Use Codex self-review as the mandatory contextual review layer before PR readiness, spec AI gates, and Stage 11 recommendations.
 - Store execution state in GitHub Project, issues, PRs, CI, and review threads.
 - Sync durable lessons into Obsidian only after verification.
 
@@ -35,4 +36,5 @@ Agentic development fails when tool responsibility is ambiguous. DUUMBI needs a 
 - [[DUUMBI Agentic Development Map]]
 - [[Spec-First Agentic Development]]
 - [[Structured Agent Review Artifacts]]
+- [[AI Code Review Service Policy]]
 - [[GitHub Project as Execution Source of Truth]]
