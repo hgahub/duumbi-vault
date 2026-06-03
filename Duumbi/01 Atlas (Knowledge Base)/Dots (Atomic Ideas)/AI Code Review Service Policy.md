@@ -41,7 +41,7 @@ stage and risk of the change.
 
 - [[DUUMBI - Agentic Development Runbook]]
 - [[Structured Agent Review Artifacts]]
-- [DUUMBI repo AI code review policy](https://github.com/hgahub/duumbi/blob/main/docs/automation/code-review-policy.md)
+- [DUUMBI repo AI code review policy](https://github.com/hgahub/duumbi/blob/codex/ai-review-policy/docs/automation/code-review-policy.md)
 - [Greptile .greptile configuration](https://www.greptile.com/docs/code-review/greptile-config)
 - [Greptile controlling nitpickiness](https://www.greptile.com/docs/code-review/controlling-nitpickiness)
 
