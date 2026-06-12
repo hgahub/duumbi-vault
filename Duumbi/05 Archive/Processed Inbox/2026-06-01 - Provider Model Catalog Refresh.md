@@ -245,3 +245,13 @@ Create a GitHub Discussion or architecture issue first, then split into implemen
 - Assumptions:
   - Cleanup disposition is applied because the issue already exists and the source Inbox note was left behind by the missing automation step.
 - Next stage: Needs Human Acceptance
+
+## Closure disposition
+- Date: 2026-06-08
+- Outcome: Completed via merged implementation PR.
+- GitHub issue: https://github.com/hgahub/duumbi/issues/675
+- Product spec: https://github.com/hgahub/duumbi/pull/679
+- Technical spec: https://github.com/hgahub/duumbi/pull/683
+- Implementation PR: https://github.com/hgahub/duumbi/pull/685
+- Merge commit: `3662802cceec481ae2bbf42a293c4abad1a195f3`
+- Disposition: Source Inbox item remains processed/archived; no untriaged work remains for this feature request.
