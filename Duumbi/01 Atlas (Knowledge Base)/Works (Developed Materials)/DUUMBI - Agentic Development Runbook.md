@@ -5,30 +5,84 @@ tags:
   - doc/runbook
 status: active
 created: 2026-05-13
-updated: 2026-06-03
+updated: 2026-06-13
 related_maps:
   - "[[DUUMBI Agentic Development Map]]"
-related_works:
-  - "[[DUUMBI - Development Intake to Delivery Workflow]]"
 ---
 
 # DUUMBI - Agentic Development Runbook
 
 ## Summary
 
-This runbook is the canonical operating guide for the redesigned DUUMBI intake-to-delivery workflow. It keeps the 12-stage DUUMBI model, but adds deterministic orchestration around intake, Inbox enrichment, triage queue refill, AI-assisted spec gates, Delivery Autopilot, resource-gated Ralph cycles, human GitHub implementation merge, and post-merge closure.
+This runbook is the canonical operating guide for the redesigned DUUMBI intake-to-delivery workflow. It keeps the 12-stage DUUMBI model, but adds deterministic orchestration around intake, Inbox enrichment, triage queue refill, combined spec drafting with AI gates, Delivery Autopilot, cost-gated Ralph cycles, human GitHub implementation merge, and post-merge closure.
 
-GitHub remains the execution source of truth. Obsidian stores raw intake and durable knowledge. Slack is the fast human surface for capture, clarification, notification, and approval. GitHub Actions coordinate scheduled checks and deterministic dispatches, but they do not call model APIs directly. AI execution should run in Codex Cloud, Codex App, Codex CLI, or a reviewed local agent environment.
+GitHub remains the execution source of truth. Obsidian stores raw intake and durable knowledge. Slack is the fast human surface for capture, clarification, notification, and approval. GitHub Actions coordinate scheduled checks and deterministic dispatches, but they do not call model APIs directly. AI execution should run in Codex App by default — its subscription covers Codex usage, so heavy spec and implementation work belongs there — with Codex Cloud, Codex CLI, or a reviewed local agent environment as alternatives.
 
-[[DUUMBI - Development Intake to Delivery Workflow]] is retained as a deprecated historical reference while useful detail is folded into this runbook and checked-in DUUMBI skills. Do not treat the older workflow document as current operating guidance.
+The earlier `DUUMBI - Development Intake to Delivery Workflow` document has been deleted; its useful content was folded into this runbook and the checked-in DUUMBI skills.
 
 ## Visual Guide
 
 ![[DUUMBI - Developer Ticket Flow Overview.svg]]
 
+### End-To-End Flow
+
+```mermaid
+flowchart TD
+  S["Slack idea channel"] --> K["Stage 1 duumbi-obsidian-capture"]
+  C["Codex intake"] --> K2["Stage 2 duumbi-codex-intake"]
+  I["Manual Obsidian Inbox note"] --> E["Stage 3b duumbi-inbox-enrichment"]
+  K --> N["Inbox note in 00 Inbox (ToProcess)"]
+  K2 --> N
+  E --> N
+
+  N --> T["Stage 4 duumbi-triage / triage-queue-refill"]
+  GI["GitHub Issues / Ideas Discussions"] --> T
+  T --> HA["Needs Human Acceptance"]
+
+  HA --> HR{"Stage 5 human decision in Slack"}
+  HR -- "Accept" --> P["User pastes combined-spec prompt into Codex App"]
+  HR -- "Clarify / Duplicate / Defer / Reject" --> X["Routed out"]
+
+  P --> SP["Codex drafts PRODUCT + TECHNICAL spec together (no review wait)"]
+  SP --> G{"Stage 7 + 9 AI gates clean?"}
+  G -- "No" --> HQ["Stop with findings / human review"]
+  G -- "Yes" --> RB["Merge spec PR(s), Ready for Build"]
+  RB --> SL["Slack: implementation prompt"]
+
+  SL --> IM["User starts implementation in Codex App"]
+  IM --> RC["Ralph cycles, no iteration cap"]
+  RC --> RG{"Next cycle external LLM cost > USD 1?"}
+  RG -- "Yes" --> CA["Cycle Authorization: human approval"]
+  CA --> RC
+  RG -- "No" --> RC2{"Completion criteria met?"}
+  RC2 -- "No" --> RC
+  RC2 -- "Yes" --> PR["Implementation PR + @chatgpt-codex-connector review"]
+
+  PR --> HRISK{"High-risk codebase change?"}
+  HRISK -- "Yes" --> GR["Signal on Slack + issue; user triggers Greptile manually"]
+  HRISK -- "No" --> RA
+  GR --> RA["User runs duumbi-review-artifact prompt"]
+  RA --> MD{"Human merge decision in GitHub"}
+  MD -- "Merge" --> CL["Stage 12 duumbi-closure (DeepSeek)"]
+  MD -- "Request changes" --> RC
+  CL --> KS["Durable knowledge sync when warranted"]
+```
+
 ## Current Architecture In One Sentence
 
-Slack, Codex, Obsidian Inbox, GitHub Issues, and GitHub Discussions feed a single GitHub-backed execution workflow; spec PRs may pass bounded AI gates when Codex self-review and Copilot evidence are clean, Greptile remains a manual high-risk escalation, and implementation merge is performed by a human reviewer directly in GitHub after Stage 11 evidence.
+Slack, Codex, Obsidian Inbox, GitHub Issues, and GitHub Discussions feed a single GitHub-backed execution workflow; product and technical specs are drafted together and pass bounded AI gates on clean Codex self-review, the final implementation PR is reviewed by Codex (`@chatgpt-codex-connector`) with Greptile as a manual end-of-flow deep-review escalation, and implementation merge is performed by a human reviewer directly in GitHub after Stage 11 evidence.
+
+## Developer Journey
+
+The human path through one issue, end to end:
+
+1. **Human Acceptance happens in Slack.** The developer decides `Accept` on the Slack approval card; the workflow records the Stage 5 decision and replies with the generated combined-spec prompt text.
+2. **The developer pastes the prompt into Codex App.** Codex drafts the product spec and the technical spec together, without waiting for review between them, runs Codex self-review and the Stage 7/9 AI gates, merges the spec-only PR(s), and moves the issue to `Ready for Build`.
+3. **Codex messages on Slack with the implementation prompt** (`ready-for-build-handoff.yml`).
+4. **The developer starts implementation in Codex App.** Codex runs Ralph cycles to completion — stopping only at the USD 1 external-LLM cost gate, a blocker, or a scope change — then opens the implementation PR and requests review from `@chatgpt-codex-connector`.
+5. **If the change is high-risk codebase work**, Codex signals on Slack and in the issue that a Greptile deep review is recommended; the developer triggers Greptile manually on the final PR.
+6. **After the reviews arrive, the developer runs the `duumbi-review-artifact` prompt** received on Slack and in the issue after the PR was opened.
+7. **If the PR is acceptable, the developer merges it in GitHub.** The merge triggers `stage12-closure-dispatch.yml`, and the closure skill runs using DeepSeek as its LLM.
 
 ## Source Of Truth
 
@@ -52,8 +106,10 @@ Slack, Codex, Obsidian Inbox, GitHub Issues, and GitHub Discussions feed a singl
 - GitHub is the durable execution record. Slack and Codex chats are control surfaces unless their outcomes are written back to GitHub or Obsidian.
 - Read-only context gathering comes before mutation. Agents inspect active Inbox, Processed Inbox, Atlas notes, GitHub Issues, GitHub Discussions, existing PRs, and relevant source before creating new work.
 - Agents may prepare, deduplicate, summarize, recommend, draft, review, and implement inside approved boundaries. They must not invent human acceptance, broaden scope, or bypass gates.
-- Stage 7 and Stage 9 may use bounded AI gate approval only when Codex self-review and Copilot review evidence are clean, checks are green or inapplicable, and the spec-only PR remains inside accepted issue scope.
-- Greptile is manual-only and quota-limited. Do not run it automatically, include it in required reviewer variables, or re-run it after every push. Use it only when the developer explicitly requests high-risk deep review.
+- Product and technical specs are drafted together in one pass. The flow does not wait for external review between them; it proceeds to `Ready for Build` and sends the implementation prompt as soon as the gates allow.
+- Stage 7 and Stage 9 may use bounded AI gate approval only when Codex self-review is clean, checks are green or inapplicable, and the spec-only PR remains inside accepted issue scope. Spec PRs have no required external automated reviewer.
+- Codex review via `@chatgpt-codex-connector` is the required automated review on the final implementation PR. On any other PR, a quick low-cost review (MiniMax, DeepSeek Pro, Grok Build, Cursor BugBot) may be suggested; it is advisory only.
+- Greptile is manual-only, quota-limited, and reserved for the final implementation PR when deep detailed review of codebase changes is justified. Do not run it automatically, include it in required reviewer variables, or re-run it after every push.
 - Implementation merge is not an AI gate. After Stage 11 evidence, the human reviewer uses the GitHub PR UI to merge, request changes, ask clarification, or abandon the PR.
 - Every scheduled or Slack-triggered workflow must fail closed when required GitHub Project, Slack, or evidence context is unavailable.
 - Workflow metrics are metadata-only. Do not store raw Slack bodies, prompt text, issue bodies, model completions, provider payloads, credentials, or capability URLs.
@@ -69,7 +125,7 @@ Slack, Codex, Obsidian Inbox, GitHub Issues, and GitHub Discussions feed a singl
 | Slack idea route | Dedicated `#duumbi-ideas` channel or Slack shortcut routes to Stage 1 intake | Slack app interactivity and shortcut settings |
 | Slack bridge | `func-duumbi-slack-bridge` points to `/api/slack-approval` and verifies Slack signatures | Azure Function App and Slack Request URL |
 | Workflow labels | Required labels such as `needs-cycle-approval` and `needs-review` exist before agents use label routing | `hgahub/duumbi` labels |
-| AI review configuration | Copilot review workflow is active; `DUUMBI_REQUIRED_SPEC_REVIEWERS` contains only low-cost default reviewers; Greptile has automatic review disabled and `.greptile/config.json` sets `skipReview: "AUTOMATIC"` | GitHub repo variables, Greptile dashboard, source repo `.greptile/` |
+| AI review configuration | `DUUMBI_REQUIRED_SPEC_REVIEWERS` is empty (no required automated reviewer on spec PRs); `@chatgpt-codex-connector` is available for final implementation PR review; Greptile has automatic review disabled and `.greptile/config.json` sets `skipReview: "AUTOMATIC"` | GitHub repo variables, Greptile dashboard, source repo `.greptile/` |
 | Active workflow context | PRD, Glossary, Agentic Development Map, and this runbook are available | `duumbi-vault` |
 | Source repo instructions | Repository `AGENTS.md` is available before source changes | target source repo, usually `duumbi` |
 | Spec artifacts | Product and technical specs are linked before implementation | GitHub issue and spec PRs |
@@ -149,66 +205,62 @@ Failure policy is fail-closed. If `GH_PROJECT_PAT`, `DUUMBI_PROJECT_NUMBER`, Pro
 
 Autopilot sequence:
 
-1. Draft PRODUCT spec and open a spec-only PR.
-2. Run Codex self-review and wait for Copilot review evidence.
-3. Run Codex product-spec review for the Stage 7 gate.
-4. If clean, write Stage 7 AI Gate Decision, merge the spec-only PR, and route to Stage 8.
-5. Draft TECHNICAL spec and open a spec-only PR.
-6. Run Codex self-review and wait for Copilot review evidence.
-7. Run Codex implementability review for the Stage 9 gate.
-8. If clean, write Stage 9 AI Gate Decision, merge the technical spec PR, and route to Stage 10.
-9. Enter Stage 10 Ralph-cycle implementation without bypassing resource gates.
+1. Draft PRODUCT spec, then immediately draft TECHNICAL spec — together, in one pass, without waiting for external review between them. Open the spec-only PR(s).
+2. Run Codex self-review on both spec artifacts.
+3. Run Codex product-spec review for the Stage 7 gate and implementability review for the Stage 9 gate.
+4. If clean, write the Stage 7 and Stage 9 AI Gate Decisions, merge the spec-only PR(s), move the issue to `Ready for Build`, and send the Stage 10 implementation prompt.
+5. Enter Stage 10 Ralph-cycle implementation without bypassing resource gates.
 
 AI gates may proceed only when all of these are true:
 
 - Codex self-review has no blocking finding.
-- Copilot review evidence exists for file-based spec PRs.
 - CI/checks are passing, neutral, skipped, or explicitly not applicable.
 - The PR is spec-only.
 - There are no open scope, product, architecture, security, migration, cost, or verification questions.
 - The PR stays inside the accepted issue scope.
-- Greptile is not required for spec-only PRs unless a human explicitly requested a manual deep review.
+- Greptile is never used on spec-only PRs; it is reserved for the final implementation PR.
 
 ## AI Code Review Policy
 
-DUUMBI uses layered review instead of asking every connected AI reviewer to run on every PR.
+DUUMBI uses layered review concentrated on the final implementation PR instead of asking every connected AI reviewer to run on every PR. Copilot review was removed after the subscription was cancelled.
 
 | Review service | Default use | Best fit |
 |---|---|---|
 | Codex self-review | Required before stage readiness, AI-gate approval, and Stage 11 merge-readiness recommendation | Spec alignment, BDD/evidence mapping, diff review with local context and checks |
-| Copilot review | Default automated PR reviewer and required evidence for file-based spec gates | Broad PR sanity review across specs, docs, config, and implementation |
-| CodeRabbit | Advisory when already active | Line-level maintainability, test coverage, and general code-quality comments on implementation PRs |
-| Greptile | Manual-only scarce deep review | Stable high-risk implementation PRs: complex Rust, compiler/runtime, graph invariants, provider/auth, async/concurrency, security, cross-module refactors |
+| Codex review (`@chatgpt-codex-connector`) | Required automated reviewer on the final implementation PR | Full implementation review against specs before the human merge decision |
+| Quick low-cost reviewers (MiniMax, DeepSeek Pro, Grok Build, Cursor BugBot) | Optional advisory suggestion on any non-final PR | Fast, cheap second opinion on spec, docs, config, or in-progress implementation PRs |
+| Greptile | Manual-only scarce deep review, **final implementation PR only** | High-risk codebase changes where deep detailed review is justified: complex Rust, compiler/runtime, graph invariants, provider/auth, async/concurrency, security, cross-module refactors |
 
-Greptile should normally run at most once per qualifying PR, after Codex self-review and relevant checks. Re-run it only when the developer explicitly authorizes a follow-up for blocking feedback. If Greptile is not used, Stage 10 or Stage 11 evidence should say `Greptile: not needed` or `Greptile: recommended for human decision` instead of silently triggering it.
+Greptile runs at most once per qualifying final implementation PR, after Codex review and relevant checks, and only after the agent signals the recommendation on Slack and in the issue and the developer triggers it manually. Re-run it only when the developer explicitly authorizes a follow-up for blocking feedback. If Greptile is not used, Stage 10 or Stage 11 evidence should say `Greptile: not needed` or `Greptile: recommended for human decision` instead of silently triggering it.
 
 ## Ralph Cycle Resource Gate
 
-A Ralph Cycle is a bounded implementation-and-evidence unit. Low-budget cycles may continue autonomously inside the approved technical spec and autonomous batch cap. Human authorization is required before continuing when any of these are true:
+A Ralph Cycle is a bounded implementation-and-evidence unit. Cycles continue autonomously inside the approved technical spec — there is no iteration cap and no call-count cap, so the run must not stop just because two or three cycles have already completed. Human authorization is required before continuing only when any of these are true:
 
-- estimated external LLM cost exceeds USD 2
-- expected external LLM calls exceed 10
+- the next cycle will use an external LLM and its expected cost exceeds USD 1
 - scope expands beyond the approved issue or technical spec
 - risky dependency, migration, security-sensitive behavior, irreversible operation, or broad refactor is introduced
 - a blocker or product/architecture decision is encountered
 - checks fail in a way the agent cannot resolve within approved scope
 
+External LLM usage means DUUMBI live provider calls and external model/agent CLI calls. Codex internal reasoning is covered by the Codex App subscription and never triggers the gate.
+
 Stage 10 approval authorizes only the named next cycle. It is not permission to merge, close, skip checks, broaden scope, or continue past the approved boundary.
 
 ## Stage 11 Review And Human PR Decision
 
-`duumbi-review-artifact` remains the Stage 11 evidence-producing skill. It reviews one implementation PR against the approved product spec, technical spec, CI/checks, changed files, Codex self-review, Copilot review state, optional CodeRabbit comments, Greptile status when applicable, and Ralph-cycle evidence. It recommends a human merge decision but does not merge.
+`duumbi-review-artifact` remains the Stage 11 evidence-producing skill. The developer runs it after the implementation PR's reviews have arrived, using the prompt received on Slack and in the issue. It reviews one implementation PR against the approved product spec, technical spec, CI/checks, changed files, Codex self-review, the `@chatgpt-codex-connector` review, optional quick low-cost review comments, Greptile status when applicable, and Ralph-cycle evidence. It recommends a human merge decision but does not merge.
 
 The human reviewer then opens the PR in GitHub and performs the decision directly:
 
 | Decision | Required behavior |
 |---|---|
-| `Approve Merge` | Requires explicit human authorization, open non-draft PR, Stage 11 artifact, linked product and technical specs, green checks, Codex self-review, clean or handled Copilot review, Greptile status recorded when the PR is high risk, and no blocking finding. The human reviewer merges in GitHub. |
+| `Approve Merge` | Requires explicit human authorization, open non-draft PR, Stage 11 artifact, linked product and technical specs, green checks, Codex self-review, clean or handled Codex (`@chatgpt-codex-connector`) review, Greptile status recorded when the PR is high risk, and no blocking finding. The human reviewer merges in GitHub. |
 | `Request Changes` | The reviewer requests changes on the PR or issue; work returns to Stage 10 `In Progress`. |
 | `Needs Clarification` | The reviewer asks targeted questions on the PR or issue; no merge occurs, and status becomes `Needs Clarification` or `Blocked` when appropriate. |
 | `Reject / Abandon` | Requires explicit human rationale. The reviewer closes the implementation PR or routes the issue to `Technical Spec Needed`, `Deferred`, or `Closed` as appropriate. |
 
-`stage12-closure-dispatch.yml` runs automatically when the PR is merged and sends the Stage 12 `duumbi-closure` handoff. Stage 12 closure may run only after verified merge or equivalent completion evidence.
+`stage12-closure-dispatch.yml` runs automatically when the PR is merged and sends the Stage 12 `duumbi-closure` handoff. Stage 12 closure may run only after verified merge or equivalent completion evidence, and uses DeepSeek for any model-backed closure work.
 
 ## Workflow Privacy And Metrics
 
@@ -297,12 +349,30 @@ For non-acceptance decisions, replace `Accept` with `Needs Clarification`, `Dupl
 Run DUUMBI delivery autopilot with duumbi-delivery-autopilot.
 
 Target issue: <Spec Needed GitHub issue URL>
-Goal: Draft and gate the product spec, draft and gate the technical spec, merge clean spec-only PRs when Stage 7 and Stage 9 AI gates pass, then enter Stage 10 Ralph-cycle implementation without bypassing resource gates.
+Goal: Draft the product spec and the technical spec together without waiting for external review between them, run the Stage 7 and Stage 9 AI gates, merge clean spec-only PRs, move the issue to Ready for Build, send the Stage 10 implementation prompt, then enter Stage 10 Ralph-cycle implementation without bypassing resource gates.
 
-Stop for human approval when a Ralph resource gate triggers, scope expands, risky dependency/migration/security work appears, checks expose a blocker, or a product/architecture decision is needed.
+Stop for human approval only when a Ralph resource gate triggers (expected external LLM cost above USD 1), scope expands, risky dependency/migration/security work appears, checks expose a blocker, or a product/architecture decision is needed.
 ```
 
-### Stage 6 - Product Spec Draft
+### Combined Spec Draft From Spec Needed (Stage 6 + Stage 8)
+
+This is the default spec prompt the developer pastes into Codex App after Stage 5 acceptance on Slack.
+
+```text
+Run DUUMBI combined spec drafting with duumbi-spec-draft and duumbi-tech-spec-draft.
+
+Target issue: <GitHub issue URL>
+Expected artifacts: specs/DUUMBI-<issue-number>/PRODUCT.md and specs/DUUMBI-<issue-number>/TECHNICAL.md in <target source repo>
+
+Goal: Verify Stage 5 acceptance, inspect active DUUMBI context and relevant source context, draft the product spec in English with BDD Scenarios, then immediately draft the agent-facing technical spec with BDD-to-test mapping, live E2E plan, and Ralph Cycle resource policy. Do not wait for external review between the two specs. Run Codex self-review on both, record the Stage 7 and Stage 9 gate decisions when clean, merge the spec-only PR(s), move the issue to Ready for Build, and send the Stage 10 implementation prompt.
+
+Spec-only PR rule: do not use GitHub auto-close keywords such as "Closes", "Fixes", or "Resolves" for the execution issue. Use "Related to #<issue>" or "Spec for #<issue>" instead.
+
+Do not create implementation code or Ralph cycles.
+Do not invoke Greptile; it is reserved for the final implementation PR.
+```
+
+### Stage 6 - Product Spec Draft (standalone)
 
 ```text
 Run DUUMBI Stage 6 Product Spec Draft with duumbi-spec-draft.
@@ -310,12 +380,12 @@ Run DUUMBI Stage 6 Product Spec Draft with duumbi-spec-draft.
 Target issue: <GitHub issue URL>
 Expected artifact: specs/DUUMBI-<issue-number>/PRODUCT.md in <target source repo>, unless the skill determines that an issue-comment spec is sufficient.
 
-Goal: Verify Stage 5 acceptance, inspect active DUUMBI context and relevant source context, draft the product spec in English with BDD Scenarios, open a draft spec PR if file-based, run Codex self-review, wait for Copilot review evidence when file-based, address blocking findings, link it from the issue, and move the issue to Spec Review only after the artifact is review-clean.
+Goal: Verify Stage 5 acceptance, inspect active DUUMBI context and relevant source context, draft the product spec in English with BDD Scenarios, open a draft spec PR if file-based, run Codex self-review, address blocking findings, link it from the issue, and move the issue to Spec Review only after the artifact is review-clean. A quick low-cost review (MiniMax, DeepSeek Pro, Grok Build, Cursor BugBot) may be suggested on the PR; do not wait for it.
 
 Spec-only PR rule: do not use GitHub auto-close keywords such as "Closes", "Fixes", or "Resolves" for the execution issue. Use "Related to #<issue>" or "Spec for #<issue>" instead.
 
-Do not create technical specs, implementation code, or Ralph cycles.
-Do not invoke Greptile unless the developer explicitly requests a manual deep review.
+Do not create implementation code or Ralph cycles.
+Do not invoke Greptile; it is reserved for the final implementation PR.
 ```
 
 ### Stage 7 - Product Spec Review Or AI Gate
@@ -326,7 +396,7 @@ Run DUUMBI Stage 7 Product Spec Review with duumbi-spec-review.
 Target issue: <GitHub issue URL>
 Product spec artifact: <PRODUCT.md PR URL or issue comment link>
 Decision mode: <human-review | ai-gate>
-Reviewer source: <Codex | Copilot | Slack | GitHub | other>
+Reviewer source: <Codex | Slack | GitHub | other>
 Rationale: <review rationale and blocking findings, if any>
 
 Goal: Review the product spec including BDD clarity, scope, product behavior, and testability. If approved, record Stage 7 decision and route to Technical Spec Needed.
@@ -334,7 +404,7 @@ Goal: Review the product spec including BDD clarity, scope, product behavior, an
 Do not create a technical spec or implementation changes.
 ```
 
-### Stage 8 - Technical Spec Draft
+### Stage 8 - Technical Spec Draft (standalone)
 
 ```text
 Run DUUMBI Stage 8 Technical Spec Draft with duumbi-tech-spec-draft.
@@ -343,10 +413,10 @@ Target issue: <GitHub issue URL>
 Product spec artifact: <PRODUCT.md PR URL or path>
 Expected artifact: specs/DUUMBI-<issue-number>/TECHNICAL.md in <target source repo>
 
-Goal: Verify product spec approval, inspect repo AGENTS.md and affected source areas, draft an agent-facing technical spec with BDD-to-test mapping, live E2E plan, and Ralph Cycle resource policy, open a draft PR, run Codex self-review, wait for Copilot review evidence, address blocking findings, link it from the issue, and move the issue to Technical Spec Review only after the artifact is review-clean.
+Goal: Verify product spec approval, inspect repo AGENTS.md and affected source areas, draft an agent-facing technical spec with BDD-to-test mapping, live E2E plan, and Ralph Cycle resource policy, open a draft PR, run Codex self-review, address blocking findings, link it from the issue, and move the issue to Technical Spec Review only after the artifact is review-clean. A quick low-cost review may be suggested on the PR; do not wait for it.
 
 Do not modify implementation code, tests, generated artifacts, runtime assets, or product specs.
-Do not invoke Greptile unless the developer explicitly requests a manual deep review.
+Do not invoke Greptile; it is reserved for the final implementation PR.
 ```
 
 ### Stage 9 - Technical Spec Review Or AI Gate
@@ -358,7 +428,7 @@ Target issue: <GitHub issue URL>
 Technical spec artifact: <TECHNICAL.md PR URL or path>
 Product spec artifact: <PRODUCT.md PR URL or path>
 Decision mode: <human-review | ai-gate>
-Reviewer source: <Codex | Copilot | Slack | GitHub | other>
+Reviewer source: <Codex | Slack | GitHub | other>
 Rationale: <review rationale and blocking findings, if any>
 
 Goal: Review implementability, BDD-to-test mapping, live E2E feasibility, risk, and Ralph Cycle resource policy. If approved, record Stage 9 decision and route to Ready for Build.
@@ -374,7 +444,7 @@ Run DUUMBI Stage 10 Ralph Cycle with duumbi-ralph-cycle.
 Target issue: <GitHub issue URL>
 Mode: execute resource-permitted Ralph cycles
 
-Goal: Implement only the approved technical spec scope, gather evidence, and stop at completion, blocker, threshold breach, scope change, risky dependency/migration/security change, or autonomous batch cap.
+Goal: Implement only the approved technical spec scope, gather evidence, and stop only at completion, blocker, expected external LLM cost above USD 1, scope change, or risky dependency/migration/security change. There is no iteration cap; do not stop after a fixed number of cycles. When complete, open the implementation PR and request review from @chatgpt-codex-connector.
 ```
 
 When a resource gate triggers, prefer the deterministic Stage 10 authorization workflow. Fallback approval comment:
@@ -388,7 +458,7 @@ Scope approved:
 - Execute the proposed Ralph Cycle <N> only.
 - Stay within <issue number and title> scope.
 - Do not expand into related issues or documentation consolidation unless explicitly listed in the approved cycle.
-- Stop after the planned checks and evidence report, unless the technical spec explicitly permits a low-budget autonomous batch.
+- After the planned checks and evidence report, continue with further cycles while they stay below the USD 1 external-LLM gate and inside scope.
 
 Reviewer source: GitHub
 ```
@@ -403,16 +473,18 @@ Linked issue: <GitHub issue URL>
 Product spec: <PRODUCT.md artifact>
 Technical spec: <TECHNICAL.md artifact>
 
-Goal: Review the PR against the approved product spec, technical spec, CI/checks, changed files, Codex self-review, Copilot review state, optional CodeRabbit comments, Greptile status when applicable, and Ralph cycle evidence. Write a structured review artifact and recommend whether it is ready for a human merge decision.
+Goal: Review the PR against the approved product spec, technical spec, CI/checks, changed files, Codex self-review, the @chatgpt-codex-connector review, optional quick low-cost review comments, Greptile status when applicable, and Ralph cycle evidence. Write a structured review artifact and recommend whether it is ready for a human merge decision.
 
 Do not merge, close the issue, move the Project item to Done, perform closure, or edit implementation code.
-Do not invoke Greptile unless the PR is a stable high-risk implementation change and the developer explicitly requested manual deep review.
+Do not invoke Greptile; if the PR meets the high-risk criteria, signal the recommendation on Slack and in the issue for the developer to trigger manually.
 ```
 
 ### Stage 12 - Closure
 
 ```text
 Run DUUMBI Stage 12 Closure with duumbi-closure.
+
+LLM provider: use DeepSeek for any model-backed closure work.
 
 Merged PR or completion evidence: <merged PR URL>
 Linked issue: <GitHub issue URL>
@@ -458,21 +530,22 @@ Agents may recommend decisions, but they must not invent human acceptance or imp
 - Do not forward Slack `response_url` or raw Slack text through GitHub `repository_dispatch`.
 - Do not store raw prompts or Slack bodies in workflow summaries or artifacts.
 - Do not use `Closes`, `Fixes`, or `Resolves` in Stage 6 or Stage 8 spec-only PRs.
-- Do not move from `Spec Review` to implementation. Stage 7 approval must be followed by Stage 8 and Stage 9.
+- Do not move from `Spec Review` to implementation without the Stage 7 and Stage 9 gate decisions; combined drafting removes the review wait, not the gates.
+- Do not wait for external automated reviewers on spec PRs; there is no required automated reviewer below the final implementation PR.
 - Do not treat a clean Stage 7 or Stage 9 AI gate as permission to merge implementation code.
 - Do not treat issue acceptance as permission to exceed the Ralph Cycle resource gate.
-- Do not run unbounded Ralph cycles.
+- Do not stop Ralph cycles after a fixed number of iterations; the only resource stop is expected external LLM cost above USD 1 (plus blockers and scope changes).
 - Do not route Stage 10 resource decisions through Stage 5, Stage 7, or Stage 9 approval semantics.
 - Do not treat Stage 11 Slack handoff notification as review completion.
 - Do not merge implementation PRs without Stage 11 review evidence and explicit human reviewer action in GitHub.
 - Do not use removed Stage 11 merge-decision automation; the developer handles PR disposition directly.
+- Do not request Copilot review; the subscription was cancelled and the reviewer no longer responds.
 - Do not include Greptile in `DUUMBI_REQUIRED_SPEC_REVIEWERS` or treat missing Greptile as a failed default gate.
-- Do not invoke or re-run Greptile automatically on every commit. It is manual-only and reserved for scarce high-risk review.
+- Do not invoke Greptile on spec, docs, or intermediate PRs, and do not re-run it automatically. It is manual-only, reserved for the final implementation PR.
 - Do not sync every PR summary into Obsidian. Sync only reusable durable knowledge.
 
 ## Sources
 
-- [[DUUMBI - Development Intake to Delivery Workflow]] (deprecated historical reference)
 - [[DUUMBI Agentic Development Map]]
 - [[Codex Development Toolchain]]
 - [[Agent Skills as Operational Playbooks]]

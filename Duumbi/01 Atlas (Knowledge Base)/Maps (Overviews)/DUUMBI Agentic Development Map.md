@@ -38,7 +38,6 @@ This is the hub for DUUMBI's agentic development operating model. It follows the
 
 - [[DUUMBI - Service and Research Direction]]
 - [[DUUMBI - Agentic Development Runbook]]
-- [[DUUMBI - Development Intake to Delivery Workflow]] -- deprecated historical reference
 - [[Spec-First Agentic Development]]
 - [[Structured Agent Review Artifacts]]
 - [[AI Code Review Service Policy]]
