@@ -33,7 +33,7 @@ This map is the umbrella document for DUUMBI development from the first public r
 | Development loop service | `hgahub/duumbi-loop` | Repo exists but is code-empty; only the plan `wiki/duumbi-loop-codex-task.md`. Plan is GitHub/GitLab-centric and must be adapted to the DUUMBI-native, git-free workflow. |
 | Knowledge base | `hgahub/duumbi-vault` | This vault. Roadmap/PRD/research direction maintained here. |
 
-**Open issues in `hgahub/duumbi` driving the near term:** #687 (v0.4.0-preview release), #688 (flagship example), #686 (docs reconciliation), #689 (multi-module intent eval), #684 (semantic rewrite engine), #682 (MCP telemetry analytics), #673 (BDD artifacts), #382 (ecosystem E2E smoke tests).
+**Open issues in `hgahub/duumbi` driving the near term:** #687 (v0.4.0-preview release), #688 (flagship example), #686 (docs reconciliation), #689 (multi-module intent eval), #684 (semantic rewrite engine), #682 (MCP telemetry analytics), #673 (BDD artifacts).
 
 ---
 

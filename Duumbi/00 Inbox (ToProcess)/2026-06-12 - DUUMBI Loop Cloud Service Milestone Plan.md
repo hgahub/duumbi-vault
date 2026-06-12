@@ -9,7 +9,7 @@ tags:
 created: 2026-06-12
 milestone: M6
 target_window: H2 2027
-source: "/Users/heizergabor/space/hgahub/duumbi-loop/wiki/duumbi-loop-codex-task.md"
+source: "[[duumbi-loop-codex-task]]"
 depends_on:
   - M2
   - M3
@@ -175,6 +175,19 @@ The current `duumbi-infra` checkout has no README. The actual stack facts are:
 
 M6 infra should follow the existing Pulumi split, but the Loop database should be Neon during introduction. Azure should remain DNS/hosting/secrets/observability unless a later paid-infra decision overrides this.
 
+## 2026-06-12 addendum: pricing, processes, UI/UX, operator monitoring
+
+A part-2 supplement ([[duumbi-loop-codex-task-part2]]) closes the commercial and product-process gaps in the original task. Where the two documents conflict, part 2 wins. Key additions:
+
+- **Pricing model:** seat + credit hybrid. Paid seats = owner/admin/developer/reviewer; viewer and billing_admin are free. 1 credit = $0.10 internal LLM budget; per-run charge = max(per-workflow minimum, actual cost). Plans: Free ($0, 50 credits, 2 repos), Team ($19/seat, 150 credits/seat pooled), Business ($39/seat, 400 credits/seat, regional policy, audit export, candidate-only knowledge), Enterprise (custom). Overage $12/100 credits. BYOK runs charge 25% orchestration fee. 14-day Business trial without card. Credit calibration must be re-validated against measured staging COGS before launch.
+- **Billing lifecycle:** in-app cancellation with exit survey and end-of-period downgrade; dunning via Stripe Smart Retries with run-blocking after 7 days past_due; over-limit data handling after downgrade (nothing deleted, excess repos disabled, dormant cleanup with T-30/7/1 warnings); org data export job; org and account (GDPR) deletion flows; Stripe Tax for EU VAT.
+- **Registration/onboarding:** signup → org wizard → provider → repos → activation checklist; identity linking rules; the previously missing **invitations** table/API/flow; free-tier abuse protections (velocity rules, 1 free org per user).
+- **Settings IA:** full `/o/:org/settings/*` tree (general/members/billing/usage/model-policy/retention/notifications/api-tokens/audit-log) plus account-level pages (profile/identities/sessions/tokens/danger).
+- **UI/UX specs** for Code Providers lifecycle (connect/reconnect/revoke/delete), Repository index pipeline and per-repo settings, the Analytics page (previously a nav item with no content), run detail per workflow type with cancel/re-run semantics, the Questions flow, and the Knowledge base UI with a candidate-approval queue.
+- **Operator monitoring:** staff-gated `/staff/*` area (orgs/users/billing/abuse/ops, entitlement overrides, audited read-only impersonation), PostHog EU (app) + Plausible (marketing), `org_daily_usage` rollups, KPI definitions (activation, W4 retention, MRR, NRR, per-org gross margin), weekly operator digest, margin/abuse alerts.
+- **Notifications:** Resend as default email provider (EU residency to verify in discovery), template inventory, event × channel × role notification matrix.
+- **Base-doc fixes:** `needs_action` added to the run state machine; model catalog pricing must come from a curated price table because provider list APIs (except xAI) return no pricing.
+
 ## Acceptance criteria
 
 - The original `duumbi-loop` task is rewritten or superseded without MVP language.
@@ -189,6 +202,7 @@ M6 infra should follow the existing Pulumi split, but the Loop database should b
 
 ## Links
 
+- [[duumbi-loop-codex-task-part2]]
 - [[DUUMBI Future Development Roadmap Map]]
 - [[2026-06-12 - DUUMBI Loop Native Workflow Adaptation]]
 - [[2026-06-12 - Cloud App and DUUMBI Account SSO]]
