@@ -221,3 +221,16 @@ GitHub issue
 - Define a privacy contract before exposing raw event logs.
 - Keep routing changes out of V1; use the analytics as evidence for human/provider-catalog decisions first.
 - Route to a dedicated GitHub issue separate from #675 to avoid scope mixing.
+
+## Closure disposition
+- Date: 2026-06-13
+- Outcome: Completed via merged implementation PR.
+- GitHub issue: https://github.com/hgahub/duumbi/issues/682
+- Product spec: https://github.com/hgahub/duumbi/pull/695
+- Technical spec: https://github.com/hgahub/duumbi/pull/697
+- Implementation PR: https://github.com/hgahub/duumbi/pull/702
+- Merge commit: `fd9d5f269493fca79f6144f08344eb2920bf1b90`
+- Stage 11 review artifact: https://github.com/hgahub/duumbi/pull/702#issuecomment-4699291241
+- Closure evidence: https://github.com/hgahub/duumbi/issues/682#issuecomment-4699334218
+- Disposition: Source Inbox item remains processed/archived; no untriaged work remains for this feature request.
+- Durable knowledge sync: not needed; the merged source docs, product spec, technical spec, and closure evidence hold the reusable record.
