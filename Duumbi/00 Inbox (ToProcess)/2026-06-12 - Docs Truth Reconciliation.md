@@ -35,7 +35,12 @@ Every public claim (install path, feature status, model ids, registry behavior) 
 
 - Following the docs verbatim on a clean machine yields a working install (this is also an M0 release gate).
 - No page references unpublished distribution channels or retired model ids.
-- Issue #686 closed.
+- Issue #686 closed. Completed by Stage 12 closure on 2026-06-14 via hgahub/duumbi#708 (merge SHA `ae3b92b19274fac588013efbdc25e28fe9820eaf`).
+
+## Stage 12 Disposition
+
+- 2026-06-14: The #686 docs reconciliation execution path is complete: product spec #706 and technical spec #707 were approved, implementation PR #708 merged, and the GitHub issue was closed as completed.
+- This note remains in `00 Inbox (ToProcess)` because it still includes broader v0.4.0-preview release-gate items outside #686, especially install-channel coordination with #687 plus status/roadmap and release-checklist follow-ups.
 
 ## Links
 

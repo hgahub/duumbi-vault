@@ -280,3 +280,16 @@ GitHub issue
 - Assumptions:
   - Cleanup disposition is applied because the issue already exists and the source Inbox note was left behind by the missing automation step.
 - Next stage: Needs Human Acceptance
+
+## Closure disposition
+- Date: 2026-06-14
+- Status: completed
+- GitHub issue: https://github.com/hgahub/duumbi/issues/673
+- Merged implementation PR: https://github.com/hgahub/duumbi/pull/703
+- Merge commit: `0855a44b0f20ce1c8603891ec57d9eb075c0f956`
+- Product spec: `/Users/heizergabor/space/hgahub/duumbi/specs/DUUMBI-673/PRODUCT.md`
+- Technical spec: `/Users/heizergabor/space/hgahub/duumbi/specs/DUUMBI-673/TECHNICAL.md`
+- Stage 11 review artifact: https://github.com/hgahub/duumbi/pull/703#issuecomment-4701828872
+- Outcome: DUUMBI now supports runtime intent BDD companion artifacts: new executable intents can save linked `.feature` files beside the intent YAML, `IntentSpec` references them through `bdd.feature_files`, review/preflight/execute/Studio surfaces recompute and show BDD readiness/coverage, explicit broken BDD artifacts block before mutation side effects, and legacy no-BDD intents remain warning-only.
+- Durable knowledge note: source repo `docs/architecture.md` was updated by the merged PR; this processed Inbox note is retained as historical source context rather than current live status.
+

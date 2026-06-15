@@ -44,3 +44,10 @@ An intent like "build a small HTTP service with persistent storage" decomposes i
 - [[DUUMBI Future Development Roadmap Map]]
 - [[2026-06-12 - Determinism Program for AI Development]]
 - [[2026-06-12 - Flagship Examples and Showcase Programs]]
+
+## Partial completion note
+- Date: 2026-06-14
+- BDD artifacts subtask (#673) was delivered by PR #703: https://github.com/hgahub/duumbi/pull/703
+- Merge commit: `0855a44b0f20ce1c8603891ec57d9eb075c0f956`
+- Remaining scope: the broader intent-at-scale / multi-module eval work remains open through issue #689 and this note should stay in ToProcess until that work is triaged or completed.
+

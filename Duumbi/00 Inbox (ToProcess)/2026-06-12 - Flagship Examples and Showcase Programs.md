@@ -37,8 +37,14 @@ related_issues:
 ## Acceptance criteria
 
 - `duumbi run` succeeds for every example on a clean machine with the released binary.
-- The flagship example is referenced from README, docs quickstart, and the landing page.
+- The flagship HTTP + SQLite + JSON example is referenced from the main repo README and in-repo examples guide.
 - CI fails if any example breaks.
+
+## Stage 12 Disposition
+
+- 2026-06-15: Subtask 1 / GitHub issue #688 is complete. Implementation PR hgahub/duumbi#715 was merged at `64649fa9e3a3e14e021e2261b00eea872ecee448`, adding `examples/flagship-http-sqlite-json/`, root README/docs links, and focused CI coverage for the loopback HTTP + SQLite + JSON path.
+- The source GitHub issue was closed after Stage 12 closure evidence.
+- This note remains in `00 Inbox (ToProcess)` because the broader roadmap item is not fully complete: additional showcase examples, duumbi.dev/public-docs surfacing, and every-example CI coverage remain future work.
 
 ## Links
 
