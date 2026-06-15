@@ -41,3 +41,19 @@ Functions with contracts get auto-generated property tests: DUUMBI derives input
 - [[DUUMBI Future Development Roadmap Map]]
 - [[2026-06-12 - Formal Verification VCGen MVP]]
 - [[2026-06-12 - Determinism Program for AI Development]]
+
+## Triage result
+- Date: 2026-06-15T01:05:19.963Z
+- Classification: execution work
+- Routing: Created GitHub issue #717 and routed it to Needs Human Acceptance.
+- GitHub artifacts:
+  - https://github.com/hgahub/duumbi/issues/717
+- Obsidian artifacts:
+  - none
+- Canonical duplicate:
+  - none
+- Open questions:
+  - See GitHub issue.
+- Assumptions:
+  - Automated triage refill selected this source as actionable. Rationale: Inbox note proposes enabling property-based testing using contracts to bridge the gap between types and formal verification. No existing eligible Todo issue covers this. The feature aligns with the roadmap for milestone M1 and complements the existing determinism program.
+- Next stage: Needs Human Acceptance
