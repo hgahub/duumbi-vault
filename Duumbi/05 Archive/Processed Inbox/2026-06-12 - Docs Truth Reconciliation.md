@@ -181,3 +181,19 @@ GitHub issue
 - Prioritize the install channel decision to unblock doc rewrites.
 - Use the vault roadmap map as the single source of truth for the Status & roadmap page.
 - Add the install verification step to the release checklist, and optionally automate it in CI for future releases.
+
+## Triage result
+- Date: 2026-06-16T21:06:23.473Z
+- Classification: execution work
+- Routing: Created GitHub issue #732 and routed it to Needs Human Acceptance.
+- GitHub artifacts:
+  - https://github.com/hgahub/duumbi/issues/732
+- Obsidian artifacts:
+  - none
+- Canonical duplicate:
+  - none
+- Open questions:
+  - See GitHub issue.
+- Assumptions:
+  - Automated triage refill selected this source as actionable. Rationale: The remaining work from Docs Truth Reconciliation inbox note is not yet captured in any open issue and is needed to reach the release gate.
+- Next stage: Needs Human Acceptance
