@@ -4,7 +4,7 @@ tags:
   - map/roadmap
 status: active
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-06-16
 related_maps:
   - "[[DUUMBI Core Concepts Map]]"
   - "[[DUUMBI Technical Architecture Map]]"
@@ -33,7 +33,7 @@ This map is the umbrella document for DUUMBI development from the first public r
 | Development loop service | `hgahub/duumbi-loop` | Repo exists but is code-empty; only the plan `wiki/duumbi-loop-codex-task.md`. Plan is GitHub/GitLab-centric and must be adapted to the DUUMBI-native, git-free workflow. |
 | Knowledge base | `hgahub/duumbi-vault` | This vault. Roadmap/PRD/research direction maintained here. |
 
-**Open issues in `hgahub/duumbi` driving the near term:** #687 (v0.4.0-preview release), #686 (docs reconciliation), #689 (multi-module intent eval), #684 (semantic rewrite engine), #682 (MCP telemetry analytics), #673 (BDD artifacts). Completed M0 execution evidence includes #688 (flagship HTTP + SQLite + JSON example, merged in hgahub/duumbi#715).
+**Open issues in `hgahub/duumbi` driving the near term:** #687 (v0.4.0-preview release), #686 (docs reconciliation), #684 (semantic rewrite engine), #682 (MCP telemetry analytics). Completed execution evidence includes #688 (flagship HTTP + SQLite + JSON example, merged in hgahub/duumbi#715), #673 (BDD artifacts, merged in hgahub/duumbi#703), and #689 (scaled multi-function / multi-module intent-execute eval evidence, merged in hgahub/duumbi#723).
 
 ---
 
@@ -80,7 +80,7 @@ Goal: a stranger can install DUUMBI in one command and reach a working `init →
 ### M1 — v0.5: proven at scale, determinism program — target Q3 2026
 Goal: move the AI story from "single tiny function" to multi-function/multi-module evidence, and make determinism measurable.
 
-- Intent at scale: multi-function / multi-module intent-execute eval (issue #689), now building on delivered BDD specification artifacts in intent flow (issue #673, PR #703). → [[2026-06-12 - Intent at Scale Multi-Module and BDD]]
+- Intent at scale: initial multi-function / multi-module intent-execute eval evidence delivered by issue #689 / hgahub/duumbi#723, building on delivered BDD specification artifacts in intent flow (issue #673, PR #703). Follow-up work remains to improve pass rates, process evidence, and determinism metrics. → [[2026-06-12 - Intent at Scale Multi-Module and BDD]]
 - Determinism program: locked model/prompt/context replay, graph-diff stability metrics, evidence ledger — the core "make AI development deterministic" claim, measured. → [[2026-06-12 - Determinism Program for AI Development]]
 - Agent substrate: MCP as a first-class interface — any coding agent drives the full loop via MCP, benchmarked and documented. → [[2026-06-12 - Agent Substrate MCP First-Class]]
 - Contract-based property test generation: contracts on graph nodes yield auto-generated property tests now, de-risking the M4 verification track. → [[2026-06-12 - Contract Property Test Generation]]
@@ -198,7 +198,7 @@ Key dependencies:
 
 ## Sources
 
-- Repo state: `hgahub/duumbi` (issues #382, #673, #682, #684, #686, #687, #689; completed issue #688 via PR #715; milestones Phase 14/15/16; `specs/`, `docs/architecture.md`, `src/session/mod.rs`, `src/cli/repl.rs`)
+- Repo state: `hgahub/duumbi` (issues #382, #682, #684, #686, #687; completed issues #673 via PR #703, #688 via PR #715, and #689 via PR #723; milestones Phase 14/15/16; `specs/`, `docs/architecture.md`, `src/session/mod.rs`, `src/cli/repl.rs`)
 - `hgahub/duumbi-registry` README + CD workflow; `hgahub/duumbi-infra` Pulumi stacks; `hgahub/duumbi-web` Astro/Starlight sites
 - `duumbi-loop/wiki/duumbi-loop-codex-task.md` (full Loop plan)
 - Vault: [[DUUMBI - PRD]], [[DUUMBI - Service and Research Direction]], [[DUUMBI - Phase 15i - Formal Verification]], archived DUUMBI Roadmap Map and Product Roadmap 2026-05

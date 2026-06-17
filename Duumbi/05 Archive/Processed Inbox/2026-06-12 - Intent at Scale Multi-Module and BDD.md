@@ -1,7 +1,7 @@
 ---
 tags:
   - duumbi/inbox/roadmap
-  - duumbi/status/to-process
+  - duumbi/status/processed
   - duumbi/classification/execution
   - duumbi/value/high
   - duumbi/importance/high
@@ -51,3 +51,15 @@ An intent like "build a small HTTP service with persistent storage" decomposes i
 - Merge commit: `0855a44b0f20ce1c8603891ec57d9eb075c0f956`
 - Remaining scope: the broader intent-at-scale / multi-module eval work remains open through issue #689 and this note should stay in ToProcess until that work is triaged or completed.
 
+## Closure disposition
+- Date: 2026-06-16
+- GitHub issue: https://github.com/hgahub/duumbi/issues/689
+- Merged implementation PR: https://github.com/hgahub/duumbi/pull/723
+- Merge commit: `b8a8dd01727071517318e4fde60aaa9d72008b65`
+- Product spec: `specs/DUUMBI-689/PRODUCT.md`, merged via https://github.com/hgahub/duumbi/pull/721
+- Technical spec: `specs/DUUMBI-689/TECHNICAL.md`, merged via https://github.com/hgahub/duumbi/pull/722
+- Stage 11 review artifact: https://github.com/hgahub/duumbi/issues/689#issuecomment-4722376640
+- Stage 12 closure evidence: https://github.com/hgahub/duumbi/issues/689#issuecomment-4722455502
+- Outcome: Completed for the scoped #689 work. DUUMBI now has an opt-in scaled intent-execute benchmark suite, committed scaled smoke evidence, and preview known-limitations documentation. The live smoke evidence is intentionally honest risk evidence: 0/3 scaled smoke tasks passed, with `logic_error` and `broader_evidence_required` as the top failure signals.
+- Durable knowledge sync: Performed narrowly by moving this source note to Processed Inbox and updating the roadmap map. Broader future work remains represented by linked roadmap notes such as Determinism Program, Token Economics Benchmark, Intent Create Hardening, and Agent Substrate MCP First-Class.
+- Disposition: Source Inbox item is processed/archived; no untriaged work remains for issue #689.
