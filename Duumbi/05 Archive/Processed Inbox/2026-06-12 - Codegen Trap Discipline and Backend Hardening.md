@@ -65,3 +65,12 @@ Every runtime failure is defined, deterministic, and attributed to a graph node 
 - Assumptions:
   - Automated triage refill selected this source as actionable. Rationale: Codegen reliability and deterministic error semantics are critical for a credible developer preview; this is the highest-priority unaddressed M1 item from the inbox notes.
 - Next stage: Needs Human Acceptance
+
+## Stage 12 Disposition
+
+- Date: 2026-06-17
+- Result: Completed and closed through GitHub issue #714 after implementation PR #731 was merged.
+- Implementation PR: https://github.com/hgahub/duumbi/pull/731
+- Merge SHA: `d733b9025f5d139a84a19364709a0060a3ea7b4c`
+- Stage 12 closure evidence: https://github.com/hgahub/duumbi/issues/714#issuecomment-4727815962
+- Durable knowledge sync: not needed. The reusable backend behavior is captured in the approved specs, merged source implementation, tests, and source documentation.
