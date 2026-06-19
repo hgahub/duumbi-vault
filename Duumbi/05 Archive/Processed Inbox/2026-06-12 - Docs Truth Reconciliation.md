@@ -197,3 +197,14 @@ GitHub issue
 - Assumptions:
   - Automated triage refill selected this source as actionable. Rationale: The remaining work from Docs Truth Reconciliation inbox note is not yet captured in any open issue and is needed to reach the release gate.
 - Next stage: Needs Human Acceptance
+
+## Stage 12 Disposition - Issue #732
+- Date: 2026-06-19
+- Result: Completed and closed. The remaining Docs Truth Reconciliation release-gate issue #732 was implemented in hgahub/duumbi-web PR #10 and merged by hgahub.
+- Implementation PR: https://github.com/hgahub/duumbi-web/pull/10
+- Merge commit: 55dba01bc9be08af7d42a3b984aba88b128c2ff1
+- Product spec: https://github.com/hgahub/duumbi/pull/741
+- Technical spec: https://github.com/hgahub/duumbi/pull/742
+- Review evidence: https://github.com/hgahub/duumbi/issues/732#issuecomment-4749347421 plus PR #10 review thread https://github.com/hgahub/duumbi-web/pull/10#discussion_r3440881167 resolved/outdated after commit 75542a5.
+- Closure evidence: GitHub issue #732 is closed and its Project status is Done.
+- Follow-up: v0.4.1-preview release preparation remains separate release work, not part of #732 closure.
