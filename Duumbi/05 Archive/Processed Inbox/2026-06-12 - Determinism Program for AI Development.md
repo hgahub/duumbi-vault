@@ -59,3 +59,15 @@ Determinism becomes a measured, improvable property: identical intent + locked c
 - Assumptions:
   - Automated triage refill selected this source as actionable. Rationale: Current Needs Human Acceptance count is 2, below target of 3. No eligible existing Todo issue represents the Determinism Program, a high-priority M1 item with clear scope and strong linkage to existing work (#684, session kernel, rewrite rules). Creating this issue fills the queue with the next actionable strategic work.
 - Next stage: Needs Human Acceptance
+
+## Closure disposition
+
+- Date: 2026-06-19
+- GitHub issue: https://github.com/hgahub/duumbi/issues/720
+- Product spec: https://github.com/hgahub/duumbi/pull/735
+- Technical spec: https://github.com/hgahub/duumbi/pull/736
+- Implementation PR: https://github.com/hgahub/duumbi/pull/740
+- Merge SHA: fa60856b6014b9c0d5fbf706a92d40bcded0f244
+- Outcome: Completed first determinism replay harness slice in source repo. The delivered implementation adds `duumbi determinism replay`, schema-versioned JSON/Markdown evidence, append-only JSONL ledger events, exact and semantic graph evidence, behavioral/failure agreement metrics, CI thresholds, isolated replay attempts, and curated live E2E evidence.
+- Inbox disposition: Already processed and archived before closure; retained here with final closure links.
+- Durable knowledge sync: Not needed in this note. Reusable guidance is already represented by the merged source specs, implementation PR, and existing roadmap map entry.
