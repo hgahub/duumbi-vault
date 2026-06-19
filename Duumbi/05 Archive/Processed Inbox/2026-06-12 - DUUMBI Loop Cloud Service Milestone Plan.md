@@ -406,3 +406,19 @@ GitHub issue
 - Design the graph backend interface (Postgres adapter) with a clean trait boundary, keeping codegraph‑core behind an adapter to allow later replacement with Neo4j/Kuzu.
 - Document the division of labor between duumbi‑loop and duumbi‑registry for snapshots and session sync before M6.2.
 - Reserve time for security review of GitLab Self‑Hosted webhook setups (SSRF, secret validation).
+
+## Triage result
+- Date: 2026-06-19T16:52:47.146Z
+- Classification: execution work
+- Routing: Routed existing GitHub issue #750 to Needs Human Acceptance.
+- GitHub artifacts:
+  - https://github.com/hgahub/duumbi/issues/750
+- Obsidian artifacts:
+  - none
+- Canonical duplicate:
+  - none
+- Open questions:
+  - See GitHub issue.
+- Assumptions:
+  - Automated triage refill selected this source as actionable. Rationale: Issue #750 is an eligible Todo item representing the next actionable DUUMBI Loop web and infrastructure experience slice. It has a clear user outcome, defined scope, and is ready for human acceptance review. Routing it to Needs Human Acceptance meets the target minimum of 3.
+- Next stage: Needs Human Acceptance
