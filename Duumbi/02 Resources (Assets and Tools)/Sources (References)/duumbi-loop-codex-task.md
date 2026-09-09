@@ -34,8 +34,8 @@ Indoklás: a szolgáltatás lényege az iteratív fejlesztési ciklus lezárása
 
 ### Domainek
 
-- Marketing / publikus felület: `https://loop.duumbi.dev`
-- Dashboard: `https://app.loop.duumbi.dev`
+- Marketing / publikus felület: `https://duumbi.dev/loop`
+- Dashboard: `https://loop.duumbi.dev`
 - API: `https://api.loop.duumbi.dev`
 - Webhook endpointok: `https://hooks.loop.duumbi.dev`
 - Központi DUUMBI SSO issuer: `https://auth.duumbi.dev`

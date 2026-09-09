@@ -6,7 +6,7 @@ tags:
 status: active
 source: repository-inspection
 created: 2026-05-07
-updated: 2026-05-07
+updated: 2026-09-09
 ---
 
 # DUUMBI Azure Infrastructure Model
@@ -56,3 +56,4 @@ flowchart TB
 - [[DUUMBI Registry Architecture]]
 - [[DUUMBI Infrastructure Infographic]]
 - [[Visual Documentation in Obsidian]]
+- [[Slack Bridge Deployment Boundary]]

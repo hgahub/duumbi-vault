@@ -5,7 +5,7 @@ tags:
 status: active
 source: repository-inspection
 created: 2026-05-07
-updated: 2026-05-07
+updated: 2026-09-09
 ---
 
 # DUUMBI Repository Responsibility Model
@@ -50,3 +50,4 @@ flowchart TB
 - [[GitHub Project as Execution Source of Truth]]
 - [[Obsidian Vault as Agent Knowledge Substrate]]
 - [[AGENTS.md as Agent Contract]]
+- [[Slack Bridge Deployment Boundary]]
