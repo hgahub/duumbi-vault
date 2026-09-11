@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/medium
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-14T07:36:33.646Z
+intake_id: "3b2332f8-cd28-41c3-80da-aefbe339c7b7"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.418Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Certification Evidence Export

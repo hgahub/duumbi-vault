@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/medium
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-27T07:05:36.365Z
+intake_id: "0ab55b9b-9c32-4364-bcfd-a840764ee1a6"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.435Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # TUI Progress and Session Evidence UX

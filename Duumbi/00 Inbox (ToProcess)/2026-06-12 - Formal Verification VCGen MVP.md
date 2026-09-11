@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/high
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-19T07:52:50.623Z
+intake_id: "f30359c5-5278-4678-b8bd-856dc0ad76a7"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.426Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Formal Verification: VCGen MVP

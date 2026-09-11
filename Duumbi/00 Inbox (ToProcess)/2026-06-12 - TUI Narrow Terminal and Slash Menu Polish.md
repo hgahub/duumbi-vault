@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/medium
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-26T18:37:09.212Z
+intake_id: "ab004677-7795-4dcf-81e2-163f012c96a4"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.434Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # TUI Narrow Terminal and Slash Menu Polish

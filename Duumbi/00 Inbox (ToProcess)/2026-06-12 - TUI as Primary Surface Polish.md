@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/medium
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-25T18:45:12.762Z
+intake_id: "c26dad4b-a6f3-4fa3-a1b9-e24fabdbd4dc"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.436Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # TUI as Primary Surface Polish

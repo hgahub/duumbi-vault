@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/high
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-23T07:15:15.026Z
+intake_id: "7647b1b9-c351-4a62-999a-320a32f4ef6e"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.431Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Runtime Capability Modules and Library Adoption

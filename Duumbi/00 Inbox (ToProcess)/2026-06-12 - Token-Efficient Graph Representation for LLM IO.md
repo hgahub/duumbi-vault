@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/high
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-25T07:12:31.612Z
+intake_id: "3e86f34c-0017-4256-aa2b-48441304d230"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.437Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # token-efficient-graph-representation-for-llm-io

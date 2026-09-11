@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/high
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-14T18:30:03.673Z
+intake_id: "0f884dbe-a506-4a0c-9558-3852dafb19cf"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.420Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Cloud App and DUUMBI Account SSO

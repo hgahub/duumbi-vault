@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/high
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-24T07:12:19.289Z
+intake_id: "841236f8-5ed4-4ca6-8375-ba6072a50eec"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.433Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Session Kernel and Event Ledger

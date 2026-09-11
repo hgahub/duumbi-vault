@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/medium
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-20T18:30:46.090Z
+intake_id: "01cf2490-68db-4688-98ff-6c347c55fa11"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.427Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Mobile App and Supervision Surface

@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/medium
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-18T07:41:24.882Z
+intake_id: "007d0170-76bc-4dda-95cd-3295c962ab69"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.425Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Flagship Examples and Showcase Programs

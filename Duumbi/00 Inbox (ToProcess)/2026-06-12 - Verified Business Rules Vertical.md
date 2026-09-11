@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/high
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-28T18:25:32.662Z
+intake_id: "8533e33b-c0bd-4896-996c-ae6a7098b46a"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.438Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Verified Business Rules Vertical (Legal / Financial)

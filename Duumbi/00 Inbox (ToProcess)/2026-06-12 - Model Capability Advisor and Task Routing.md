@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/medium
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-21T07:39:03.245Z
+intake_id: "2e16aefc-a61c-4198-941c-af95bd2e07c5"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.428Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Model Capability Advisor and Task Routing

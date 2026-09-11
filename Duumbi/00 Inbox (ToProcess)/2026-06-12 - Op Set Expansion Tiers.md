@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/high
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-21T18:32:36.923Z
+intake_id: "86d39de7-92fd-4731-8bd8-767ca2770d66"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.429Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Op Set Expansion Tiers

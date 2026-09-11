@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/high
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-22T08:01:21.395Z
+intake_id: "d00cc383-76f0-49e0-abbc-d8887574a990"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.429Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Registry Graph Database Evolution

@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/medium
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-27T18:25:35.670Z
+intake_id: "d3650fae-08a4-4790-8d33-e8345ae6214b"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.435Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # TUI Provider Setup and Credential Discovery UX

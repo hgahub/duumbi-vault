@@ -5,7 +5,7 @@ tags:
   - doc/runbook
 status: active
 created: 2026-05-13
-updated: 2026-06-13
+updated: 2026-09-12
 related_maps:
   - "[[DUUMBI Agentic Development Map]]"
 ---
@@ -16,7 +16,7 @@ related_maps:
 
 This runbook is the canonical operating guide for the redesigned DUUMBI intake-to-delivery workflow. It keeps the 12-stage DUUMBI model, but adds deterministic orchestration around intake, Inbox enrichment, triage queue refill, combined spec drafting with AI gates, Delivery Autopilot, cost-gated Ralph cycles, human GitHub implementation merge, and post-merge closure.
 
-GitHub remains the execution source of truth. Obsidian stores raw intake and durable knowledge. Slack is the fast human surface for capture, clarification, notification, and approval. GitHub Actions coordinate scheduled checks and deterministic dispatches, but they do not call model APIs directly. AI execution should run in Codex App by default — its subscription covers Codex usage, so heavy spec and implementation work belongs there — with Codex Cloud, Codex CLI, or a reviewed local agent environment as alternatives.
+GitHub remains the execution source of truth. Obsidian stores raw intake and durable knowledge. Slack is the fast human surface for clarification, notification, and approval. GitHub Actions coordinate scheduled checks and dispatches. Stage 3b calls DeepSeek for bounded note preparation and Stage 4 calls Z.ai/Zhipu for bounded routing; other gates follow their documented policies. AI execution should run in Codex App by default — its subscription covers Codex usage, so heavy spec and implementation work belongs there — with Codex Cloud, Codex CLI, or a reviewed local agent environment as alternatives.
 
 The earlier `DUUMBI - Development Intake to Delivery Workflow` document has been deleted; its useful content was folded into this runbook and the checked-in DUUMBI skills.
 
@@ -28,16 +28,23 @@ The earlier `DUUMBI - Development Intake to Delivery Workflow` document has been
 
 ```mermaid
 flowchart TD
-  S["Slack idea channel"] --> K["Stage 1 duumbi-obsidian-capture"]
-  C["Codex intake"] --> K2["Stage 2 duumbi-codex-intake"]
-  I["Manual Obsidian Inbox note"] --> E["Stage 3b duumbi-inbox-enrichment"]
-  K --> N["Inbox note in 00 Inbox (ToProcess)"]
-  K2 --> N
-  E --> N
-
-  N --> T["Stage 4 duumbi-triage / triage-queue-refill"]
-  GI["GitHub Issues / Ideas Discussions"] --> T
-  T --> HA["Needs Human Acceptance"]
+  C["Codex intake"] --> K2["Stage 2: interpret, clarify, deduplicate"]
+  GRK["Grok Bot intake"] --> K2
+  K2 --> L["Save one note locally; stable ID and owner"]
+  L --> S{"Git sync verified?"}
+  S -- "No" --> F["Keep draft; report sync failure"]
+  S -- "Yes" --> N["Vault main: captured"]
+  I["Manual Obsidian note + captured"] --> M["Commit and push vault main"] --> N
+  N --> E["Stage 3b: prepare captured note"]
+  E --> Q{"Blocking human question?"}
+  Q -- "Yes" --> W["needs_clarification; push questions"]
+  W --> H["Slack: owner, note link, continuation"]
+  H --> A["Owner + Codex/Grok: answer in same note"]
+  A -- "Blockers resolved; sync captured" --> N
+  Q -- "No" --> R["ready_for_triage"]
+  R --> T["Stage 4: triage eligible note"]
+  T --> D["triaged; disposition evidence; archive"]
+  T -- "Execution work" --> HA["Needs Human Acceptance"]
 
   HA --> HR{"Stage 5 human decision in Slack"}
   HR -- "Accept" --> P["User pastes combined-spec prompt into Codex App"]
@@ -70,7 +77,7 @@ flowchart TD
 
 ## Current Architecture In One Sentence
 
-Slack, Codex, Obsidian Inbox, GitHub Issues, and GitHub Discussions feed a single GitHub-backed execution workflow; product and technical specs are drafted together and pass bounded AI gates on clean Codex self-review, the final implementation PR is reviewed by Codex (`@chatgpt-codex-connector`) with Greptile as a manual end-of-flow deep-review escalation, and implementation merge is performed by a human reviewer directly in GitHub after Stage 11 evidence.
+Codex, Grok Bot, and manual Obsidian Inbox notes feed a single GitHub-backed execution workflow; product and technical specs are drafted together and pass bounded AI gates on clean Codex self-review, the final implementation PR is reviewed by Codex (`@chatgpt-codex-connector`) with Greptile as a manual end-of-flow deep-review escalation, and implementation merge is performed by a human reviewer directly in GitHub after Stage 11 evidence.
 
 ## Developer Journey
 
@@ -88,7 +95,7 @@ The human path through one issue, end to end:
 
 | Surface | Owns | Does not own |
 |---|---|---|
-| Slack | Idea capture, clarification loops, review notifications, approval buttons, mobile-friendly control | Durable memory, raw secret storage, long-term execution state |
+| Slack | Clarification loops, review notifications, approval buttons, mobile-friendly control | Durable memory, raw secret storage, long-term execution state |
 | Codex App | Human-controlled local execution, mobile-supervised delivery autopilot, specs, implementation, review handling, vault maintenance | Silent unattended project-state mutation without evidence |
 | Codex Cloud | Scheduled, cloud, Slack-triggered, parallel, or long-running agent runs through approved dispatch contracts | Human product decisions or final implementation merge approval |
 | GitHub Issues | Execution work unit, acceptance, clarification, stage decisions, linked evidence | Broad untriaged brainstorming forever |
@@ -102,7 +109,7 @@ The human path through one issue, end to end:
 
 ## Operating Principles
 
-- One workflow, multiple front doors. Slack, Codex, GitHub, and manual Obsidian notes converge into the same GitHub-backed execution path.
+- One workflow, multiple front doors. Codex, Grok Bot, and manual Obsidian notes converge into the same GitHub-backed execution path.
 - GitHub is the durable execution record. Slack and Codex chats are control surfaces unless their outcomes are written back to GitHub or Obsidian.
 - Read-only context gathering comes before mutation. Agents inspect active Inbox, Processed Inbox, Atlas notes, GitHub Issues, GitHub Discussions, existing PRs, and relevant source before creating new work.
 - Agents may prepare, deduplicate, summarize, recommend, draft, review, and implement inside approved boundaries. They must not invent human acceptance, broaden scope, or bypass gates.
@@ -122,7 +129,6 @@ The human path through one issue, end to end:
 | GitHub Project Status field | DUUMBI statuses exist and Project V2 can be read by `GH_PROJECT_PAT` | GitHub Project `Duumbi project` |
 | Repository variables | `DUUMBI_PROJECT_NUMBER` is set; `DUUMBI_PROJECT_OWNER` is set when different from repo owner | `hgahub/duumbi` repo variables |
 | Slack config | `SLACK_BOT_TOKEN`, `SLACK_REVIEW_CHANNEL_ID`, and optional `DUUMBI_AGENT_DISPATCH_CHANNEL_ID` are configured | repo secrets and Slack app config |
-| Slack idea route | Dedicated `#duumbi-ideas` channel or Slack shortcut routes to Stage 1 intake | Slack app interactivity and shortcut settings |
 | Slack bridge | `func-duumbi-slack-bridge` points to `/api/slack-approval` and verifies Slack signatures | Azure Function App and Slack Request URL |
 | Workflow labels | Required labels such as `needs-cycle-approval` and `needs-review` exist before agents use label routing | `hgahub/duumbi` labels |
 | AI review configuration | `DUUMBI_REQUIRED_SPEC_REVIEWERS` is empty (no required automated reviewer on spec PRs); `@chatgpt-codex-connector` is available for final implementation PR review; Greptile has automatic review disabled and `.greptile/config.json` sets `skipReview: "AUTOMATIC"` | GitHub repo variables, Greptile dashboard, source repo `.greptile/` |
@@ -156,11 +162,11 @@ The human path through one issue, end to end:
 
 | Stage       | Skill or workflow                                                          | Trigger                                                                                                     | Source                                                          | Output                                                                                      |
 | ----------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| 1           | `duumbi-obsidian-capture` via Slack bridge and Codex handoff               | Dedicated idea channel or Slack shortcut                                                                    | Slack message/thread                                            | English Inbox note or duplicate report                                                      |
-| 2           | `duumbi-codex-intake`                                                      | Developer uses Codex App, Codex Cloud, or Codex CLI on `duumbi-vault`                                       | User idea in Codex                                              | English Inbox note or duplicate report                                                      |
-| 3           | Manual Obsidian Inbox entry                                                | Human directly edits Markdown                                                                               | `00 Inbox (ToProcess)`                                          | Raw note, possibly untagged and unnormalized                                                |
-| 3b          | `duumbi-inbox-enrichment`                                                  | Scheduled twice daily when candidate notes exist, or manual dispatch                                        | Raw Inbox notes                                                 | Normalized, classified, duplicate-marked Inbox notes; no GitHub issue                       |
-| 4           | `duumbi-triage` plus `triage-queue-refill.yml`                             | Scheduled every 4 hours when the Needs Human Acceptance queue is below target, or manual                    | Inbox, GitHub Issues, Ideas Discussions, existing Project state | GitHub issue in `Needs Human Acceptance` or updated duplicate/clarification state           |
+| 1 | Retired (2026-09-11) | None | No Slack idea intake | Use Stage 2 Codex intake or Stage 3 manual Inbox |
+| 2 | `duumbi-codex-intake` or Grok `duumbi-grok-intake` | Explicit capture or clarification request | User idea / existing waiting note | One English note, stable ID and owner, verified `captured` sync or explicit local-only failure |
+| 3 | Manual Obsidian Inbox entry | Human writes and synchronizes Markdown | Inbox note with `intake_status: captured` | Raw note on vault `main` |
+| 3b | `duumbi-inbox-enrichment` / `inbox-enrichment-dispatch.yml` | 06:00 and 18:00 UTC or manual | Only `captured` Inbox notes | `ready_for_triage` or `needs_clarification`; post-push Slack handoff |
+| 4 | `duumbi-triage` / `triage-queue-refill.yml` | Every 4 hours below acceptance queue target, or manual | Only `ready_for_triage` Inbox notes; GitHub as context | Execution issue → `Needs Human Acceptance`; successful disposition → `triaged` + archive |
 | 5           | `duumbi-human-acceptance` or `stage-approval.yml`                          | Human decision in GitHub or Slack                                                                           | Triaged issue                                                   | Structured Stage 5 decision and `Spec Needed` when accepted                                 |
 | 6           | `duumbi-spec-draft`                                                        | Accepted issue reaches `Spec Needed`                                                                        | GitHub issue and vault/source context                           | Product spec PR or issue-comment spec                                                       |
 | 7           | `duumbi-spec-review` or `spec-ai-gate.yml`                                 | Human review or clean AI gate                                                                               | Product spec artifact                                           | Stage 7 decision; `Technical Spec Needed` when approved                                     |
@@ -175,29 +181,43 @@ The human path through one issue, end to end:
 
 ## Intake And Enrichment
 
-### Stage 1 - Slack Intake
+### Stage 1 - Retired
 
-Use a dedicated Slack idea channel such as `#duumbi-ideas` when possible. Channel-based routing lets users submit ideas without naming a skill. If channel routing is unavailable, use a Slack shortcut wired to the same `slack-intake` repository dispatch contract.
+Slack idea intake was retired by product decision on 2026-09-11. Do not submit development ideas through Slack. Use Stage 2 Codex/Grok intake or Stage 3 manual Obsidian Inbox entry. Stage numbering is preserved. Slack remains available for clarification, notifications, and approvals.
 
-The Slack bridge sends only Slack source identifiers to GitHub workflows. It must not forward raw Slack message bodies or Slack `response_url` capability URLs through `repository_dispatch`. The Stage 1 agent should inspect Slack context through the approved Slack integration, deduplicate against active Inbox, Processed Inbox, Atlas notes, GitHub Issues, and GitHub Discussions, then create one English Inbox note only when the idea is not already represented.
+### Stage 2 - Codex Or Grok Intake
 
-### Stage 2 - Codex Intake
+Codex and Grok Bot use the same [intake contract](https://github.com/hgahub/duumbi/blob/74a407251aa871e6dd53fc2bffe0770d1d84dac0/docs/automation/intake-contract.md). Explicit capture authorizes interpreting, bounded clarification, duplicate inspection, one English Inbox note, and its verified Git synchronization. An exact repeat links the existing item; a related topic with new requirements remains a new candidate. A local save alone is not visible to Actions.
 
-Use this when the idea starts in Codex App, Codex Cloud, or Codex CLI. Run on `duumbi-vault` with the selected intake skill. The output is one English Inbox note in `00 Inbox (ToProcess)` unless duplicate detection finds an existing canonical item.
+Metadata: stable UUID `intake_id`, `source: codex|grok|obsidian`, `intake_owner`, `intake_status`, and `intake_updated_at`. Use the sync helper to publish only the selected note. Same-note conflicts stop for reconciliation; unrelated local changes are not published.
 
 ### Stage 3 - Manual Obsidian Inbox Entry
 
-A developer may directly edit Markdown in `00 Inbox (ToProcess)`. These notes are allowed to be raw, untagged, and unnormalized. They are not execution work until enrichment and triage process them.
+Write a meaningful note in `Duumbi/00 Inbox (ToProcess)/` with the following frontmatter, then commit/push it to vault `main`. Stage 3b supplies missing optional ID/source/owner fields. Existing Obsidian Git synchronization may perform this push, but verify the remote note; a local file or unrelated cloud-drive sync is not enough.
+
+```yaml
+---
+intake_status: captured
+---
+```
 
 ### Stage 3b - Scheduled Inbox Enrichment
 
-`duumbi-inbox-enrichment` runs twice daily or manually. The scheduled dispatch first checks `duumbi-vault/Duumbi/00 Inbox (ToProcess)/` and sends a Slack agent handoff only when candidate notes exist. If there is no enrichment work, the workflow records `not_needed` in summary/metrics and stays quiet in Slack. The agent normalizes manually edited raw notes, classifies them, and marks likely duplicates. It does not create GitHub issues, specs, PRs, or source changes.
+The workflow runs at 06:00 and 18:00 UTC (08:00/20:00 Budapest during summer time, 07:00/19:00 in winter), or manually. It selects at most one `captured` note, preserves original content, and replaces only its generated preparation block. Missing, invalid, waiting, ready, and triaged statuses are not candidates. Context inspection is bounded; unavailable GitHub facts must remain unverified.
+
+Usable input becomes `ready_for_triage`. An essential missing human decision becomes `needs_clarification` with a reason and 1–3 questions. Questions stay in the note; after pushing, Slack sends the owner, note link, and continuation instructions. The default owner is `hgahub`, overridable per note or by repository variable. An optional Slack member ID enables a mention.
+
+The owner continues the same note through Codex or Grok, preserving its ID, filename, source, and earlier answers. Append dated answers outside the generated block. Resolved blockers return to `captured` and synchronize; partial answers keep `needs_clarification`. Waiting notes cause no repeated model calls or duplicate notifications. Failed Slack notification remains visible in the workflow summary; the note remains the durable handoff.
 
 ## Triage Queue Refill
 
-`triage-queue-refill.yml` runs every 4 hours. It reads GitHub Project V2 through GraphQL and counts open issues with Status `Needs Human Acceptance`. If the queue contains fewer than the configured target, it dispatches a bounded Stage 4 triage request until the queue reaches target or no suitable source remains.
+Stage 4 accepts only `ready_for_triage` Inbox notes. GitHub Issues and Ideas Discussions are retired as independent entry points; GitHub remains execution and duplicate context. `triage-queue-refill.yml` runs every 4 hours and routes at most one execution candidate when fewer than three issues wait in `Needs Human Acceptance`. With no ready source, it skips the model. Missing Project credentials or status data fails closed.
 
-Failure policy is fail-closed. If `GH_PROJECT_PAT`, `DUUMBI_PROJECT_NUMBER`, Project V2 access, or status data is unavailable, the workflow must stop rather than guessing queue state.
+After successful routing, the selected note becomes `triaged` and moves to `Duumbi/05 Archive/Processed Inbox/` with issue evidence. The manual `duumbi-triage` skill handles knowledge, duplicate, defer, rejection, and no-action dispositions. It must not invent an issue to clear the Inbox. Both scheduled writers share a concurrency group; a conflicting human push stops safely. If issue writes succeeded but the archive push failed, reconcile the existing issue before rerunning.
+
+### Rollout And Grok Setup
+
+The 2026-09-12 lifecycle revision activates when [source PR #806](https://github.com/hgahub/duumbi/pull/806) is merged. Existing Inbox notes are explicitly migrated before that merge; legacy processed markers are preserved for compatibility. Saving the Grok skill and authorizing its cloud Git access are user steps. Follow the [Grok setup](https://github.com/hgahub/duumbi/blob/74a407251aa871e6dd53fc2bffe0770d1d84dac0/docs/automation/grok-intake-setup.md) and [portable recipe](https://github.com/hgahub/duumbi/blob/74a407251aa871e6dd53fc2bffe0770d1d84dac0/docs/automation/grok-intake-skill.md). No new recurring Grok routine is required.
 
 ## Delivery Autopilot
 
@@ -282,24 +302,17 @@ GitHub workflow summaries should omit generated prompts when those prompts could
 
 Prefer generated next-stage prompts from workflow comments, workflow summaries, or Slack summaries when available. Use the manual templates below only when generated prompts are unavailable or need correction.
 
-### Stage 1 - Slack Intake
+### Stage 1 - Retired
 
-```text
-Run DUUMBI Stage 1 Slack intake with duumbi-obsidian-capture.
+Slack idea intake was retired by product decision on 2026-09-11. Do not submit development ideas through Slack. Use Stage 2 Codex/Grok intake or Stage 3 manual Obsidian Inbox entry. Stage numbering is preserved. Slack remains available for clarification, notifications, and approvals.
 
-Source: <Slack channel/thread URL or channel_id/message_ts/thread_ts>
-Goal: Capture the raw input into the DUUMBI Inbox, classify it, inspect active DUUMBI context, detect duplicates across active Inbox, Processed Inbox, Atlas, GitHub Issues, and GitHub Discussions, and report the next processing step.
-
-Do not create GitHub issues, specs, PRs, source changes, or implementation work.
-```
-
-### Stage 2 - Codex Intake
+### Stage 2 - Codex Or Grok Intake
 
 ```text
 Run DUUMBI Stage 2 Codex intake with duumbi-codex-intake.
 
 Input: <idea, bug, question, or source material>
-Goal: Capture this into the DUUMBI Inbox in English, classify it, inspect relevant vault and GitHub context read-only, detect duplicates, and recommend routing.
+Goal: Capture one English Inbox note, inspect relevant context and duplicates, preserve source/owner, set captured, and verify single-note synchronization to vault main.
 
 Do not create specs, GitHub issues, PRs, source changes, or implementation work.
 ```
@@ -309,8 +322,8 @@ Do not create specs, GitHub issues, PRs, source changes, or implementation work.
 ```text
 Run DUUMBI scheduled Inbox enrichment with duumbi-inbox-enrichment.
 
-Target: unnormalized manually edited notes under Duumbi/00 Inbox (ToProcess)/
-Goal: Normalize format, classify, detect duplicates across Inbox, Processed Inbox, Atlas, GitHub Issues, and GitHub Discussions, and leave notes ready for Stage 4 triage.
+Target: notes with intake_status: captured under Duumbi/00 Inbox (ToProcess)/
+Goal: Preserve original input and metadata, prepare one note, and set ready_for_triage or needs_clarification with questions and an owner handoff.
 
 Do not create GitHub issues, specs, PRs, source changes, or implementation work.
 ```
@@ -320,8 +333,8 @@ Do not create GitHub issues, specs, PRs, source changes, or implementation work.
 ```text
 Run DUUMBI Stage 4 triage with duumbi-triage.
 
-Target: bounded next-issue discovery sweep across Inbox notes, GitHub Issues, GitHub Ideas Discussions, and active DUUMBI Obsidian documentation.
-Goal: Refill the GitHub Project Todo queue to 3 items. Create or route up to <N> issue(s), stopping when Todo reaches 3 or no actionable source remains.
+Target: ready_for_triage Inbox notes only. Use GitHub and active DUUMBI documentation as context.
+Goal: Refill Needs Human Acceptance to 3 issues, with at most one execution item per scheduled run. Manually dispose knowledge/duplicate/defer/no-action notes. Mark successful dispositions triaged and archive them.
 
 For each selected item, inspect duplicates and route execution work to Needs Human Acceptance. Do not mark work accepted, create specs, create PRs, modify source code, or start implementation.
 ```
@@ -511,7 +524,7 @@ Agents may recommend decisions, but they must not invent human acceptance or imp
 
 | Work type | Default repo | Default location | Reason |
 |---|---|---|---|
-| Slack intake and Codex intake | `duumbi-vault` | Vault-capable agent environment | Creates Inbox notes and needs active vault context |
+| Codex / Grok intake | `duumbi-vault` | Vault-capable agent environment | Creates Inbox notes and needs active vault context |
 | Manual Inbox enrichment | `duumbi-vault` | Vault-capable agent environment | Normalizes raw Inbox notes only |
 | Triage, acceptance, clarification, review gates, closure | `duumbi-vault` plus GitHub | Work locally or cloud with GitHub access | Needs active vault context and GitHub state |
 | Product spec draft | target source repo, usually `duumbi` | New worktree | Creates `specs/DUUMBI-<issue>/PRODUCT.md` and a spec-only PR |

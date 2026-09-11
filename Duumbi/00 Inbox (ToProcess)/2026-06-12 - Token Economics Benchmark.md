@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/medium
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-24T18:36:32.906Z
+intake_id: "f661e348-842f-4043-ad07-3193dcc2b694"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.437Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Token Economics Benchmark

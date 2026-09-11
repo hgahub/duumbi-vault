@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/high
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-15T07:59:27.698Z
+intake_id: "9efc20b1-4816-42c8-9f2c-bb798438a53f"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.421Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Code Import to Semantic Graph

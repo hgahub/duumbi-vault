@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/high
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-23T18:42:26.605Z
+intake_id: "4bae3e9e-e68a-40e1-8ec4-c392f437ce25"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.432Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Semantic Graph Similarity and Reuse

@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/medium
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-26T07:18:43.842Z
+intake_id: "ff873b65-b569-4d37-b524-5b6f9e8cf3c5"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.434Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # TUI Error Diagnostics Stay In-App

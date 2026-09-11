@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/high
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-29T07:43:21.988Z
+intake_id: "eed841e5-de2a-4745-b149-a2818180e3cf"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.439Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # Verified Module Export and Embedding

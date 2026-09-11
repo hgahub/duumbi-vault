@@ -8,6 +8,12 @@ tags:
   - duumbi/complexity/medium
 duumbi_inbox_enrichment: processed
 duumbi_inbox_enrichment_generated_at: 2026-06-28T07:21:59.938Z
+intake_id: "ebf6dd9f-d058-4983-8332-53929d14f79f"
+intake_status: "ready_for_triage"
+source: "obsidian"
+intake_owner: "hgahub"
+intake_updated_at: "2026-09-11T22:24:06.436Z"
+enrichment_result: "ready_for_triage"
 ---
 
 # TUI Redraw Stability and Modal Cleanup
