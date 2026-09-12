@@ -3,12 +3,12 @@ intake_id: "13f38963-750a-47b6-b807-7b64ae511eca"
 intake_status: captured
 source: grok
 intake_owner: "hgahub"
-intake_updated_at: "2026-09-12T20:37:36Z"
+intake_updated_at: "2026-09-12T20:38:51Z"
 ---
 # Provider Models and Reasoning Effort Support
 
 ## Source
-- Conversation: Duumbi Lead Grok Bot chat (2026-09-12); explicit  capture
+- Conversation: Duumbi Lead Grok Bot chat (2026-09-12); explicit duumbi-grok-intake capture
 - Evidence run referenced by submitter as live validation tied to "#780" (provider HTTP 400)
 
 ## Raw input
@@ -25,40 +25,40 @@ Support available effort levels for:
 - xAI: Grok 4.6, Grok Build 0.1
 
 ## Problem
-DUUMBI's OpenAI Chat Completions client can send function tools together with non-none . For models such as , the provider rejects that combination on  (HTTP 400) before graph generation. Newer catalog models and provider-native effort controls are therefore unusable or only usable if effort is forced off / the wrong API surface is used.
+DUUMBI's OpenAI Chat Completions client can send function tools together with non-none reasoning_effort. For models such as gpt-5.6-luna, the provider rejects that combination on /v1/chat/completions (HTTP 400) before graph generation. Newer catalog models and provider-native effort controls are therefore unusable or only usable if effort is forced off or the wrong API surface is used.
 
 ## Affected user
 Owners and operators running live provider-backed intent/mutation/bench validation with current OpenAI (and planned Anthropic/xAI) models that expose reasoning effort.
 
 ## Desired outcome
-DUUMBI can call the listed OpenAI, Anthropic, and xAI models with the effort levels those providers actually support, without HTTP 400 when tools and reasoning are both required—e.g. by using  (or equivalent) when tools + reasoning_effort are needed, or by mapping effort correctly per model/API.
+DUUMBI can call the listed OpenAI, Anthropic, and xAI models with the effort levels those providers actually support, without HTTP 400 when tools and reasoning are both required—for example by using /v1/responses (or equivalent) when tools plus reasoning_effort are needed, or by mapping effort correctly per model and API.
 
 ## Out of scope
-- User-facing session/intent  product UX already sketched in the older Effort Levels note (cost/team/verification levers), except where it must map onto provider  / model tier.
+- User-facing session/intent --effort product UX already sketched in the older Effort Levels note (cost/team/verification levers), except where it must map onto provider reasoning_effort / model tier.
 - Changing Stage 7/9 workflow gates or unrelated bench process-evidence work in GitHub #780 (HTTP/SQLite process evidence), unless that run is only the reproduction vehicle.
 - Inventing unsupported effort values beyond what each provider documents.
 
 ## Interpreted intent
-Make provider integrations (starting with OpenAI Chat Completions vs Responses) compatible with current reasoning-capable models and function/tool use, and extend model/effort support matrices for the named OpenAI, Anthropic, and xAI models so live validation and authoring can use them.
+Make provider integrations (starting with OpenAI Chat Completions versus Responses) compatible with current reasoning-capable models and function/tool use, and extend model/effort support matrices for the named OpenAI, Anthropic, and xAI models so live validation and authoring can use them.
 
 ## Classification
 feature / bug (provider API compatibility) / execution
 
 ## Related context
-- Related (not duplicate):  — user-facing effort/cost levers, not Chat Completions vs Responses + tools.
-- Related (not duplicate):  — catalog/routing advisor; does not fix the HTTP 400 tools+reasoning_effort path.
-- GitHub #780 () is a closed bench process-evidence issue; submitter cited a live validation using that label/context with  — treat as reproduction evidence, not as an exact duplicate ticket.
-- Not inspected: full  OpenAI client implementation beyond the reported error text.
+- Related (not duplicate): Duumbi/05 Archive/Processed Inbox/2026-06-12 - Effort Levels and Cost Control.md — user-facing effort/cost levers, not Chat Completions versus Responses plus tools.
+- Related (not duplicate): Duumbi/00 Inbox (ToProcess)/2026-06-12 - Model Capability Advisor and Task Routing.md — catalog/routing advisor; does not fix the HTTP 400 tools+reasoning_effort path.
+- GitHub #780 (test(bench): add bounded HTTP/SQLite/JSON process evidence) is a closed bench process-evidence issue; submitter cited a live validation using that label/context with gpt-5.6-luna — treat as reproduction evidence, not as an exact duplicate ticket.
+- Not inspected: full src/agents OpenAI client implementation beyond the reported error text.
 
 ## Open questions
-- Should OpenAI tool+reasoning calls move primarily to , or stay on Chat Completions with  when tools are present (degraded mode)?
+- Should OpenAI tool+reasoning calls move primarily to /v1/responses, or stay on Chat Completions with reasoning_effort=none when tools are present (degraded mode)?
 - Exact supported effort enum per listed model (provider docs) for OpenAI / Anthropic / xAI?
 - Ship OpenAI path first, then Anthropic and xAI in the same change set, or phased?
 
 ## Requested follow-up
-Stage 3b prepare → Stage 4 triage for execution (provider client + model catalog / effort mapping). Do not implement from this capture alone.
+Stage 3b prepare then Stage 4 triage for execution (provider client + model catalog / effort mapping). Do not implement from this capture alone.
 
 ## Notes
-- Facts: Provider error explicitly forbids function tools with  on  via ; suggests  or .
+- Facts: Provider error explicitly forbids function tools with reasoning_effort on gpt-5.6-luna via /v1/chat/completions; suggests /v1/responses or reasoning_effort=none.
 - Assumptions: Listed model names are the desired near-term catalog set; "effort" here means provider reasoning effort as well as usable model selection.
-- Recommendations: Prefer Responses (or provider-correct surface) when tools and reasoning are both required; keep a documented matrix of model → allowed effort → API surface; link but do not merge with the older Effort Levels product note without triage.
+- Recommendations: Prefer Responses (or provider-correct surface) when tools and reasoning are both required; keep a documented matrix of model to allowed effort to API surface; link but do not merge with the older Effort Levels product note without triage.
