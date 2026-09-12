@@ -35,7 +35,7 @@ flowchart TD
   S -- "No" --> F["Keep draft; report sync failure"]
   S -- "Yes" --> N["Vault main: captured"]
   I["Manual Obsidian note + captured"] --> M["Commit and push vault main"] --> N
-  N --> E["Stage 3b: prepare captured note"]
+  N --> E["Stage 3b: capture event / hourly; up to 5 notes"]
   E --> Q{"Blocking human question?"}
   Q -- "Yes" --> W["needs_clarification; push questions"]
   W --> H["Slack: owner, note link, continuation"]
@@ -165,7 +165,7 @@ The human path through one issue, end to end:
 | 1 | Retired (2026-09-11) | None | No Slack idea intake | Use Stage 2 Codex intake or Stage 3 manual Inbox |
 | 2 | `duumbi-codex-intake` or Grok `duumbi-grok-intake` | Explicit capture or clarification request | User idea / existing waiting note | One English note, stable ID and owner, verified `captured` sync or explicit local-only failure |
 | 3 | Manual Obsidian Inbox entry | Human writes and synchronizes Markdown | Inbox note with `intake_status: captured` | Raw note on vault `main` |
-| 3b | `duumbi-inbox-enrichment` / `inbox-enrichment-dispatch.yml` | 06:00 and 18:00 UTC or manual | Only `captured` Inbox notes | `ready_for_triage` or `needs_clarification`; post-push Slack handoff |
+| 3b | `duumbi-inbox-enrichment` / `inbox-enrichment-dispatch.yml` | Vault capture event, hourly minute 17 UTC, or manual | Only `captured` Inbox notes | `ready_for_triage` or `needs_clarification`; post-push Slack handoff |
 | 4 | `duumbi-triage` / `triage-queue-refill.yml` | Every 4 hours below acceptance queue target, or manual | Only `ready_for_triage` Inbox notes; GitHub as context | Execution issue → `Needs Human Acceptance`; successful disposition → `triaged` + archive |
 | 5           | `duumbi-human-acceptance` or `stage-approval.yml`                          | Human decision in GitHub or Slack                                                                           | Triaged issue                                                   | Structured Stage 5 decision and `Spec Needed` when accepted                                 |
 | 6           | `duumbi-spec-draft`                                                        | Accepted issue reaches `Spec Needed`                                                                        | GitHub issue and vault/source context                           | Product spec PR or issue-comment spec                                                       |
@@ -203,7 +203,7 @@ intake_status: captured
 
 ### Stage 3b - Scheduled Inbox Enrichment
 
-The workflow runs at 06:00 and 18:00 UTC (08:00/20:00 Budapest during summer time, 07:00/19:00 in winter), or manually. It selects at most one `captured` note, preserves original content, and replaces only its generated preparation block. Missing, invalid, waiting, ready, and triaged statuses are not candidates. Context inspection is bounded; unavailable GitHub facts must remain unverified.
+A vault main push touching captured Inbox input wakes the central workflow through a metadata-only repository_dispatch event. An hourly sweep at minute 17 UTC reconciles missed events and backlog; manual dispatch remains available. It processes at most five captured notes serially, preserving original content and replacing only each generated preparation block. A targeted manual run handles one note. A failed item stops the batch; earlier pushed results remain complete. Own enrichment and archive pushes do not send another wake-up because their changed notes are no longer captured. Missing, invalid, waiting, ready, and triaged statuses are not candidates. Context inspection is bounded; unavailable GitHub facts must remain unverified.
 
 Usable input becomes `ready_for_triage`. An essential missing human decision becomes `needs_clarification` with a reason and 1–3 questions. Questions stay in the note; after pushing, Slack sends the owner, note link, and continuation instructions. The default owner is `hgahub`, overridable per note or by repository variable. An optional Slack member ID enables a mention.
 
@@ -217,7 +217,7 @@ After successful routing, the selected note becomes `triaged` and moves to `Duum
 
 ### Rollout And Grok Setup
 
-The 2026-09-12 lifecycle revision activates when [source PR #806](https://github.com/hgahub/duumbi/pull/806) is merged. Existing Inbox notes are explicitly migrated before that merge; legacy processed markers are preserved for compatibility. Saving the Grok skill and authorizing its cloud Git access are user steps. Follow the [Grok setup](https://github.com/hgahub/duumbi/blob/74a407251aa871e6dd53fc2bffe0770d1d84dac0/docs/automation/grok-intake-setup.md) and [portable recipe](https://github.com/hgahub/duumbi/blob/74a407251aa871e6dd53fc2bffe0770d1d84dac0/docs/automation/grok-intake-skill.md). No new recurring Grok routine is required.
+The 2026-09-12 lifecycle revision is active after source PR #806 merged. Event-driven wake-up additionally requires the companion source receiver and the vault secret DUUMBI_INTAKE_DISPATCH_TOKEN; see the source repository docs/automation/intake-events-setup.md before merging this listener. Existing Inbox notes are explicitly migrated before that merge; legacy processed markers are preserved for compatibility. Saving the Grok skill and authorizing its cloud Git access are user steps. Follow the [Grok setup](https://github.com/hgahub/duumbi/blob/74a407251aa871e6dd53fc2bffe0770d1d84dac0/docs/automation/grok-intake-setup.md) and [portable recipe](https://github.com/hgahub/duumbi/blob/74a407251aa871e6dd53fc2bffe0770d1d84dac0/docs/automation/grok-intake-skill.md). No new recurring Grok routine is required.
 
 ## Delivery Autopilot
 
