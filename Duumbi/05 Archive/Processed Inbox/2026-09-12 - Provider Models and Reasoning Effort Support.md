@@ -2,10 +2,10 @@
 intake_id: "13f38963-750a-47b6-b807-7b64ae511eca"
 source: "grok"
 intake_owner: "hgahub"
-intake_status: "ready_for_triage"
 enrichment_result: "ready_for_triage"
 enriched_at: "2026-09-12T21:01:09.706Z"
-intake_updated_at: "2026-09-12T21:01:09.706Z"
+intake_status: "triaged"
+intake_updated_at: "2026-09-13T20:36:32.279Z"
 ---
 # Provider Models and Reasoning Effort Support
 
@@ -184,3 +184,19 @@ GitHub issue
 - Ship OpenAI path first, then Anthropic and xAI in the same change set or phased, depending on triage decision.
 
 <!-- duumbi-enrichment:end -->
+
+## Triage result
+- Date: 2026-09-13T20:36:32.279Z
+- Classification: execution work
+- Routing: Routed existing GitHub issue #817 to Needs Human Acceptance.
+- GitHub artifacts:
+  - https://github.com/hgahub/duumbi/issues/817
+- Obsidian artifacts:
+  - none
+- Canonical duplicate:
+  - none
+- Open questions:
+  - See GitHub issue.
+- Assumptions:
+  - Automated triage refill selected this source as actionable. Rationale: Developer selected intake_id 13f38963-750a-47b6-b807-7b64ae511eca
+- Next stage: Needs Human Acceptance
