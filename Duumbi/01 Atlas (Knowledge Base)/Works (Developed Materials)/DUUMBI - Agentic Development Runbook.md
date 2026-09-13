@@ -5,7 +5,7 @@ tags:
   - doc/runbook
 status: active
 created: 2026-05-13
-updated: 2026-09-12
+updated: 2026-09-13
 related_maps:
   - "[[DUUMBI Agentic Development Map]]"
 ---
@@ -14,9 +14,9 @@ related_maps:
 
 ## Summary
 
-This runbook is the canonical operating guide for the redesigned DUUMBI intake-to-delivery workflow. It keeps the 12-stage DUUMBI model, but adds deterministic orchestration around intake, Inbox enrichment, triage queue refill, combined spec drafting with AI gates, Delivery Autopilot, cost-gated Ralph cycles, human GitHub implementation merge, and post-merge closure.
+This runbook is the canonical operating guide for the redesigned DUUMBI intake-to-delivery workflow. It keeps the 12-stage DUUMBI model, but adds deterministic orchestration around intake, Inbox enrichment, triage queue refill, event-driven Stage 6–9 specification preparation with independent AI gates, optional explicit Delivery Autopilot, cost-gated Ralph cycles, human GitHub implementation merge, and post-merge closure.
 
-GitHub remains the execution source of truth. Obsidian stores raw intake and durable knowledge. Slack is the fast human surface for clarification, notification, and approval. GitHub Actions coordinate scheduled checks and dispatches. Stage 3b calls DeepSeek for bounded note preparation and Stage 4 calls Z.ai/Zhipu for bounded routing; other gates follow their documented policies. AI execution should run in Codex App by default — its subscription covers Codex usage, so heavy spec and implementation work belongs there — with Codex Cloud, Codex CLI, or a reviewed local agent environment as alternatives.
+GitHub remains the execution source of truth. Obsidian stores raw intake and durable knowledge. Slack is the fast human surface for clarification, notification, and approval. GitHub Actions coordinate scheduled checks and dispatches. Stage 3b calls DeepSeek for bounded note preparation and Stage 4 calls Z.ai/Zhipu for bounded routing; other gates follow their documented policies. Stage 6–9 uses the Grok VM Codex CLI worker with the existing ChatGPT login once enabled; Stage 10 remains a separate explicit Codex request. Both consume subscription limits. No paid API fallback is permitted in the specification worker.
 
 The earlier `DUUMBI - Development Intake to Delivery Workflow` document has been deleted; its useful content was folded into this runbook and the checked-in DUUMBI skills.
 
@@ -47,14 +47,22 @@ flowchart TD
   T -- "Execution work" --> HA["Needs Human Acceptance"]
 
   HA --> HR{"Stage 5 human decision in Slack"}
-  HR -- "Accept" --> P["User pastes combined-spec prompt into Codex App"]
+  HR -- "Accept" --> P["Versioned Slack event → durable Grok VM queue"]
   HR -- "Clarify / Duplicate / Defer / Reject" --> X["Routed out"]
-
-  P --> SP["Codex drafts PRODUCT + TECHNICAL spec together (no review wait)"]
-  SP --> G{"Stage 7 + 9 AI gates clean?"}
-  G -- "No" --> HQ["Stop with findings / human review"]
-  G -- "Yes" --> RB["Merge spec PR(s), Ready for Build"]
-  RB --> SL["Slack: implementation prompt"]
+  P --> S6["Stage 6: PRODUCT + decomposition"]
+  S6 --> S7{"Stage 7: independent product review"}
+  S7 -- "Revise: max 2 rounds" --> S6
+  S7 -- "Question" --> HQ["Owner answers; renewed acceptance/recovery"]
+  S7 -- "Approve" --> UN["Allocate sub-issues when approved"]
+  UN --> S8["Stage 8: TECHNICAL per execution unit"]
+  S8 --> S9{"Stage 9: independent technical review"}
+  S9 -- "Revise: max 2 rounds" --> S8
+  S9 -- "Question" --> HQ
+  S9 -- "Approve" --> SP["One spec-only PR + artifact hashes"]
+  SP --> HM["Human merge after CI and review"]
+  HM --> VF["Finalizer verifies exact contents, CI and reviews"]
+  VF --> RB["Execution issues: Ready for Build; split parent: coordination only"]
+  RB --> SL["Slack: implementation prompt; no automatic Stage 10"]
 
   SL --> IM["User starts implementation in Codex App"]
   IM --> RC["Ralph cycles, no iteration cap"]
@@ -77,15 +85,15 @@ flowchart TD
 
 ## Current Architecture In One Sentence
 
-Codex, Grok Bot, and manual Obsidian Inbox notes feed a single GitHub-backed execution workflow; product and technical specs are drafted together and pass bounded AI gates on clean Codex self-review, the final implementation PR is reviewed by Codex (`@chatgpt-codex-connector`) with Greptile as a manual end-of-flow deep-review escalation, and implementation merge is performed by a human reviewer directly in GitHub after Stage 11 evidence.
+Codex, Grok Bot, and manual Obsidian Inbox notes feed a single GitHub-backed execution workflow; the configured Grok VM worker drafts and independently reviews product then technical specs, with bounded corrections and human spec-PR merge, the final implementation PR is reviewed by Codex (`@chatgpt-codex-connector`) with Greptile as a manual end-of-flow deep-review escalation, and implementation merge is performed by a human reviewer directly in GitHub after Stage 11 evidence.
 
 ## Developer Journey
 
 The human path through one issue, end to end:
 
-1. **Human Acceptance happens in Slack.** The developer decides `Accept` on the Slack approval card; the workflow records the Stage 5 decision and replies with the generated combined-spec prompt text.
-2. **The developer pastes the prompt into Codex App.** Codex drafts the product spec and the technical spec together, without waiting for review between them, runs Codex self-review and the Stage 7/9 AI gates, merges the spec-only PR(s), and moves the issue to `Ready for Build`.
-3. **Codex messages on Slack with the implementation prompt** (`ready-for-build-handoff.yml`).
+1. **Human Acceptance happens in Slack.** Stage 5 records acceptance and emits `DUUMBI_SPEC_EVENT_V1` with the issue and exact decision comment ID.
+2. **The configured Grok routine enqueues the event.** The persistent VM worker verifies acceptance, runs stages 6 → 7 → 8 → 9 in separate Codex CLI sessions, and opens one spec-only PR. The developer merges the PR after CI and review. A merge event invokes deterministic finalization; execution issues become `Ready for Build`.
+3. **The existing Ready for Build handoff posts the implementation prompt.** No Stage 10 model call starts automatically. A split parent coordinates; implementation belongs to its sub-issues.
 4. **The developer starts implementation in Codex App.** Codex runs Ralph cycles to completion — stopping only at the USD 1 external-LLM cost gate, a blocker, or a scope change — then opens the implementation PR and requests review from `@chatgpt-codex-connector`.
 5. **If the change is high-risk codebase work**, Codex signals on Slack and in the issue that a Greptile deep review is recommended; the developer triggers Greptile manually on the final PR.
 6. **After the reviews arrive, the developer runs the `duumbi-review-artifact` prompt** received on Slack and in the issue after the PR was opened.
@@ -219,7 +227,42 @@ After successful routing, the selected note becomes `triaged` and moves to `Duum
 
 The 2026-09-12 lifecycle revision is active after source PR #806 merged. Event-driven wake-up additionally requires the companion source receiver and the vault secret DUUMBI_INTAKE_DISPATCH_TOKEN; see the source repository docs/automation/intake-events-setup.md before merging this listener. Existing Inbox notes are explicitly migrated before that merge; legacy processed markers are preserved for compatibility. Saving the Grok skill and authorizing its cloud Git access are user steps. Follow the [Grok setup](https://github.com/hgahub/duumbi/blob/74a407251aa871e6dd53fc2bffe0770d1d84dac0/docs/automation/grok-intake-setup.md) and [portable recipe](https://github.com/hgahub/duumbi/blob/74a407251aa871e6dd53fc2bffe0770d1d84dac0/docs/automation/grok-intake-skill.md). No new recurring Grok routine is required.
 
-## Delivery Autopilot
+## Stage 6–9 Grok VM Worker
+
+**Activation:** merge the source implementation PR, update the VM checkout, save the portable
+Grok skill, and configure trusted Stage 5 Slack and merged-spec-PR event routines. Codex is
+already installed and authenticated on the VM. The code alone does not subscribe the bot
+to events. Complete one small live pilot before treating this route as operational.
+
+- [Setup, pilot and recovery](https://github.com/hgahub/duumbi/blob/main/docs/automation/grok-spec-setup.md)
+- [Portable Grok skill](https://github.com/hgahub/duumbi/blob/main/docs/automation/grok-spec-skill.md)
+- Codex entry: `duumbi-spec-autopilot`; deterministic controller: `scripts/spec-automation/run.mjs`.
+
+`enqueue ISSUE DECISION run` persists acceptance events; `enqueue ISSUE DECISION finalize`
+persists merge notifications. One lightweight five-minute `drain` routine services pending
+work; it makes no model call when idle. Failed/uncertain calls require explicit recovery.
+
+Normal model: `gpt-5.6-sol` with `high`. High complexity and bounded review corrections use
+`gpt-6-astra` with `high`. Up to two correction rounds per gate, four calls on normal success,
+at most twelve for review corrections. Quota/auth/timeout/model errors stop without API fallback.
+
+Stage 6 proposes decomposition; Stage 7 approves scope and unit ownership. The controller
+creates linked children only then. Stage 8 prepares technical contracts and Stage 9 checks
+coverage and dependency cycles. Child acceptance is inherited only within approved scope.
+One spec-only package contains parent and per-child artifacts, with stable hashes and source/
+vault revisions. Human merge is followed by deterministic verification and status updates.
+The parent is coordination-only (`spec-coordinator`), and Stage 10 checks child dependencies.
+
+A blocking question records an actual owner and question; the owner answers on the issue.
+Renewed human review and reconciliation of existing branch/children precede a changed-scope
+job. Operational retries reuse saved successful calls; no silent repeat of an uncertain call.
+See the recovery guide for queue locks, branch claims and partial GitHub writes.
+
+## Delivery Autopilot (Explicit Alternative)
+
+This broader skill includes Stage 10. It is not invoked by the Stage 5 Grok event route and
+must not run concurrently on a `spec-automation` issue. The legacy combined-drafting prompts
+below are manual alternatives, not the configured event-worker sequence.
 
 `duumbi-delivery-autopilot` is a Codex App skill for a selected `Spec Needed` issue. It coordinates the high-cost delivery path while keeping the developer in mobile-controllable Codex App context.
 
