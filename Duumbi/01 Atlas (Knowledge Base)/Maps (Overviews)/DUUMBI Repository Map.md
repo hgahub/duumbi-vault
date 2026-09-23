@@ -4,7 +4,7 @@ tags:
   - map/repositories
 status: active
 created: 2026-05-07
-updated: 2026-05-07
+updated: 2026-09-23
 ---
 
 # DUUMBI Repository Map
@@ -41,6 +41,7 @@ flowchart LR
 
 ## Related
 
+- [[DUUMBI - Credential Inventory and Rotation Guide]] -- credential consumers, renewal locations, secret configuration, and expiry-watch evidence
 - [[DUUMBI Repository Responsibility Model]]
 - [[DUUMBI Azure Infrastructure Model]]
 - [[DUUMBI Registry Architecture]]
